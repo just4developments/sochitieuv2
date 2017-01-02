@@ -75,7 +75,7 @@ export class ListSpending {
     };
     let addModal = this.modalController.create(FormSpending, { spending: item, typeSpendings: this.typeSpendings, wallets: this.wallets });
     addModal.onDidDismiss(data => { 
-      console.log('added', data);
+      this.filter();
     });
     addModal.present();
   }
@@ -83,7 +83,7 @@ export class ListSpending {
   edit(item, slidingItem){
     let editModal = this.modalController.create(FormSpending, { spending: item, typeSpendings: this.typeSpendings, wallets: this.wallets });
     editModal.onDidDismiss(data => {
-      console.log('edited', data);
+      this.filter();
     });
     editModal.present();
     slidingItem.close();
