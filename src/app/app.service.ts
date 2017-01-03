@@ -10,7 +10,56 @@ export class AppService {
     wallets: Array<Object>;
 
     constructor(private http: Http){
-        this.token = '5866861fb439a60c787bff3b-5866894cd0b26a265843c378-58668956d0b26a265843c379';
+        // this.token = '5866861fb439a60c787bff3b-5866894cd0b26a265843c378-58668956d0b26a265843c379';
+        this.token = '586b55c48a1b181fa80d39a5-586b56038a1b181fa80d39a8-586b7d170512d433b807456e';
+    }
+
+    addSpending(item){
+        return this.http.post(`${this.HOST}/Spendings`, item, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
+    updateSpending(item){
+        return this.http.put(`${this.HOST}/Spendings/${item._id}`, item, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
+    deleteSpending(item){
+        return this.http.delete(`${this.HOST}/Wallet/${item._id}`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
+    addWallet(item){
+        return this.http.post(`${this.HOST}/Wallet`, item, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
+    updateWallet(item){
+        return this.http.put(`${this.HOST}/Wallet/${item._id}`, item, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
+    deleteWallet(item){
+        return this.http.delete(`${this.HOST}/Wallet/${item._id}`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
     }
 
     getSpendings(walletId, inputDate){ 

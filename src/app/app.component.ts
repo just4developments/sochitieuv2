@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
-import { Page1 } from '../pages/page1/page1';
-import { Page2 } from '../pages/page2/page2';
+import { Wallet } from '../pages/wallet';
+import { TypeSpending } from '../pages/type_spending';
 import { ListSpending } from '../pages/spending/list-spending';
 
 import { AppService } from '../app/app.service';
@@ -15,7 +15,7 @@ import { AppService } from '../app/app.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = ListSpending;
+  rootPage: any = Wallet;
 
   pages: Array<{title: string, component: any}>;
 
@@ -25,9 +25,9 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'List', component: ListSpending },
-      { title: 'Page One', component: Page1 },
-      { title: 'Page Two', component: Page2 }
+      { title: 'Spending', component: ListSpending },
+      { title: 'Wallet', component: Wallet },
+      { title: 'Type Spending', component: TypeSpending }
     ];
 
   }

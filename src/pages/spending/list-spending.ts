@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, Loading, AlertController, ToastController } from 'ionic-angular';
 
 import { AppService } from '../../app/app.service';
 import { FormSpending } from './form-spending';
@@ -20,7 +20,7 @@ export class ListSpending {
     remaining: 0
   };
 
-  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public toastCtrl: ToastController) {
     this.appService.getTypeSpendings().then((typeSpendings) => {
       this.typeSpendings = typeSpendings;  
       this.appService.getWallets().then((wallets) => {
@@ -83,10 +83,43 @@ export class ListSpending {
   edit(item, slidingItem){
     let editModal = this.modalController.create(FormSpending, { spending: item, typeSpendings: this.typeSpendings, wallets: this.wallets });
     editModal.onDidDismiss(data => {
-      this.filter();
+      if(data) this.filter();
     });
     editModal.present();
-    slidingItem.close();
+    // slidingItem.close();
+  }
+
+  delete(item, slidingItem){
+    let confirm = this.alertCtrl.create({
+      title: 'Do you agree to delete it?',
+      message: item.des,
+      buttons: [
+        {
+          text: 'Disagree'
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            this.appService.deleteSpending(item).then((resp) => {
+              const toast = this.toastCtrl.create({
+                message: 'Deleted successfully',
+                duration: 3000
+              });
+              toast.present();
+              // slidingItem.close();
+              this.filter();
+            }).catch((err) => {
+              const toast = this.toastCtrl.create({
+                message: '#Error: ' + err.message,
+                duration: 3000
+              });
+              toast.present();
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   reformatSpending(spendings){

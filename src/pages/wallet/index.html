@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Wallet</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Wallet
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let item of wallets" class="wallets" #slidingItem>
+      <ion-item>
+        <ion-avatar item-left>
+          <img src="assets/img/logo.png">
+        </ion-avatar>        
+        <h2>{{item.name}}</h2>
+        <p>Remaining: <strong class="money">{{item.money | number}}</strong></p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="edit(item, slidingItem)">
+          <ion-icon name="create"></ion-icon>
+          Edit
+        </button>
+        <button ion-button color="secondary" (click)="delete(item, slidingItem)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
