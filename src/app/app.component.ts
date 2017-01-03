@@ -15,7 +15,7 @@ import { AppService } from '../app/app.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Wallet;
+  rootPage: any = TypeSpending;
 
   pages: Array<{title: string, component: any}>;
 

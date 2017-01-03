@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 import { TypeSpending } from '../pages/type_spending';
+import { FormTypeSpending } from '../pages/type_spending/form';
 import { Wallet } from '../pages/wallet';
 import { FormWallet } from '../pages/wallet/form';
 import { ListSpending } from '../pages/spending/list-spending';
@@ -19,6 +20,7 @@ let provideStorage = function () {
   declarations: [
     MyApp,
     TypeSpending,
+    FormTypeSpending,
     Wallet,
     FormWallet,
     ListSpending,
@@ -31,6 +33,7 @@ let provideStorage = function () {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    FormTypeSpending,
     TypeSpending,
     Wallet,
     FormWallet,

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{!wallet._id ? 'Add' : 'Update'}} wallet</ion-title>
+    <ion-title>{{parent ? parent.name : '#ROOT'}}</ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
         <span color="primary" showWhen="ios">Cancel</span>
@@ -9,19 +9,11 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content text-center *ngIf="wallet">
+<ion-content text-center *ngIf="typespending">
   <ion-grid>
     <ion-item>
       <ion-label stacked>Name</ion-label>
-      <ion-input type="text" [(ngModel)]="wallet.name"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Money</ion-label>
-      <ion-input type="number" [(ngModel)]="wallet.money"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Is saving</ion-label>
-      <ion-checkbox [(ngModel)]="isSaving" (ionChange)="changeType()"></ion-checkbox>
+      <ion-input type="text" [(ngModel)]="typespending.name"></ion-input>
     </ion-item>
   </ion-grid>
   <div padding>

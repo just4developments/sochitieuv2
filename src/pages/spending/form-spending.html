@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Add someone</ion-title>
+    <ion-title>{{!spending._id ? 'Add' : 'Update'}} spending</ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
         <span color="primary" showWhen="ios">Cancel</span>

@@ -28,11 +28,6 @@ export class FormSpending {
         toast.present();
         this.dismiss(this.spending);
       }).catch((err) => {
-        const toast = this.toastCtrl.create({
-          message: '#Error: ' + err.message,
-          duration: 3000
-        });
-        toast.present();
         this.dismiss(undefined);
       });
     }else{
@@ -44,11 +39,6 @@ export class FormSpending {
         toast.present();
         this.dismiss(this.spending);
       }).catch((err) => {
-        const toast = this.toastCtrl.create({
-          message: '#Error: ' + err.message,
-          duration: 3000
-        });
-        toast.present();
         this.dismiss(undefined);
       });
     }    

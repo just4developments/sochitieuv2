@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { ToastController } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -9,9 +10,9 @@ export class AppService {
     typeSpendings: Array<Object>;
     wallets: Array<Object>;
 
-    constructor(private http: Http){
+    constructor(private http: Http, public toastCtrl: ToastController){
         // this.token = '5866861fb439a60c787bff3b-5866894cd0b26a265843c378-58668956d0b26a265843c379';
-        this.token = '586b55c48a1b181fa80d39a5-586b56038a1b181fa80d39a8-586b7d170512d433b807456e';
+        this.token = '586bb85baa5bdf0644e494da-586bb875aa5bdf0644e494dd-586bbaac0d542f33cc82015c';
     }
 
     addSpending(item){
@@ -19,7 +20,9 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     updateSpending(item){
@@ -27,15 +30,19 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     deleteSpending(item){
-        return this.http.delete(`${this.HOST}/Wallet/${item._id}`, {headers: 
+        return this.http.delete(`${this.HOST}/Spendings/${item._id}`, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     addWallet(item){
@@ -43,7 +50,9 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     updateWallet(item){
@@ -51,7 +60,9 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     deleteWallet(item){
@@ -59,7 +70,39 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
+    addTypeSpending(item){
+        return this.http.post(`${this.HOST}/TypeSpendings`, item, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
+    updateTypeSpending(item){
+        return this.http.put(`${this.HOST}/TypeSpendings/${item._id}`, item, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
+    deleteTypeSpending(item){
+        return this.http.delete(`${this.HOST}/TypeSpendings/${item._id}`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     getSpendings(walletId, inputDate){ 
@@ -77,7 +120,9 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     getTypeSpendings(){
@@ -85,7 +130,9 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     getWallets() {
@@ -93,7 +140,9 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     syncData(){
@@ -105,8 +154,18 @@ export class AppService {
         });
     }
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
+    handleError(_this, error: any): Promise<any> {
+        let err = error._body ? JSON.parse(error._body) : error._body;
+        if(typeof err === 'object'){
+            if(err.message) err = err.message;
+        }
+        const toast = _this.toastCtrl.create({
+            message: '#Error: ' + err,
+            duration: 3000
+        });
+        toast.present();
+        return new Promise((resolve, reject) => {
+            reject(error.message || error);
+        });
     }
 }

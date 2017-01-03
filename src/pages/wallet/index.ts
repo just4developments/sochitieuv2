@@ -5,26 +5,40 @@ import { AppService } from '../../app/app.service';
 import { FormWallet } from './form';
 
 @Component({
-  selector: 'wallet',
+  selector: 'wallet-list',
   templateUrl: 'index.html'
 })
 export class Wallet {
-  wallets: Array<any>;
+  wallets: any = {
+    default: [],
+    saving: []
+  };
 
   constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController) {
-    appService.getWallets().then((wallets) => {
-      this.wallets = wallets;
+    this.loadData();
+  }
+
+  loadData(){
+    this.wallets.default = [];
+    this.wallets.saving = [];
+    this.appService.getWallets().then((wallets) => {
+      for(var w of wallets){
+        if(w.type > 0) this.wallets.default.push(w);
+        else if(w.type < 0) this.wallets.saving.push(w);
+      }
     });
   }
 
   add(){
     let item: any = {
       money: 0,
-      name: ''
+      name: '',
+      type: 1,
+      icon: ''
     };
     let addModal = this.modalController.create(FormWallet, { wallet: item });
     addModal.onDidDismiss(data => { 
-      
+      if(data) this.loadData();
     });
     addModal.present();
   }
@@ -32,7 +46,7 @@ export class Wallet {
   edit(item, slidingItem){
     let editModal = this.modalController.create(FormWallet, { wallet: item});
     editModal.onDidDismiss(data => {
-      
+      if(data) this.loadData();
     });
     editModal.present();
     // slidingItem.close();
@@ -41,7 +55,7 @@ export class Wallet {
   delete(item, slidingItem){
     let confirm = this.alertCtrl.create({
       title: 'Do you agree to delete it?',
-      message: item.des,
+      message: item.name,
       buttons: [
         {
           text: 'Disagree'
@@ -49,20 +63,15 @@ export class Wallet {
         {
           text: 'Agree',
           handler: () => {
-            this.appService.deleteSpending(item).then((resp) => {
+            this.appService.deleteWallet(item).then((resp) => {
               const toast = this.toastCtrl.create({
                 message: 'Deleted successfully',
                 duration: 3000
-              });
+              });              
               toast.present();
               // slidingItem.close();
-            }).catch((err) => {
-              const toast = this.toastCtrl.create({
-                message: '#Error: ' + err.message,
-                duration: 3000
-              });
-              toast.present();
-            });
+              this.loadData();
+            }).catch((err) => {});
           }
         }
       ]

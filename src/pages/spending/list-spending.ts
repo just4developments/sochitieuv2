@@ -108,13 +108,7 @@ export class ListSpending {
               toast.present();
               // slidingItem.close();
               this.filter();
-            }).catch((err) => {
-              const toast = this.toastCtrl.create({
-                message: '#Error: ' + err.message,
-                duration: 3000
-              });
-              toast.present();
-            });
+            }).catch((err) => {});
           }
         }
       ]
