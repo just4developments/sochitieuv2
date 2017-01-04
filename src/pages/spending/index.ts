@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { NavController, ModalController, LoadingController, Loading, AlertController, ToastController } from 'ionic-angular';
 
 import { AppService } from '../../app/app.service';
-import { FormSpending } from './form-spending';
+import { FormSpending } from './form';
 
 @Component({
   selector: 'list-spending',
-  templateUrl: 'list-spending.html'
+  templateUrl: 'index.html'
 })
-export class ListSpending {
+export class Spending {
   spendings: Array<any> = [];
   typeSpendings: Array<any>;
   wallets: Array<any>;
@@ -75,7 +75,7 @@ export class ListSpending {
     };
     let addModal = this.modalController.create(FormSpending, { spending: item, typeSpendings: this.typeSpendings, wallets: this.wallets });
     addModal.onDidDismiss(data => { 
-      this.filter();
+      if(data) this.filter();
     });
     addModal.present();
   }

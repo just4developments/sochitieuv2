@@ -1,11 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
+import { Login } from '../pages/login';
 import { Wallet } from '../pages/wallet';
 import { TypeSpending } from '../pages/type_spending';
-import { ListSpending } from '../pages/spending/list-spending';
-
+import { Spending } from '../pages/spending';
+import { Statistic } from '../pages/statistic';
+import { MenuController } from 'ionic-angular';
 import { AppService } from '../app/app.service';
 
 
@@ -15,21 +18,31 @@ import { AppService } from '../app/app.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = TypeSpending;
-
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, private appService: AppService) {
+  constructor(public platform: Platform, public appService: AppService, private storage: Storage, private menuCtrl: MenuController) {
     this.initializeApp();
-    appService.syncData();
+    
+    appService.init().then((token) => {
+      this.nav.setRoot(token ? Spending : Login);
+      this.menuCtrl.enable(!!token, 'leftMenu');
+    });
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Spending', component: ListSpending },
+      { title: 'Spending', component: Spending },
       { title: 'Wallet', component: Wallet },
-      { title: 'Type Spending', component: TypeSpending }
+      { title: 'Type Spending', component: TypeSpending },
+      { title: 'Statistic', component: Statistic },
     ];
 
+  }
+
+  logout(){
+    this.appService.logout().then(() => {
+      this.nav.setRoot(Login);
+      this.menuCtrl.enable(false, 'leftMenu');
+    });    
   }
 
   initializeApp() {

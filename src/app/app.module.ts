@@ -8,9 +8,14 @@ import { TypeSpending } from '../pages/type_spending';
 import { FormTypeSpending } from '../pages/type_spending/form';
 import { Wallet } from '../pages/wallet';
 import { FormWallet } from '../pages/wallet/form';
-import { ListSpending } from '../pages/spending/list-spending';
-import { FormSpending } from '../pages/spending/form-spending';
+import { Spending } from '../pages/spending';
+import { FormSpending } from '../pages/spending/form';
+import { Login } from '../pages/login';
 import { AppService } from '../app/app.service';
+import { Statistic } from '../pages/statistic';
+import { ChartDetailInMonth } from '../pages/statistic/detail-month';
+import { ChartPie } from '../pages/statistic/pie.component';
+import { ChartLine } from '../pages/statistic/line.component';
 
 let provideStorage = function () {
   return new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__mydb' })// optional config);
@@ -23,8 +28,13 @@ let provideStorage = function () {
     FormTypeSpending,
     Wallet,
     FormWallet,
-    ListSpending,
-    FormSpending    
+    Spending,
+    FormSpending,
+    Statistic,
+    Login,
+    ChartDetailInMonth,
+    ChartPie,
+    ChartLine
   ],
   imports: [
     HttpModule,
@@ -37,8 +47,13 @@ let provideStorage = function () {
     TypeSpending,
     Wallet,
     FormWallet,
-    ListSpending,
-    FormSpending
+    Spending,
+    FormSpending,
+    Statistic,
+    Login,
+    ChartDetailInMonth,
+    ChartPie,
+    ChartLine
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, { provide: Storage, useFactory: provideStorage }, AppService]
 })

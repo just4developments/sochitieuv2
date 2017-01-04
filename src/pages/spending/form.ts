@@ -4,7 +4,7 @@ import { NavController, NavParams, ViewController, ToastController } from 'ionic
 
 @Component({
   selector: 'form-spending',
-  templateUrl: 'form-spending.html'
+  templateUrl: 'form.html'
 })
 export class FormSpending {
   spending: any;
@@ -19,6 +19,10 @@ export class FormSpending {
   }
 
   save(){
+    const typeSpending = this.typeSpendings.find((e) => {
+      return e._id === this.spending.type_spending_id;
+    });
+    this.spending.type = typeSpending.type;
     if(this.spending._id){
       this.appService.updateSpending(this.spending).then((item) => {
         const toast = this.toastCtrl.create({

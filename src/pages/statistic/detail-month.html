@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{item.label}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <div padding>
+    <ion-segment [(ngModel)]="type" (ionChange)="loadChart()">
+      <ion-segment-button value="spending">
+        Spending
+      </ion-segment-button>
+      <ion-segment-button value="earning">
+        Earning
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <div [ngSwitch]="type">
+    <div *ngSwitchCase="'spending'">
+      <chart-pie title="spending" [data]="data" *ngIf="data"></chart-pie>
+    </div>
+    <div *ngSwitchCase="'earning'">
+      <chart-pie title="earning" [data]="data" *ngIf="data"></chart-pie>
+    </div>
+  </div>  
+</ion-content>

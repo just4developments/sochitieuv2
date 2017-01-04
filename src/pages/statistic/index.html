@@ -1,0 +1,8 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Chart</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <chart-line [data]="allMonthData" title="All month" *ngIf="allMonthData" (onPick)="pickMonthChart($event)"></chart-line>
+</ion-content>

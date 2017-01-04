@@ -42,7 +42,7 @@
             Earning
           </ion-col>
           <ion-col class="earning">
-            + {{total.earning | number }}
+            + {{total.earning | currency:'VND':true }}
           </ion-col>
         </ion-row>
         <ion-row>
@@ -50,7 +50,7 @@
             Spending
           </ion-col>
           <ion-col class="spending">
-            - {{total.spending | number }}
+            - {{total.spending | currency:'VND':true }}
           </ion-col>
         </ion-row>
         <ion-row>
@@ -58,7 +58,7 @@
             Remaining
           </ion-col>
           <ion-col>
-            {{total.remaining | number }}
+            {{total.remaining | currency:'VND':true }}
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -73,7 +73,7 @@
         <ion-avatar item-left>
           <img src="assets/img/logo.png">
         </ion-avatar>
-        <strong class="money" [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{item.money | number}}</strong>
+        <strong class="money" [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{item.money | currency:'VND':true}}</strong>
         <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
         <p>{{item.des}}</p>
       </ion-item>

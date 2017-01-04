@@ -1,18 +1,85 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Storage } from '@ionic/storage';
+import { Http, Headers, Response } from '@angular/http';
 import { ToastController } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AppService {
     HOST: String = 'http://localhost:9001';
+    AUTH: String = 'http://localhost:9000'; 
+    DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
+    DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
     token: String;
     typeSpendings: Array<Object>;
     wallets: Array<Object>;
 
-    constructor(private http: Http, public toastCtrl: ToastController){
-        // this.token = '5866861fb439a60c787bff3b-5866894cd0b26a265843c378-58668956d0b26a265843c379';
-        this.token = '586bb85baa5bdf0644e494da-586bb875aa5bdf0644e494dd-586bbaac0d542f33cc82015c';
+    constructor(private http: Http, public toastCtrl: ToastController, private storage: Storage){
+        
+    }
+
+    init(){
+        return this.storage.get('token').then((token) => {
+            this.token = token;
+            return Promise.resolve(token);
+        });
+    }
+
+    login(item:any, app?:String){
+        let headers:any = {
+            pj: this.DEFAULT_PJ
+        };
+        if(app) headers.app = 'facebook';
+        item.status = 1;
+        item.roles = this.DEFAULT_ROLES;
+        return this.http.post(`${this.AUTH}/Login`, item, {headers: 
+            new Headers(headers)
+        }).toPromise()
+        .then((resp: Response) => {
+            this.token = resp.headers.get('token');
+            this.storage.set('token', this.token);            
+            return Promise.resolve(this.token);
+        })
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
+    logout(){
+        this.storage.clear();
+        return Promise.resolve();
+    }
+
+    getStatisticByMonth(){        
+        return this.http.get(`${this.HOST}/StatisticByMonth`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
+    getStatisticByTypeSpending(type:Number, month?: Number, year?: Number){
+        let where = [];
+        if(type !== undefined) {
+            where.push(`type=${type}`);
+        }
+        if(month !== undefined) {
+            where.push(`month=${month}`);
+        }
+        if(year !== undefined) {
+            where.push(`year=${year}`);
+        }
+        let query = '';
+        if(where.length > 0) query = '?'+ where.join('&');
+        return this.http.get(`${this.HOST}/StatisticByTypeSpending${query}`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     addSpending(item){
@@ -154,12 +221,12 @@ export class AppService {
         });
     }
 
-    handleError(_this, error: any): Promise<any> {
+    handleError(_self:AppService, error: any): Promise<any> {
         let err = error._body ? JSON.parse(error._body) : error._body;
         if(typeof err === 'object'){
             if(err.message) err = err.message;
         }
-        const toast = _this.toastCtrl.create({
+        const toast = _self.toastCtrl.create({
             message: '#Error: ' + err,
             duration: 3000
         });

@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input type="text" [(ngModel)]="user.username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div padding>
+    <button block ion-button (click)="loginDefault()">Sign In</button>
+  </div>
+  <br/>
+  <br/>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-50>
+        <button ion-button full round (click)="loginFacebook()">
+          <ion-icon name="logo-facebook"></ion-icon>&nbsp;
+          Facebook
+        </button>    
+      </ion-col>
+      <ion-col width-50>
+        <button ion-button full round color="danger" (click)="loginFacebook()">
+          <ion-icon name="logo-googleplus"></ion-icon>&nbsp;
+          Google+
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>  
+</ion-content>
