@@ -1,5 +1,6 @@
 import { Component, ElementRef, Renderer, Input } from '@angular/core';
 import { Chart } from 'chart.js';
+import _ from "lodash";
 
 @Component({
   selector: 'chart-pie',
@@ -11,19 +12,20 @@ export class ChartPie {
     @Input() data: any;
     opts:any = {
         labels: [],
-        datasets: [{
-            maintainAspectRatio: true,
-            responsive: true,
-            data: [],
-            backgroundColor: [
-                "#FF6384",
-                "#4BC0C0",
-                "#FFCE56",
-                "#E7E9ED",
-                "#36A2EB"
-            ],
-            label: '' // for legend
-        }]
+        datasets: []
+    };
+    datasetTemp: any = {
+        maintainAspectRatio: true,
+        responsive: true,
+        data: [],
+        backgroundColor: [
+            "#FF6384",
+            "#4BC0C0",
+            "#FFCE56",
+            "#E7E9ED",
+            "#36A2EB"
+        ],
+        label: ''
     };
 
     constructor(private element: ElementRef, private renderer: Renderer){
@@ -32,8 +34,10 @@ export class ChartPie {
 
     ngOnChanges(changes: any) {
         this.opts.labels = this.data.labels;
-        this.opts.datasets[0].data = this.data.data;
-        this.opts.datasets[0].label = this.title;
+        this.opts.datasets = new Array(this.data.datasets.length);
+        for(let i in this.data.datasets){
+            this.opts.datasets[i] = _.merge(this.opts.datasets[i], this.datasetTemp, this.data.datasets[i]);
+        }
     }
 
     ngOnInit() {

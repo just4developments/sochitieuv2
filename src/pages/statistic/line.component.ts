@@ -1,5 +1,6 @@
 import { Component, ElementRef, Renderer, Input, EventEmitter, Output } from '@angular/core';
 import { Chart } from 'chart.js';
+import _ from "lodash";
 
 @Component({
   selector: 'chart-line',
@@ -12,33 +13,32 @@ export class ChartLine {
     @Output() onPick: EventEmitter<any> = new EventEmitter<any>();
     opts:any = {
         labels: [],
-        datasets: [
-            {
-                maintainAspectRatio: true,
-                responsive: true,
-                label: "",
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: "rgba(75,192,192,0.4)",
-                borderColor: "rgba(75,192,192,1)",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "rgba(75,192,192,1)",
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [],
-                spanGaps: false
-            }
-        ]
+        datasets: []
     };
+    datasetTemp:any = {
+        maintainAspectRatio: true,
+        responsive: true,
+        label: "",
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [],
+        spanGaps: false
+    }
 
     constructor(private element: ElementRef, private renderer: Renderer){
         
@@ -46,8 +46,10 @@ export class ChartLine {
 
     ngOnChanges(changes: any) {
         this.opts.labels = this.data.labels;
-        this.opts.datasets[0].data = this.data.data;
-        this.opts.datasets[0].label = this.title;
+        this.opts.datasets = new Array(this.data.datasets.length);
+        for(let i in this.data.datasets){
+            this.opts.datasets[i] = _.merge(this.opts.datasets[i], this.datasetTemp, this.data.datasets[i]);
+        }
     }
 
     ngOnInit() {
@@ -60,7 +62,7 @@ export class ChartLine {
             var activePoints = chart.getElementsAtEvent(evt);
             var firstPoint = activePoints[0];
             if (firstPoint !== undefined){
-                this.onPick.emit({ label: chart.data.labels[firstPoint._index], value: chart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index]});
+                this.onPick.emit({ index: firstPoint._datasetIndex, label: chart.data.labels[firstPoint._index], value: chart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index]});
             }
         });
     }

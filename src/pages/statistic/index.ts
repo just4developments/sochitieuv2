@@ -11,7 +11,7 @@ import { ChartDetailInMonth } from './detail-month';
 })
 export class Statistic {
     allMonthData:any;
-    
+    allMonthChartData: any;
     constructor(public navCtrl: NavController, private appService: AppService){
         
     }
@@ -20,17 +20,36 @@ export class Statistic {
         this.appService.getStatisticByMonth().then((data) => {
             let chartData = {
                 labels: [],
-                data: []
+                datasets: [
+                    {
+                        label: 'Spending',
+                        data: []
+                    },
+                    {
+                        label: 'Earning',
+                        data: []
+                    }
+                ]
             };
             for(let r of data){
-                chartData.labels.push(r._id.month + '/' + r._id.year);
-                chartData.data.push(r.money);
+                chartData.labels.push(moment(new Date(r._id.year, r._id.month, 1)).format('MM YYYY'));
+                chartData.datasets[0].data.push(r.smoney); 
+                chartData.datasets[1].data.push(r.emoney); 
             }
-            this.allMonthData = chartData;
+            this.allMonthChartData = chartData;
+            this.allMonthData = data;
         });
     }
 
     pickMonthChart(data){
+        const [month, year] = data.label.split(' ');
+        data.date = new Date(year, month-1, 1);
+        data.type = data.index === 0 ? 'spending' : 'earning';
+        console.log(data);
         this.navCtrl.push(ChartDetailInMonth, data);
+    }
+
+    gotoMonthChart(item){
+        this.navCtrl.push(ChartDetailInMonth, {date: new Date(item._id.year, item._id.month, 1), value: 0});
     }
 }

@@ -10,22 +10,27 @@ import { AppService } from '../../app/app.service';
 })
 export class ChartDetailInMonth {
     item: any;
-    type: String = 'spending';
+    type: String;
     data: any;
     
     constructor(public navCtrl: NavController, public navParams: NavParams, private element: ElementRef, private renderer: Renderer, private appService: AppService){
-        this.item = this.navParams.data;    
+        this.item = this.navParams.data; 
+        this.type = this.item.type || 'spending';
         this.loadChart();
     }
 
     loadChart(){
         this.data = null;
-        let [month, year] = this.item.label.split('/');  
         this.appService.getTypeSpendings().then((typeSpendings) => {
-            this.appService.getStatisticByTypeSpending(this.type === 'spending' ? -1 : 1, month, year).then((data) => {
+            this.appService.getStatisticByTypeSpending(this.type === 'spending' ? -1 : 1, this.item.date.getMonth(), this.item.date.getFullYear()).then((data) => {
                 let tmp = {
                     labels: [],
-                    data: []
+                    datasets: [
+                        {
+                            label: this.type === 'spending' ? 'Spending' : 'Earning',
+                            data: []
+                        }
+                    ]
                 };
                 for(let e of data) {
                     let name = typeSpendings.find((e0) => {
@@ -33,7 +38,7 @@ export class ChartDetailInMonth {
                     });
                     name = name ? name.name : e._id;
                     tmp.labels.push(name);
-                    tmp.data.push(e.money); 
+                    tmp.datasets[0].data.push(e.money); 
                 };
                 this.data = tmp;
             }); 

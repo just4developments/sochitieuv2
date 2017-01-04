@@ -1,8 +1,25 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Chart</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <chart-line [data]="allMonthData" title="All month" *ngIf="allMonthData" (onPick)="pickMonthChart($event)"></chart-line>
+  <div style="position: relative; height: 200px;">
+    <chart-line [data]="allMonthChartData" *ngIf="allMonthChartData" title="All month" (onPick)="pickMonthChart($event)"></chart-line>  
+  </div>
+  <ion-list *ngIf="allMonthData">
+    <ion-list-header>
+      Statistic by month
+    </ion-list-header>
+    <button ion-item *ngFor="let item of allMonthData" (click)="gotoMonthChart(item)">
+      <strong>
+        <div class="earning">+ {{item.emoney | currency:'VND':true}}</div>
+        <div class="spending">- {{item.smoney | currency:'VND':true}}</div>        
+      </strong>
+      <h2>{{item._id.month+1}}-{{item._id.year}}</h2>      
+    </button>
+  </ion-list>
 </ion-content>
