@@ -122,13 +122,26 @@ export class Spending {
     for(let s of spendings){
       const date = s.day + '-' + s.month + '-' + s.year;
       if(tmp !== date){
-        if(arr) this.spendings.push(arr);
-        arr = [];
+        console.log(tmp);
+        if(arr && arr.items.length > 0) this.spendings.push(arr);
+        const m = moment(s.input_date);
+        arr = {
+          date: m.format('DD'),
+          day: m.format('dddd'),
+          monthyear: m.format('MMMM YYYY'),
+          input_date: s.input_date,
+          smoney: 0,
+          emoney: 0,
+          items: []
+        };
         tmp = date;
       }
-      arr.push(s);
-    }
-    if(arr && arr.length > 0) this.spendings.push(arr);
+      if(s.type < 0) arr.smoney += s.money;
+      else if(s.type > 0) arr.emoney += s.money;
+      arr.items.push(s);
+    }    
+    if(arr && arr.items.length > 0) this.spendings.push(arr);
+    console.log(this.spendings);
   }
 
 }

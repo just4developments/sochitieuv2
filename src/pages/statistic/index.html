@@ -15,9 +15,9 @@
       Statistic by month
     </ion-list-header>
     <button ion-item *ngFor="let item of allMonthData" (click)="gotoMonthChart(item)">
-      <strong>
-        <div class="earning">+ {{item.emoney | currency:'VND':true}}</div>
-        <div class="spending">- {{item.smoney | currency:'VND':true}}</div>        
+      <strong class="pull-right">
+        <div class="earning"><small>+ {{item.emoney | currency:'VND':true}}</small></div>
+        <div class="spending"><small>- {{item.smoney | currency:'VND':true}}</small></div>        
       </strong>
       <h2>{{item._id.month+1}}-{{item._id.year}}</h2>      
     </button>

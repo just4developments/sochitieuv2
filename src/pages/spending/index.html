@@ -65,15 +65,21 @@
     </ion-card-content>
   </ion-card>
   <ion-list *ngFor="let itemByDate of spendings" class="spending-list">
-    <ion-list-header>
-      {{itemByDate[0].input_date | date: 'dd/MM/yyyy'}}
-    </ion-list-header>
-    <ion-item-sliding *ngFor="let item of itemByDate" #slidingItem>
+    <ion-item>
+      <ion-icon item-left [ngClass]="itemByDate.day">{{itemByDate.date}}</ion-icon>      
+      <strong class="pull-right">
+        <div class="earning"><small>+ {{itemByDate.emoney | currency:'VND':true}}</small></div>
+        <div class="spending"><small>- {{itemByDate.smoney | currency:'VND':true}}</small></div>        
+      </strong>
+      <h2>{{itemByDate.day}}</h2>
+      <p>{{itemByDate.monthyear}}</p>
+    </ion-item>
+    <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem>
       <ion-item>
         <ion-avatar item-left>
           <img src="assets/img/logo.png">
         </ion-avatar>
-        <strong class="money" [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{item.money | currency:'VND':true}}</strong>
+        <strong class="pull-right" [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{item.money | currency:'VND':true}}</strong>
         <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
         <p>{{item.des}}</p>
       </ion-item>

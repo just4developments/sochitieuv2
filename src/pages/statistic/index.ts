@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController } from 'ionic-angular';
-import { Chart } from 'chart.js';
+import { NavController } from 'ionic-angular';
 
 import { AppService } from '../../app/app.service';
 import { ChartDetailInMonth } from './detail-month';
@@ -23,11 +22,15 @@ export class Statistic {
                 datasets: [
                     {
                         label: 'Spending',
-                        data: []
+                        data: [],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255,99,132,1)',
                     },
                     {
                         label: 'Earning',
-                        data: []
+                        data: [],
+                        backgroundColor: 'rgba(75,192,192,0.4)',
+                        borderColor: 'rgba(75,192,192,1)',
                     }
                 ]
             };
@@ -35,7 +38,7 @@ export class Statistic {
                 chartData.labels.push(moment(new Date(r._id.year, r._id.month, 1)).format('MM YYYY'));
                 chartData.datasets[0].data.push(r.smoney); 
                 chartData.datasets[1].data.push(r.emoney); 
-            }
+            }            
             this.allMonthChartData = chartData;
             this.allMonthData = data;
         });
@@ -45,7 +48,6 @@ export class Statistic {
         const [month, year] = data.label.split(' ');
         data.date = new Date(year, month-1, 1);
         data.type = data.index === 0 ? 'spending' : 'earning';
-        console.log(data);
         this.navCtrl.push(ChartDetailInMonth, data);
     }
 

@@ -1,11 +1,8 @@
     .spending-list {
-        .money {
-            float: right
-        }
-        .earning {
-            color: green;
-        }
-        .spending {
+        .Sunday {
             color: red;
+        }
+        .Saturday {
+            color: orange;
         }
     }

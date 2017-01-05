@@ -8,8 +8,11 @@ import 'rxjs/add/operator/toPromise';
 export class AppService {
     HOST: String = 'http://localhost:9001';
     AUTH: String = 'http://localhost:9000'; 
-    DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
-    DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
+    // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
+    // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
+    DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
+    DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];    
+    
     token: String;
     typeSpendings: Array<Object>;
     wallets: Array<Object>;

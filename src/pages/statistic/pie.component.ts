@@ -4,8 +4,8 @@ import _ from "lodash";
 
 @Component({
   selector: 'chart-pie',
-  template: `<canvas style="width: 100vw; height: 100vh"></canvas>`,
-  host: { style: 'position: absolute; width: 100vw; height: 100vh;' },
+  template: `<canvas style="width: 100%; height: 500px"></canvas>`,
+  host: { style: 'position: absolute; width: 100%; height: 500px;' },
 })
 export class ChartPie {
     @Input() title: String;
@@ -43,7 +43,7 @@ export class ChartPie {
     ngOnInit() {
         const canvas:any = this.element.nativeElement.querySelector('canvas');        
         new Chart(canvas.getContext("2d"), {
-            type: 'polarArea',
+            type: 'pie',
             data: this.opts
         });
     }

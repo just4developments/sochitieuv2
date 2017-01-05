@@ -1,6 +1,6 @@
 import { Component, ElementRef, Renderer } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController, NavParams } from 'ionic-angular';
-import { Chart } from 'chart.js';
+import { NavController, NavParams } from 'ionic-angular';
+import _ from "lodash";
 
 import { AppService } from '../../app/app.service';
 
@@ -40,7 +40,33 @@ export class ChartDetailInMonth {
                     tmp.labels.push(name);
                     tmp.datasets[0].data.push(e.money); 
                 };
-                this.data = tmp;
+                this.data = _.merge({}, this.type === 'spending' ? {
+                    datasets: [
+                        {
+                            backgroundColor: [
+                                'rgba(255,99,132,1)',  
+                                'rgba(54, 162, 235, 1)',                                                          
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ]
+                        }
+                    ]
+                } : {
+                    datasets: [
+                        {
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 1)',  
+                                'rgba(153, 102, 255, 1)',                                
+                                'rgba(54, 162, 235, 1)',                                                          
+                                'rgba(255, 206, 86, 1)',                                                              
+                                'rgba(255,99,132,1)',  
+                                'rgba(255, 159, 64, 1)'
+                            ]
+                        }
+                    ]
+                }, tmp);
             }); 
         });
     }
