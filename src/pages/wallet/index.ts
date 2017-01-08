@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, ModalController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
 
 import { AppService } from '../../app/app.service';
 import { FormWallet } from './form';
@@ -14,11 +14,15 @@ export class Wallet {
     saving: []
   };
 
-  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
     this.loadData();
   }
 
   loadData(){
+    const loading:Loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loading.present();
     this.wallets.default = [];
     this.wallets.saving = [];
     this.appService.getWallets().then((wallets) => {
@@ -26,6 +30,7 @@ export class Wallet {
         if(w.type > 0) this.wallets.default.push(w);
         else if(w.type < 0) this.wallets.saving.push(w);
       }
+      loading.dismiss();
     });
   }
 

@@ -8,10 +8,10 @@ import 'rxjs/add/operator/toPromise';
 export class AppService {
     HOST: String = 'http://localhost:9001';
     AUTH: String = 'http://localhost:9000'; 
-    // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
-    // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
-    DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
-    DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];    
+    DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
+    DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
+    // DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
+    // DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];    
     
     token: String;
     typeSpendings: Array<Object>;
@@ -53,8 +53,19 @@ export class AppService {
         return Promise.resolve();
     }
 
-    getStatisticByMonth(){        
-        return this.http.get(`${this.HOST}/StatisticByMonth`, {headers: 
+    getStatisticByMonth(filter?: any){
+        let where:any = [];
+        if(filter){
+            if(filter.startDate){
+                where.push('startDate=' + filter.startDate);
+            }
+            if(filter.endDate){
+                where.push('endDate=' + filter.endDate);
+            }
+        }
+        where = where.join('&');
+        if(where.length > 0) where = '?' + where;
+        return this.http.get(`${this.HOST}/StatisticByMonth${where}`, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
@@ -63,16 +74,16 @@ export class AppService {
         });
     }
 
-    getStatisticByTypeSpending(type:Number, month?: Number, year?: Number){
+    getStatisticByTypeSpending(type:Number, startDate?: Date, endDate?: Date){
         let where = [];
         if(type !== undefined) {
             where.push(`type=${type}`);
         }
-        if(month !== undefined) {
-            where.push(`month=${month}`);
+        if(startDate !== undefined) {
+            where.push(`startDate=${startDate.toISOString()}`);
         }
-        if(year !== undefined) {
-            where.push(`year=${year}`);
+        if(endDate !== undefined) {
+            where.push(`endDate=${endDate.toISOString()}`);
         }
         let query = '';
         if(where.length > 0) query = '?'+ where.join('&');
@@ -175,12 +186,15 @@ export class AppService {
         });
     }
 
-    getSpendings(walletId, inputDate){ 
+    getSpendings(walletId: String, startDate: Date, endDate: Date, typeSpendingId?: String){ 
         let queries = [];
         if(walletId) queries.push(`walletId=${walletId}`);
-        if(inputDate) {
-            let date = moment(inputDate, 'YYYY-MM-DD').toDate();
-            queries.push(`month=${date.getMonth()}&year=${date.getFullYear()}`);
+        if(typeSpendingId) queries.push(`typeSpendingId=${typeSpendingId}`);
+        if(startDate !== undefined) {
+            queries.push(`startDate=${startDate.toISOString()}`);
+        }
+        if(endDate !== undefined) {
+            queries.push(`endDate=${endDate.toISOString()}`);
         }
         let query = '';
         if(queries.length > 0){
@@ -195,8 +209,10 @@ export class AppService {
         });
     }
 
-    getTypeSpendings(){
-        return this.http.get(`${this.HOST}/TypeSpendings`, {headers: 
+    getTypeSpendings(type?: number){
+        let where = '';
+        if(type !== undefined) where = `?type=${type}`
+        return this.http.get(`${this.HOST}/TypeSpendings${where}`, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
@@ -205,8 +221,10 @@ export class AppService {
         });
     }
 
-    getWallets() {
-        return this.http.get(`${this.HOST}/Wallet`, {headers: 
+    getWallets(type?:number) {
+        let where = '';
+        if(type !== undefined) where = `?type=${type}`
+        return this.http.get(`${this.HOST}/Wallet${where}`, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())

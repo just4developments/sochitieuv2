@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>{{!spending._id ? 'Add' : 'Update'}} spending</ion-title>
     <ion-buttons start>
-      <button ion-button (click)="dismiss()">
+      <button ion-button (tap)="dismiss()">
         <span color="primary" showWhen="ios">Cancel</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
@@ -10,11 +10,12 @@
   </ion-navbar>
 </ion-header>
 <ion-content text-center>
+  <h3 [ngClass]="type">{{type==='spending' ? '-' : '+'}} {{(spending.money || 0) | currency:'VND':true }}</h3>
   <ion-grid>
     <ion-row>
       <ion-item>
         <ion-label stacked>Money</ion-label>
-        <ion-input type="number" [(ngModel)]="spending.money"></ion-input>
+        <ion-input type="number" [(ngModel)]="spending.money" autofocus ></ion-input>
       </ion-item>      
       <ion-item>
         <ion-label stacked>Input date</ion-label>
@@ -24,7 +25,7 @@
     <ion-row>
       <ion-item>
         <ion-label stacked>Wallet</ion-label>
-        <ion-select [(ngModel)]="spending.wallet_id">
+        <ion-select [(ngModel)]="spending.wallet_id" [selectOptions]="walletOptions">
           <ion-option value="{{w._id}}" *ngFor="let w of wallets">{{w.name}}</ion-option>
         </ion-select>
       </ion-item>
@@ -34,16 +35,34 @@
       </ion-item>
     </ion-row>
   </ion-grid>
-  <ion-item>
-    <ion-label stacked>Type Spending</ion-label>
-    <ion-select [(ngModel)]="spending.type_spending_id">
-      <ion-option value="{{t._id}}" *ngFor="let t of typeSpendings">{{t.name}}</ion-option>
-    </ion-select>
-  </ion-item>
+  <div padding>
+    <ion-segment [(ngModel)]="type" (ionChange)="changeTabType()">
+      <ion-segment-button value="spending">
+        Spending
+      </ion-segment-button>
+      <ion-segment-button value="earning">
+        Earning
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <div [ngSwitch]="type">
+    <ion-item *ngSwitchCase="'spending'">
+      <ion-label stacked class="spending">Type Spending</ion-label>
+      <ion-select [(ngModel)]="type_spending_id" [selectOptions]="typeSpendingOptions">
+        <ion-option value="{{t._id}}" *ngFor="let t of typeSpendings" id="abc" name="cde">{{t.name}}</ion-option>
+      </ion-select>
+    </ion-item>   
+    <ion-item *ngSwitchCase="'earning'">
+      <ion-label stacked class="earning">Type Earning</ion-label>
+      <ion-select [(ngModel)]="type_earning_id" [selectOptions]="typeSpendingOptions">
+        <ion-option value="{{t._id}}" *ngFor="let t of typeEarnings" id="abc" name="cde">{{t.name}}</ion-option>
+      </ion-select>
+    </ion-item>    
+  </div>  
   <ion-item>
     <ion-textarea placeholder="Description" [(ngModel)]="spending.des"></ion-textarea>
   </ion-item>
   <div padding>
-    <button ion-button block full (click)="save()">Save</button>
+    <button ion-button block full (tap)="save()">Save</button>
   </div>
 </ion-content>

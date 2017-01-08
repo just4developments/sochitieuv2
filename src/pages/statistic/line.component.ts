@@ -11,6 +11,7 @@ export class ChartLine {
     @Input() title: String;
     @Input() data: any;
     @Output() onPick: EventEmitter<any> = new EventEmitter<any>();
+    chartOpts: any = {};
     opts:any = {
         labels: [],
         datasets: []
@@ -34,7 +35,7 @@ export class ChartLine {
         pointHitRadius: 10,
         data: [],
         borderWidth: 2,
-        spanGaps: true
+        spanGaps: false ,       
     }
 
     constructor(private element: ElementRef, private renderer: Renderer){
@@ -53,7 +54,8 @@ export class ChartLine {
         const canvas:any = this.element.nativeElement.querySelector('canvas');        
         const chart:any = new Chart(canvas.getContext("2d"), {
             type: 'line',
-            data: this.opts
+            data: this.opts,
+            options: this.chartOpts
         });
         this.renderer.listen(canvas, 'click', (evt) => {
             var activePoints = chart.getElementsAtEvent(evt);

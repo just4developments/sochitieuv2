@@ -5,8 +5,8 @@
     </button>
     <ion-title>Wallet</ion-title>
     <ion-buttons end>
-      <button ion-button color="primary" (click)="add()">
-        <ion-icon name="add-circle"></ion-icon>
+      <button ion-button color="primary" (tap)="add()">
+        <ion-icon name="add-circle"></ion-icon>&nbsp;Add
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -22,15 +22,15 @@
         <ion-avatar item-left>
           <img src="assets/img/logo.png">
         </ion-avatar>        
-        <strong class="money" [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{item.money | currency:'VND':true}}</strong>
+        <strong class="pull-right" [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
         <h2>{{item.name}}</h2>        
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="primary" (click)="edit(item, slidingItem)">
+        <button ion-button color="primary" (tap)="edit(item, slidingItem)">
           <ion-icon name="create"></ion-icon>
           Edit
         </button>
-        <button ion-button color="secondary" (click)="delete(item, slidingItem)">
+        <button ion-button color="secondary" (tap)="delete(item, slidingItem)">
           <ion-icon name="trash"></ion-icon>
           Delete
         </button>
@@ -44,15 +44,15 @@
         <ion-avatar item-left>
           <img src="assets/img/logo.png">
         </ion-avatar>        
-        <strong class="pull-right" [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{item.money | currency:'VND':true}}</strong>
+        <strong class="pull-right" [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
         <h2>{{item.name}}</h2>        
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="primary" (click)="edit(item, slidingItem)">
+        <button ion-button color="primary" (tap)="edit(item, slidingItem)">
           <ion-icon name="create"></ion-icon>
           Edit
         </button>
-        <button ion-button color="secondary" (click)="delete(item, slidingItem)">
+        <button ion-button color="secondary" (tap)="delete(item, slidingItem)">
           <ion-icon name="trash"></ion-icon>
           Delete
         </button>

@@ -4,12 +4,13 @@ import _ from "lodash";
 
 @Component({
   selector: 'chart-pie',
-  template: `<canvas style="width: 100%; height: 500px"></canvas>`,
-  host: { style: 'position: absolute; width: 100%; height: 500px;' },
+  template: `<canvas style="width: 100%; height: 400px"></canvas>`,
+  host: { style: 'float: left; width: 100%' },
 })
 export class ChartPie {
     @Input() title: String;
     @Input() data: any;
+    chartOpts: any = {};
     opts:any = {
         labels: [],
         datasets: []
@@ -44,7 +45,8 @@ export class ChartPie {
         const canvas:any = this.element.nativeElement.querySelector('canvas');        
         new Chart(canvas.getContext("2d"), {
             type: 'pie',
-            data: this.opts
+            data: this.opts,
+            options: this.chartOpts
         });
     }
 }

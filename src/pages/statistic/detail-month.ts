@@ -22,7 +22,7 @@ export class ChartDetailInMonth {
     loadChart(){
         this.data = null;
         this.appService.getTypeSpendings().then((typeSpendings) => {
-            this.appService.getStatisticByTypeSpending(this.type === 'spending' ? -1 : 1, this.item.date.getMonth(), this.item.date.getFullYear()).then((data) => {
+            this.appService.getStatisticByTypeSpending(this.type === 'spending' ? -1 : 1, this.item.startDate, this.item.endDate).then((data) => {
                 let tmp = {
                     labels: [],
                     datasets: [

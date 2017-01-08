@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, ModalController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
 
 import { AppService } from '../../app/app.service';
 import { FormTypeSpending } from './form';
@@ -12,11 +12,19 @@ export class TypeSpending {
   type: String = 'spending';
   types: any;
 
-  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+    
+  }
+
+  ngOnInit(){
     this.loadData();
   }
 
   loadData(){
+    const loading:Loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loading.present();
     let types = {
       spending: [],
       earning: []
@@ -41,6 +49,7 @@ export class TypeSpending {
         }
       }
       this.types = types;
+      loading.dismiss();
     });
   }
 

@@ -5,8 +5,8 @@
     </button>
     <ion-title>Type spending</ion-title>
     <ion-buttons end>
-      <button ion-button color="primary" (click)="add()">
-        <ion-icon name="add-circle"></ion-icon>
+      <button ion-button color="primary" (tap)="add()">
+        <ion-icon name="add-circle"></ion-icon>&nbsp;Add
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -33,15 +33,15 @@
           <h2>{{item.name}}</h2>        
         </ion-item>
         <ion-item-options side="right">
-          <button ion-button color="primary" (click)="add(item, slidingItem)" *ngIf="!item.parent_id">
+          <button ion-button color="primary" (tap)="add(item, slidingItem)" *ngIf="!item.parent_id">
             <ion-icon name="add-circle"></ion-icon>
             Add
           </button>
-          <button ion-button color="primary" (click)="edit(item, slidingItem)">
+          <button ion-button color="primary" (tap)="edit(item, slidingItem)">
             <ion-icon name="create"></ion-icon>
             Edit
           </button>
-          <button ion-button color="secondary" (click)="delete(item, slidingItem)">
+          <button ion-button color="secondary" (tap)="delete(item, slidingItem)">
             <ion-icon name="trash"></ion-icon>
             Delete
           </button>
@@ -57,15 +57,15 @@
           <h2>{{item.name}}</h2>        
         </ion-item>
         <ion-item-options side="right">
-          <button ion-button color="primary" (click)="add(item, slidingItem)" *ngIf="!item.parent_id">
+          <button ion-button color="primary" (tap)="add(item, slidingItem)" *ngIf="!item.parent_id">
             <ion-icon name="add-circle"></ion-icon>
             Add
           </button>
-          <button ion-button color="primary" (click)="edit(item, slidingItem)">
+          <button ion-button color="primary" (tap)="edit(item, slidingItem)">
             <ion-icon name="create"></ion-icon>
             Edit
           </button>
-          <button ion-button color="secondary" (click)="delete(item, slidingItem)">
+          <button ion-button color="secondary" (tap)="delete(item, slidingItem)">
             <ion-icon name="trash"></ion-icon>
             Delete
           </button>

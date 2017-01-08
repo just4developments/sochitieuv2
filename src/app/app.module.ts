@@ -16,6 +16,10 @@ import { Statistic } from '../pages/statistic';
 import { ChartDetailInMonth } from '../pages/statistic/detail-month';
 import { ChartPie } from '../pages/statistic/pie.component';
 import { ChartLine } from '../pages/statistic/line.component';
+import { CuzSelect } from '../pages/component/cuz-select.component';
+import { SearchByDatePopover } from '../pages/statistic/index-search.popover';
+import { TextFilterPipe } from './app.pipe';
+
 
 let provideStorage = function () {
   return new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__mydb' })// optional config);
@@ -34,7 +38,10 @@ let provideStorage = function () {
     Login,
     ChartDetailInMonth,
     ChartPie,
-    ChartLine
+    ChartLine,
+    CuzSelect,
+    SearchByDatePopover,
+    TextFilterPipe
   ],
   imports: [
     HttpModule,
@@ -53,7 +60,9 @@ let provideStorage = function () {
     Login,
     ChartDetailInMonth,
     ChartPie,
-    ChartLine
+    ChartLine,
+    CuzSelect,
+    SearchByDatePopover
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, { provide: Storage, useFactory: provideStorage }, AppService]
 })

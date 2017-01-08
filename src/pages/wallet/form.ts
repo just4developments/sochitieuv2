@@ -46,7 +46,9 @@ export class FormWallet {
   }
 
   dismiss(data) {
-    this.wallet.money = +this.wallet.money || 0;    
+    if(data){
+      data.money = +data.money || 0;    
+    }
     this.viewCtrl.dismiss(data);
   }
 

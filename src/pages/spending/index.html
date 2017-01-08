@@ -5,8 +5,12 @@
     </button>
     <ion-title>List spending</ion-title>
     <ion-buttons end>
-      <button ion-button color="primary" (click)="add()">
-        <ion-icon name="add-circle"></ion-icon>
+      <button ion-button color="primary" (tap)="gotoChart()">
+        <ion-icon name="stats"></ion-icon>
+      </button>
+      &nbsp;
+      <button ion-button color="primary" (tap)="add()">
+        <ion-icon name="add-circle"></ion-icon>&nbsp;Add
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -20,21 +24,19 @@
     </ion-select>
   </ion-item>
   <ion-card>
-    <ion-card-header>      
-      <ion-grid>
-        <ion-row>
-          <button ion-button icon-only clear color="primary" (click)="prevFilter()">
-            <ion-icon name="md-arrow-dropleft-circle"></ion-icon>
-          </button>
-          <ion-item style="width: 135px">
-            <ion-datetime displayFormat="MMM YYYY" [(ngModel)]="total.inputDate" (ionChange)="filter()"></ion-datetime>
-          </ion-item>
-          <button ion-button icon-only clear color="primary" (click)="nextFilter()">
-            <ion-icon name="md-arrow-dropright-circle"></ion-icon>
-          </button>
-        </ion-row>
-      </ion-grid>
-    </ion-card-header>
+    <ion-row>
+      <ion-col center text-center>
+        <button ion-button icon-only clear color="primary" (tap)="prevFilter()" small>
+          <ion-icon name="md-arrow-dropleft-circle"></ion-icon>
+        </button>
+        <button ion-button icon-only clear color="primary" (tap)="openSearch($event)">
+          {{toDate(total.startDate) | date: 'dd MMM, yyyy'}} - {{toDate(total.endDate) | date: 'dd MMM, yyyy'}}        
+        </button>
+        <button ion-button icon-only clear color="primary" (tap)="nextFilter()" small>
+          <ion-icon name="md-arrow-dropright-circle"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
     <ion-card-content>
       <ion-grid>
         <ion-row>
@@ -42,7 +44,7 @@
             Earning
           </ion-col>
           <ion-col class="earning">
-            + {{total.earning | currency:'VND':true }}
+            + {{(total.earning || 0) | currency:'VND':true }}
           </ion-col>
         </ion-row>
         <ion-row>
@@ -50,7 +52,7 @@
             Spending
           </ion-col>
           <ion-col class="spending">
-            - {{total.spending | currency:'VND':true }}
+            - {{(total.spending || 0) | currency:'VND':true }}
           </ion-col>
         </ion-row>
         <ion-row>
@@ -58,41 +60,44 @@
             Remaining
           </ion-col>
           <ion-col>
-            {{total.remaining | currency:'VND':true }}
+            {{(total.remaining || 0) | currency:'VND':true }}
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
-  <ion-list *ngFor="let itemByDate of spendings" class="spending-list">
-    <ion-item>
-      <ion-icon item-left [ngClass]="itemByDate.day">{{itemByDate.date}}</ion-icon>      
-      <strong class="pull-right">
-        <div class="earning"><small>+ {{itemByDate.emoney | currency:'VND':true}}</small></div>
-        <div class="spending"><small>- {{itemByDate.smoney | currency:'VND':true}}</small></div>        
-      </strong>
-      <h2>{{itemByDate.day}}</h2>
-      <p>{{itemByDate.monthyear}}</p>
-    </ion-item>
-    <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem>
+  <ion-searchbar [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="Search by description or type name"></ion-searchbar>
+  <div *ngIf="spendings">
+    <ion-list *ngFor="let itemByDate of spendings" class="spending-list">
       <ion-item>
-        <ion-avatar item-left>
-          <img src="assets/img/logo.png">
-        </ion-avatar>
-        <strong class="pull-right" [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{item.money | currency:'VND':true}}</strong>
-        <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
-        <p>{{item.des}}</p>
+        <ion-icon item-left [ngClass]="itemByDate.day">{{itemByDate.date}}</ion-icon>      
+        <strong class="pull-right">
+          <div class="earning"><small>+ {{(itemByDate.emoney || 0) | currency:'VND':true}}</small></div>
+          <div class="spending"><small>- {{(itemByDate.smoney || 0) | currency:'VND':true}}</small></div>        
+        </strong>
+        <h2>{{itemByDate.day}}</h2>
+        <p>{{itemByDate.monthyear}}</p>
       </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="primary" (click)="edit(item, slidingItem)">
-          <ion-icon name="create"></ion-icon>
-          Edit
-        </button>
-        <button ion-button color="secondary" (click)="delete(item, slidingItem)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+      <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem>
+        <ion-item>
+          <ion-avatar item-left>
+            <img src="assets/img/logo.png">
+          </ion-avatar>
+          <strong class="pull-right" [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</strong>
+          <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
+          <p>{{item.des}}</p>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="primary" (tap)="edit(item, slidingItem)">
+            <ion-icon name="create"></ion-icon>
+            Edit
+          </button>
+          <button ion-button color="secondary" (tap)="delete(item, slidingItem)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
 </ion-content>
