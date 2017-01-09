@@ -22,7 +22,7 @@
         <ion-avatar item-left>
           <img src="assets/img/logo.png">
         </ion-avatar>        
-        <strong class="pull-right" [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
+        <strong item-right [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
         <h2>{{item.name}}</h2>        
       </ion-item>
       <ion-item-options side="right">
@@ -44,7 +44,7 @@
         <ion-avatar item-left>
           <img src="assets/img/logo.png">
         </ion-avatar>        
-        <strong class="pull-right" [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
+        <strong item-right [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
         <h2>{{item.name}}</h2>        
       </ion-item>
       <ion-item-options side="right">

@@ -10,9 +10,7 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-</ion-header>
-<ion-content>
-  <div padding>
+  <ion-toolbar>
     <ion-segment [(ngModel)]="chartType" (ionChange)="changeChartType()">
       <ion-segment-button value="byMoney">
         Chart by Month
@@ -21,7 +19,9 @@
         Chart by spending type
       </ion-segment-button>
     </ion-segment>
-  </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding-top>
   <div [ngSwitch]="chartType">
     <div *ngSwitchCase="'byMoney'">
       <div style="position: relative; height: 200px;">
@@ -33,25 +33,23 @@
           <small>{{toDate(filter.startDate) | date: 'dd MMM,yyyy'}} - {{toDate(filter.endDate) | date: 'dd MM,yyyy'}}</small>
         </ion-list-header>
         <button ion-item *ngFor="let item of chartDataByMonth.table" (tap)="gotoMonthChart(item)">
-          <strong class="pull-right">
-            <div class="earning"><small>+ {{(item.emoney || 0) | currency:'VND':true}}</small></div>
-            <div class="spending"><small>- {{(item.smoney || 0) | currency:'VND':true}}</small></div>        
-          </strong>
+          <span item-right>
+            <div class="earning">+ {{(item.emoney || 0) | currency:'VND':true}}</div>
+            <div class="spending">- {{(item.smoney || 0) | currency:'VND':true}}</div>        
+          </span>
           <h2>{{item._id.month+1}}-{{item._id.year}}</h2>      
         </button>
       </ion-list>
     </div> 
     <div *ngSwitchCase="'byTypeSpending'">
-      <div padding>
-        <ion-segment [(ngModel)]="type" (ionChange)="loadChartByTypeSpending()">
-          <ion-segment-button value="spending">
-            Spending
-          </ion-segment-button>
-          <ion-segment-button value="earning">
-            Earning
-          </ion-segment-button>
-        </ion-segment>
-      </div>
+      <ion-segment [(ngModel)]="type" (ionChange)="loadChartByTypeSpending()">
+        <ion-segment-button value="spending">
+          Spending
+        </ion-segment-button>
+        <ion-segment-button value="earning">
+          Earning
+        </ion-segment-button>
+      </ion-segment>
       <div [ngSwitch]="type">
         <div *ngSwitchCase="'spending'" style="position: relative">
           <chart-pie title="spending" [data]="chartDataByType.chart.spending" *ngIf="chartDataByType.chart.spending"></chart-pie>
@@ -62,9 +60,9 @@
               <strong item-right>{{chartDataByType.table.totalSpending | currency:'VND':true}}</strong>
             </ion-list-header>
             <button ion-item *ngFor="let item of chartDataByType.table.spending" (click)="gotoSpendingByType(item)">
-              <strong item-right>
+              <span item-right>
                 <div class="spending">- {{(item.money || 0) | currency:'VND':true}}</div>        
-              </strong>
+              </span>
               <h2>{{item.name}}</h2>      
             </button>
           </ion-list>
@@ -78,9 +76,9 @@
               <strong item-right>{{chartDataByType.table.totalEarning | currency:'VND':true}}</strong>
             </ion-list-header>
             <button ion-item *ngFor="let item of chartDataByType.table.earning" (click)="gotoSpendingByType(item)">
-              <strong item-right>
+              <span item-right>
                 <div class="earning">+ {{(item.money || 0) | currency:'VND':true}}</div>
-              </strong>
+              </span>
               <h2>{{item.name}}</h2>      
             </button>
           </ion-list>

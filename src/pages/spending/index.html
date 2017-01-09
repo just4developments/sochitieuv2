@@ -1,28 +1,25 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>List spending</ion-title>
     <ion-buttons end>
-      <button ion-button color="primary" (tap)="gotoChart()">
+      <button ion-button (tap)="gotoChart()">
         <ion-icon name="stats"></ion-icon>
       </button>
       &nbsp;
-      <button ion-button color="primary" (tap)="add()">
+      <button ion-button (tap)="add()">
         <ion-icon name="add-circle"></ion-icon>&nbsp;Add
       </button>
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar color="danger">
+    <ion-searchbar [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="Search by description or type name"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-item>
-    <ion-label>Wallet</ion-label>
-    <ion-select [(ngModel)]="total.walletId" (ionChange)="filter()">
-      <ion-option value="">No Filter</ion-option>
-      <ion-option value="{{w._id}}" *ngFor="let w of wallets">{{w.name}}</ion-option>     
-    </ion-select>
-  </ion-item>
+  
   <ion-card>
     <ion-row>
       <ion-col center text-center>
@@ -44,7 +41,7 @@
             Earning
           </ion-col>
           <ion-col class="earning">
-            + {{(total.earning || 0) | currency:'VND':true }}
+            <strong>+ {{(total.earning || 0) | currency:'VND':true }}</strong>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -52,7 +49,7 @@
             Spending
           </ion-col>
           <ion-col class="spending">
-            - {{(total.spending || 0) | currency:'VND':true }}
+            <strong>- {{(total.spending || 0) | currency:'VND':true }}</strong>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -60,20 +57,19 @@
             Remaining
           </ion-col>
           <ion-col>
-            {{(total.remaining || 0) | currency:'VND':true }}
+            <strong>{{(total.remaining || 0) | currency:'VND':true }}</strong>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>
-  </ion-card>
-  <ion-searchbar [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="Search by description or type name"></ion-searchbar>
+  </ion-card>  
   <div *ngIf="spendings">
     <ion-list *ngFor="let itemByDate of spendings" class="spending-list">
       <ion-item>
         <ion-icon item-left [ngClass]="itemByDate.day">{{itemByDate.date}}</ion-icon>      
-        <strong class="pull-right">
-          <div class="earning"><small>+ {{(itemByDate.emoney || 0) | currency:'VND':true}}</small></div>
-          <div class="spending"><small>- {{(itemByDate.smoney || 0) | currency:'VND':true}}</small></div>        
+        <strong item-right>
+          <div class="earning">+ {{(itemByDate.emoney || 0) | currency:'VND':true}}</div>
+          <div class="spending">- {{(itemByDate.smoney || 0) | currency:'VND':true}}</div>        
         </strong>
         <h2>{{itemByDate.day}}</h2>
         <p>{{itemByDate.monthyear}}</p>
@@ -83,7 +79,7 @@
           <ion-avatar item-left>
             <img src="assets/img/logo.png">
           </ion-avatar>
-          <strong class="pull-right" [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</strong>
+          <span item-right [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
           <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
           <p>{{item.des}}</p>
         </ion-item>

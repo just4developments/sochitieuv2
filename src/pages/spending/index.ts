@@ -21,7 +21,7 @@ export class Spending {
     startDate: String,
     endDate: String,
     typeSpendingId: undefined,
-    walletId: undefined,
+    walletId: '',
     inputDate: new Date().toISOString(),
     spending: 0,
     earning: 0,

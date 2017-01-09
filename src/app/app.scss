@@ -16,10 +16,10 @@
 // automatically applied to the <body> element in the app.
 
 .spending {
-  color: rgba(255,99,132,1);
+  color: rgba(255,99,132,1) !important;
 }
 .earning {
-  color: rgba(75, 192, 192, 1);
+  color: rgba(75, 192, 192, 1) !important;
 }
 .pull-right {
     float: right;
