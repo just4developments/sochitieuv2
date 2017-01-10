@@ -31,6 +31,7 @@ export class TypeSpending {
     };
     this.appService.getTypeSpendings().then((typependings) => {
       for(var s of typependings){
+        if(s.type === 0) continue;
         if(!s.parent_id) { 
           if(s.type > 0) types.earning.push(s);
           else if(s.type < 0) types.spending.push(s);

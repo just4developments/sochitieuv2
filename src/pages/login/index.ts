@@ -31,15 +31,18 @@ export class Login {
   }
 
   loginFacebook(){
-    Facebook.login(['email']).then((resp) => {
-      if(resp.status === 'connected'){
-        this.login({
-          username: resp.authResponse.userID
-        }, 'facebook');
-      }else {
+    this.login({
+      username: 'have.ice@gmail.com'
+    }, 'facebook');
+    // Facebook.login(['email']).then((resp) => {
+    //   if(resp.status === 'connected'){
+    //     this.login({
+    //       username: resp.authResponse.userID
+    //     }, 'facebook');
+    //   }else {
         
-      }      
-    });
+    //   }      
+    // });
   }
 
   loginGoogle(){

@@ -12,11 +12,11 @@ export class FormWallet {
 
   constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
       this.wallet = params.get('wallet');
-      this.isSaving = this.wallet.type <= 0;
+      this.isSaving = this.wallet.type === 0;
   }
 
   changeType(){
-    this.wallet.type = this.isSaving ? -1 : 1;
+    this.wallet.type = this.isSaving ? 0 : 1;
   }
 
   save(){

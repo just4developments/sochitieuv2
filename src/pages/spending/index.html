@@ -64,36 +64,38 @@
     </ion-card-content>
   </ion-card>  
   <div *ngIf="spendings">
-    <ion-list *ngFor="let itemByDate of spendings" class="spending-list">
-      <ion-item>
-        <ion-icon item-left [ngClass]="itemByDate.day">{{itemByDate.date}}</ion-icon>      
-        <strong item-right>
-          <div class="earning">+ {{(itemByDate.emoney || 0) | currency:'VND':true}}</div>
-          <div class="spending">- {{(itemByDate.smoney || 0) | currency:'VND':true}}</div>        
-        </strong>
-        <h2>{{itemByDate.day}}</h2>
-        <p>{{itemByDate.monthyear}}</p>
-      </ion-item>
-      <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem>
-        <ion-item>
-          <ion-avatar item-left>
-            <img src="assets/img/logo.png">
-          </ion-avatar>
-          <span item-right [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
-          <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
-          <p>{{item.des}}</p>
-        </ion-item>
-        <ion-item-options side="right">
-          <button ion-button color="primary" (tap)="edit(item, slidingItem)">
-            <ion-icon name="create"></ion-icon>
-            Edit
-          </button>
-          <button ion-button color="secondary" (tap)="delete(item, slidingItem)">
-            <ion-icon name="trash"></ion-icon>
-            Delete
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
+    <ion-list>
+      <ion-item-group *ngFor="let itemByDate of spendings" class="spending-list">
+        <ion-item-divider color="light">
+          <ion-icon item-left [ngClass]="itemByDate.day">{{itemByDate.date}}</ion-icon>      
+          <strong item-right>
+            <div class="earning">+ {{(itemByDate.emoney || 0) | currency:'VND':true}}</div>
+            <div class="spending">- {{(itemByDate.smoney || 0) | currency:'VND':true}}</div>        
+          </strong>
+          <h2>{{itemByDate.day}} <span>{{itemByDate.today ? 'Today' : (itemByDate.yesterday ? 'Yesterday' : '')}}</span></h2>
+          <p>{{itemByDate.monthyear}}</p>
+        </ion-item-divider>
+        <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem>
+          <ion-item>
+            <ion-avatar item-left>
+              <img src="assets/img/logo.png">
+            </ion-avatar>
+            <span item-right [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
+            <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
+            <p>{{item.des}}</p>
+          </ion-item>
+          <ion-item-options side="right">
+            <button ion-button color="primary" (tap)="edit(item, slidingItem)">
+              <ion-icon name="create"></ion-icon>
+              Edit
+            </button>
+            <button ion-button color="secondary" (tap)="delete(item, slidingItem)">
+              <ion-icon name="trash"></ion-icon>
+              Delete
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-item-group>
     </ion-list>
   </div>
 </ion-content>

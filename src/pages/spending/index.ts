@@ -100,12 +100,12 @@ export class Spending {
     this.total.remaining = 0;
     this.spendings = items.filter((item) => {
         item.items = item.items.filter((item0) => {
-            if(item0['des'].includes(text)) {
+            if(item0['udes'].includes(text)) {
               if(item0.type > 0) this.total.earning += item0.money;
               else if(item0.type < 0) this.total.spending += item0.money;
               return true;
             }
-            if(item0['type_spending_name'].includes(text)) {
+            if(item0['type_spending_uname'].includes(text)) {
               if(item0.type > 0) this.total.earning += item0.money;
               else if(item0.type < 0) this.total.spending += item0.money;
               return true;
@@ -125,13 +125,14 @@ export class Spending {
     this.spendingsRaw = null;
     this.spendings = null;    
     this.appService.getSpendings(this.total.walletId, new Date(this.total.startDate), new Date(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
+      let today:any = moment(new Date());
       this.reformatSpending(spendings.map((e) => {
         e.type_spending = this.typeSpendings.find(t=>t._id === e.type_spending_id);
-        e.type_spending_name = e.type_spending.name;  
+        e.type_spending_uname = e.type_spending.uname;  
         e.wallet = this.wallets.find(t=>t._id === e.wallet_id);
         e.input_date = new Date(e.input_date);                
         return e;
-      }));      
+      }), today, today.add(-1, 'days'));      
       this.filterText();
       loading.dismiss();
     });
@@ -190,16 +191,16 @@ export class Spending {
     return new Date(sdate);
   }
 
-  reformatSpending(spendings){
+  reformatSpending(spendings, today, yesterday){
     let tmp;
     let arr;
     let spendingsRaw: any = [];
     for(let s of spendings){
-      const date = s.day + '-' + s.month + '-' + s.year;
+      const m = moment(s.input_date);
+      const date = m.format('DD-MM-YYYY');
       if(tmp !== date){
-        if(arr && arr.items.length > 0) spendingsRaw.push(arr);
-        const m = moment(s.input_date);
-        arr = {
+        if(arr && arr.items.length > 0) spendingsRaw.push(arr);        
+        arr = {          
           date: m.format('DD'),
           day: m.format('dddd'),
           monthyear: m.format('MMMM YYYY'),
@@ -208,6 +209,8 @@ export class Spending {
           emoney: 0,
           items: []
         };
+        if(today.format('DD-MM-YYYY') === date) arr.today = true;
+        else if(yesterday.format('DD-MM-YYYY') === date) arr.yesterday = true;
         tmp = date;
       }
       if(s.type < 0) arr.smoney += s.money;

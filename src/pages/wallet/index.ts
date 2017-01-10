@@ -28,7 +28,7 @@ export class Wallet {
     this.appService.getWallets().then((wallets) => {
       for(var w of wallets){
         if(w.type > 0) this.wallets.default.push(w);
-        else if(w.type < 0) this.wallets.saving.push(w);
+        else if(w.type === 0) this.wallets.saving.push(w);
       }
       loading.dismiss();
     });
