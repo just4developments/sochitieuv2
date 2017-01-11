@@ -32,7 +32,7 @@ export class Statistic {
       startDate: undefined,
       endDate: undefined
     };
-
+    setColors: Array<String> = ["#ff402c", "#278ecf", "#4bd762", "#ffca1f", "#ff9416", "#d42ae8", "#535ad7", "#83bfff", "#ffe366", "#FF6384", "#FFCE56", "#E7E9ED", "#36A2EB", "#ffc266", "#D284BD", "#8784DB", "#FF7B65", "#CAEEFC", "#4BC0C0", "#9ADBAD", "#FFF1B2", "#FFE0B2", "#FFBEB2", "#81AFDB", "#6edb8f"];
     constructor(public navCtrl: NavController, private appService: AppService, public popoverCtrl: PopoverController, public loadingCtrl: LoadingController){
         this.filter.startDate = new Date();
         this.filter.startDate.setDate(1);
@@ -96,27 +96,13 @@ export class Statistic {
                 let tmpData = _.merge({}, this.type === 'spending' ? {
                     datasets: [
                         {
-                            backgroundColor: [
-                                'rgba(255,99,132,1)',  
-                                'rgba(54, 162, 235, 1)',                                                          
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ]
+                            backgroundColor: this.setColors
                         }
                     ]
                 } : {
                     datasets: [
                         {
-                            backgroundColor: [
-                                'rgba(75, 192, 192, 1)',  
-                                'rgba(153, 102, 255, 1)',                                
-                                'rgba(54, 162, 235, 1)',                                                          
-                                'rgba(255, 206, 86, 1)',                                                              
-                                'rgba(255,99,132,1)',  
-                                'rgba(255, 159, 64, 1)'
-                            ]
+                            backgroundColor: this.setColors.reverse()
                         }
                     ]
                 }, tmp);
@@ -155,13 +141,13 @@ export class Statistic {
                         label: 'Spending',
                         data: [],
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255,99,132,1)',
+                        borderColor: this.setColors[0],
                     },
                     {
                         label: 'Earning',
                         data: [],
                         backgroundColor: 'rgba(75,192,192,0.4)',
-                        borderColor: 'rgba(75,192,192,1)',
+                        borderColor: this.setColors[this.setColors.length-1],
                     }
                 ]
             };

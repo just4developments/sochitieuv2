@@ -5,35 +5,55 @@
     </button>
     <ion-title>List spending</ion-title>
     <ion-buttons end>
-      <button ion-button (tap)="gotoChart()">
-        <ion-icon name="stats"></ion-icon>
+      <button ion-button (tap)="toogleFilter()">
+        <ion-icon name="search"></ion-icon>
       </button>
       &nbsp;
       <button ion-button (tap)="add()">
         <ion-icon name="add-circle"></ion-icon>&nbsp;Add
-      </button>
+      </button>      
     </ion-buttons>
   </ion-navbar>
-  <ion-toolbar color="danger">
-    <ion-searchbar [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="Search by description or type name"></ion-searchbar>
-  </ion-toolbar>
-</ion-header>
-<ion-content>
-  
-  <ion-card>
-    <ion-row>
-      <ion-col center text-center>
-        <button ion-button icon-only clear color="primary" (tap)="prevFilter()" small>
+  <ion-toolbar>
+    <ion-row class="no-padding">
+      <ion-col width-15 center class="no-padding">
+        <button class="no-margin" width-10 ion-button icon-only clear color="primary" (tap)="prevFilter()">
           <ion-icon name="md-arrow-dropleft-circle"></ion-icon>
         </button>
-        <button ion-button icon-only clear color="primary" (tap)="openSearch($event)">
+      </ion-col>
+      <ion-col center class="no-padding">
+        <button class="no-margin" ion-button icon-only clear color="primary" (tap)="openSearch($event)">
           {{toDate(total.startDate) | date: 'dd MMM, yyyy'}} - {{toDate(total.endDate) | date: 'dd MMM, yyyy'}}        
         </button>
-        <button ion-button icon-only clear color="primary" (tap)="nextFilter()" small>
+      </ion-col>
+      <ion-col width-15 center class="no-padding">
+        <button class="no-margin" ion-button icon-only clear color="primary" (tap)="nextFilter()">
           <ion-icon name="md-arrow-dropright-circle"></ion-icon>
         </button>
       </ion-col>
     </ion-row>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="isFilter">
+    <ion-searchbar [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="Search by description or type name"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+<ion-content>  
+  <ion-card>
+    <ion-card-header>
+      <ion-row>
+        <ion-col width-80 center>
+          <ion-select class="full small" [(ngModel)]="total.walletId" (ionChange)="filter()" interface="action-sheet">
+            <ion-option value="">All wallets</ion-option>
+            <ion-option value="{{w._id}}" *ngFor="let w of wallets">{{w.name}}</ion-option>     
+          </ion-select>
+        </ion-col>
+        <ion-col width-10 end>
+          <button ion-button clear icon-only (tap)="gotoChart()" small>
+            <ion-icon name="stats"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
     <ion-card-content>
       <ion-grid>
         <ion-row>

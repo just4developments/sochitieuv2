@@ -16,11 +16,24 @@
 // automatically applied to the <body> element in the app.
 
 .spending {
-  color: rgba(255,99,132,1) !important;
+  color: #ff402c !important;
 }
 .earning {
-  color: rgba(75, 192, 192, 1) !important;
+  color: #6edb8f !important;
 }
 .pull-right {
     float: right;
+}
+.no-margin {
+  margin: 0px;
+}
+.no-padding {
+  padding: 0px;
+}
+ion-select.full {
+  width: 100%;
+  max-width: 100%;
+}
+ion-select.small {
+  padding: 4px;   
 }

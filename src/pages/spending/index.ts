@@ -12,6 +12,7 @@ import { Statistic } from '../statistic';
   templateUrl: 'index.html'
 })
 export class Spending {
+  isFilter: Boolean = false;
   txtSearch: String = '';
   spendingsRaw: Array<any> = [];
   spendings: Array<any>;
@@ -223,6 +224,10 @@ export class Spending {
 
   gotoChart(){
     this.navCtrl.push(Statistic);
+  }
+
+  toogleFilter(){
+    this.isFilter = !this.isFilter;
   }
 
   openSearch(myEvent){

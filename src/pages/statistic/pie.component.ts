@@ -24,7 +24,17 @@ export class ChartPie {
             "#4BC0C0",
             "#FFCE56",
             "#E7E9ED",
-            "#36A2EB"
+            "#36A2EB",
+            "#FFC266",
+            "#D284BD",
+            "#8784DB",
+            "#FF7B65",
+            "#CAEEFC",
+            "#9ADBAD",
+            "#FFF1B2",
+            "#FFE0B2",
+            "#FFBEB2",
+            "#81AFDB"
         ],
         label: ''
     };
