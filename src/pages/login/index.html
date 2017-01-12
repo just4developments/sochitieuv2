@@ -16,20 +16,20 @@
     </ion-item>
   </ion-list>
   <div padding>
-    <button block ion-button (tap)="loginDefault()">Sign In</button>
+    <button block ion-button (click)="loginDefault()">Sign In</button>
   </div>
   <br/>
   <br/>
   <ion-grid>
     <ion-row>
       <ion-col width-50>
-        <button ion-button full round (tap)="loginFacebook()">
+        <button ion-button full round (click)="loginFacebook()">
           <ion-icon name="logo-facebook"></ion-icon>&nbsp;
           Facebook
         </button>    
       </ion-col>
       <ion-col width-50>
-        <button ion-button full round color="danger" (tap)="loginFacebook()">
+        <button ion-button full round color="danger" (click)="loginFacebook()">
           <ion-icon name="logo-googleplus"></ion-icon>&nbsp;
           Google+
         </button>

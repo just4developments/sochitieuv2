@@ -5,7 +5,7 @@
     </button>
     <ion-title>Chart</ion-title>
     <ion-buttons end>
-      <button ion-button color="primary" (tap)="openSearch($event)">
+      <button ion-button color="primary" (click)="openSearch($event)">
         <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
@@ -32,7 +32,7 @@
           Statistic by month<br/>
           <small>{{toDate(filter.startDate) | date: 'dd MMM,yyyy'}} - {{toDate(filter.endDate) | date: 'dd MM,yyyy'}}</small>
         </ion-list-header>
-        <button ion-item *ngFor="let item of chartDataByMonth.table" (tap)="gotoMonthChart(item)">
+        <button ion-item *ngFor="let item of chartDataByMonth.table" (click)="gotoMonthChart(item)">
           <span item-right>
             <div class="earning">+ {{(item.emoney || 0) | currency:'VND':true}}</div>
             <div class="spending">- {{(item.smoney || 0) | currency:'VND':true}}</div>        

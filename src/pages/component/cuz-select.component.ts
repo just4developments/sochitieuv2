@@ -4,7 +4,7 @@ import _ from "lodash";
 
 @Component({
   selector: 'cuz-select',
-  template: `<div (tap)="open()">aaaaaaa  </div>`,
+  template: `<div (click)="open()">aaaaaaa  </div>`,
 })
 export class CuzSelect {
 

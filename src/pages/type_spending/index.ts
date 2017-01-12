@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
+import _ from 'lodash';
 
 import { AppService } from '../../app/app.service';
 import { FormTypeSpending } from './form';
@@ -83,7 +84,7 @@ export class TypeSpending {
         return e._id === item.parent_id;
       })
     }
-    let editModal = this.modalController.create(FormTypeSpending, { parent: parent, typespending: item});
+    let editModal = this.modalController.create(FormTypeSpending, { parent: _.cloneDeep(parent), typespending: item});
     editModal.onDidDismiss(data => {
       if(data) this.loadData();
     });

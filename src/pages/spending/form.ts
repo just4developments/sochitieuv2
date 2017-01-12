@@ -29,21 +29,31 @@ export class FormSpending {
       let types = params.get('typeSpendings');
       this.typeEarnings = [];
       this.typeSpendings = [];
-      for(let t of types){
-        if(t.type > 0) {
-          this.typeEarnings.push(t);
-          if(!this.type_earning_id) this.type_earning_id = t._id;
-          if(this.spending.type_spending_id === t._id) {
-            this.type = 'earning';
-            this.type_earning_id = t._id;
+      for(let s of types){
+        if(s.type === 0) continue;
+        if(!s.parent_id) { 
+          if(s.type > 0) this.typeEarnings.push(s);
+          else if(s.type < 0) this.typeSpendings.push(s);
+        }else {
+          if(s.type > 0) {
+            let parentIndex = this.typeEarnings.findIndex((e) => {
+              return e._id === s.parent_id;
+            });
+            this.typeEarnings.splice(parentIndex+1, 0, s);
+          } else if(s.type < 0) {
+            let parentIndex = this.typeSpendings.findIndex((e) => {
+              return e._id === s.parent_id;
+            });
+            this.typeSpendings.splice(parentIndex+1, 0, s);
           }
-        }
-        else if(t.type < 0) {
-          this.typeSpendings.push(t);
-          if(!this.type_spending_id) this.type_spending_id = t._id;
-          if(this.spending.type_spending_id === t._id) {
-            this.type = 'spending';
-            this.type_spending_id = t._id;
+        }        
+        if(!this.spending.type_spending_id || this.spending.type_spending_id === s._id) {
+          if(!this.type_earning_id && s.type > 0){
+            if(this.spending.type_spending_id) this.type =  'earning';
+            this.type_earning_id = s._id;
+          }else if(!this.type_spending_id){
+            if(this.spending.type_spending_id) this.type =  'spending';
+            this.type_spending_id = s._id;
           }
         }
       }
@@ -55,7 +65,7 @@ export class FormSpending {
   }
 
   save(){
-    let typeSpending;
+    let typeSpending;    
     if(this.type === 'spending'){
       this.spending.type_spending_id = this.type_spending_id;
       typeSpending = this.typeSpendings.find((e) => {
@@ -69,7 +79,6 @@ export class FormSpending {
     }
     this.spending.typeSpending = typeSpending;
     this.spending.type = this.spending.typeSpending.type;
-    console.log(this.spending);
     if(this.spending._id){
       this.appService.updateSpending(this.spending).then((item) => {
         const toast = this.toastCtrl.create({

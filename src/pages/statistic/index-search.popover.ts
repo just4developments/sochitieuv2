@@ -16,7 +16,7 @@ import { NavController, PopoverController, ViewController, NavParams } from 'ion
         <ion-datetime displayFormat="DD/MM/YYYY" [min]="filter.startDate" [(ngModel)]="filter.endDate"></ion-datetime>
       </ion-item>
       <div padding>
-        <button ion-button block (tap)="apply()">Search</button>
+        <button ion-button block (click)="apply()">Search</button>
       </div>
     </ion-list>
   `

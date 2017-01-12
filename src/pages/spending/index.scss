@@ -1,3 +1,4 @@
+list-spending {
     .spending-list {
         .Sunday {
             color: red;
@@ -6,3 +7,9 @@
             color: orange;
         }        
     }
+    .dashboard-buttons {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+    }
+}

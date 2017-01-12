@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
+import _ from 'lodash';
 
 import { AppService } from '../../app/app.service';
 import { FormWallet } from './form';
@@ -49,7 +50,7 @@ export class Wallet {
   }
 
   edit(item, slidingItem){
-    let editModal = this.modalController.create(FormWallet, { wallet: item});
+    let editModal = this.modalController.create(FormWallet, { wallet: _.deepClone(item)});
     editModal.onDidDismiss(data => {
       if(data) this.loadData();
     });

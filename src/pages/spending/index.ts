@@ -153,9 +153,11 @@ export class Spending {
   }
 
   edit(item, slidingItem){
-    let editModal = this.modalController.create(FormSpending, { spending: item, typeSpendings: this.typeSpendings, wallets: this.wallets });
+    let editModal = this.modalController.create(FormSpending, { spending: _.cloneDeep(item), typeSpendings: this.typeSpendings, wallets: this.wallets });
     editModal.onDidDismiss(data => {
-      if(data) this.filter();
+      if(data) {
+        this.filter();
+      }
     });
     editModal.present();
     // slidingItem.close();

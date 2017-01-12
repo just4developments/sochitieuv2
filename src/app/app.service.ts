@@ -6,8 +6,10 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AppService {
-    HOST: String = 'http://localhost:9001';
-    AUTH: String = 'http://localhost:9000'; 
+    HOST: String = 'http://192.168.137.2:9001';
+    AUTH: String = 'http://192.168.137.2:9000';     
+    // HOST: String = 'http://localhost:9001';
+    // AUTH: String = 'http://localhost:9000'; 
     // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
     // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
     DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
