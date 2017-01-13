@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
+
+import { IconPicker } from '../type_spending/icon-picker';
 
 @Component({
   selector: 'form-wallet',
@@ -10,7 +12,7 @@ export class FormWallet {
   wallet: any;
   isSaving: boolean;
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
+  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
       this.wallet = params.get('wallet');
       this.isSaving = this.wallet.type === 0;
   }
@@ -43,6 +45,17 @@ export class FormWallet {
         this.dismiss(undefined);
       });
     }    
+  }
+
+  changeIcon(){
+    let pickModal = this.modalController.create(IconPicker);
+    pickModal.onDidDismiss(data => {
+      if(data) {
+        this.wallet.icon = data.icon;
+        this.wallet.sicon = data.sicon;
+      }
+    });
+    pickModal.present();
   }
 
   dismiss(data) {

@@ -11,18 +11,29 @@
 </ion-header>
 <ion-content text-center *ngIf="wallet">
   <ion-grid>
-    <ion-item>
-      <ion-label stacked>Name</ion-label>
-      <ion-input type="text" [(ngModel)]="wallet.name"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Money</ion-label>
-      <ion-input type="number" [(ngModel)]="wallet.money"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Is saving</ion-label>
-      <ion-checkbox [(ngModel)]="isSaving" (ionChange)="changeType()"></ion-checkbox>
-    </ion-item>
+    <ion-row>
+      <ion-col width-20 center>
+        <button ion-button icon-left color="light" clear (click)="changeIcon()">
+          <ion-icon class="icon-logo" item-left [cssBackground]="wallet.icon"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col center>
+        <ion-item>
+          <ion-label stacked>Name</ion-label>
+          <ion-input type="text" [(ngModel)]="wallet.name"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-item>
+        <ion-label stacked>Money <span class="earning">{{(wallet.money || 0) | currency:'VND':true }}</span></ion-label>
+        <ion-input type="number" [(ngModel)]="wallet.money"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Is saving</ion-label>
+        <ion-checkbox [(ngModel)]="isSaving" (ionChange)="changeType()"></ion-checkbox>
+      </ion-item>
+    </ion-row>
   </ion-grid>
   <div padding>
     <button ion-button block full (click)="save()">Save</button>

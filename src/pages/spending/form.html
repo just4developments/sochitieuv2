@@ -20,12 +20,12 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding-top>
-  <h3 [ngClass]="type" text-center>{{type==='spending' ? '-' : '+'}} {{(spending.money || 0) | currency:'VND':true }}</h3>
+  <h3 [ngClass]="type" text-center (click)="focusMoney()">{{type==='spending' ? '-' : '+'}} {{(spending.money || 0) | currency:'VND':true }}</h3>
   <ion-grid>
     <ion-row>
       <ion-item>
         <ion-label stacked>Money</ion-label>
-        <ion-input type="number" [(ngModel)]="spending.money" autofocus ></ion-input>
+        <ion-input type="number" [(ngModel)]="spending.money" id="money"></ion-input>
       </ion-item>      
       <ion-item>
         <ion-label stacked>Input date</ion-label>
@@ -35,8 +35,8 @@
     <ion-row>
       <ion-item>
         <ion-label stacked>Wallet</ion-label>
-        <ion-select [(ngModel)]="spending.wallet_id" [selectOptions]="walletOptions">
-          <ion-option [value]="w._id" *ngFor="let w of wallets">{{w.name}}</ion-option>
+        <ion-select [(ngModel)]="spending.wallet_id" [selectOptions]="walletOptions" interface="action-sheet">
+          <ion-option [value]="w._id" *ngFor="let w of wallets" [attr.newColor]="'test'">{{w.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
@@ -61,7 +61,7 @@
   </div>  
   <ion-item>
     <ion-label stacked>Description</ion-label>
-    <ion-textarea [(ngModel)]="spending.des"></ion-textarea>
+    <ion-input type="text" [(ngModel)]="spending.des" [suggestionData]="['thanh', 'intenet']"></ion-input>
   </ion-item>
   <div padding>
     <button ion-button block full (click)="save()">Save</button>

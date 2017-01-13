@@ -11,10 +11,25 @@
 </ion-header>
 <ion-content text-center *ngIf="typespending">
   <ion-grid>
-    <ion-item>
-      <ion-label stacked>Name</ion-label>
-      <ion-input type="text" [(ngModel)]="typespending.name"></ion-input>
-    </ion-item>
+    <ion-row>
+      <ion-col width-20 center>
+        <button ion-button icon-left clear color="light" (click)="changeIcon()">
+          <ion-icon class="icon-logo" item-left [cssBackground]="typespending.icon"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col center>
+        <ion-item>
+          <ion-label stacked>Name</ion-label>
+          <ion-input type="text" [(ngModel)]="typespending.name"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>      
+      <ion-item>
+        <ion-label stacked>Position</ion-label>
+        <ion-input type="text" [(ngModel)]="typespending.pos"></ion-input>
+      </ion-item>
+    </ion-row>    
   </ion-grid>
   <div padding>
     <button ion-button block full (click)="save()">Save</button>

@@ -50,7 +50,7 @@ export class Wallet {
   }
 
   edit(item, slidingItem){
-    let editModal = this.modalController.create(FormWallet, { wallet: _.deepClone(item)});
+    let editModal = this.modalController.create(FormWallet, { wallet: _.cloneDeep(item)});
     editModal.onDidDismiss(data => {
       if(data) this.loadData();
     });

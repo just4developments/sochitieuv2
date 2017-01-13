@@ -35,7 +35,7 @@
     <ion-label>Wallet</ion-label>
     <ion-select [(ngModel)]="total.walletId" (ionChange)="filter()">
       <ion-option value="">No filter</ion-option>
-      <ion-option value="{{w._id}}" *ngFor="let w of wallets">{{w.name}}</ion-option>     
+      <ion-option value="{{w._id}}" *ngFor="let w of wallets" [cssBackground]="w.icon">{{w.name}}</ion-option>     
     </ion-select>       
   </ion-item>
   <ion-card style="position: relative">
@@ -94,9 +94,7 @@
         </ion-item-divider>
         <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem>
           <ion-item>
-            <ion-avatar item-left>
-              <img src="assets/img/logo.png">
-            </ion-avatar>
+            <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon"></ion-icon>
             <span item-right [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.money">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
             <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
             <p>{{item.des}}</p>

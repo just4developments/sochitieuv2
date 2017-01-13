@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
+
+import { IconPicker } from './icon-picker';
 
 @Component({
   selector: 'form-typespending',
@@ -10,7 +12,7 @@ export class FormTypeSpending {
   typespending: any;
   parent: any;
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
+  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
       this.typespending = params.get('typespending');
       this.parent = params.get('parent');
   }
@@ -39,6 +41,17 @@ export class FormTypeSpending {
         this.dismiss(undefined);
       });
     }    
+  }
+
+  changeIcon(){
+    let pickModal = this.modalController.create(IconPicker);
+    pickModal.onDidDismiss(data => {
+      if(data) {
+        this.typespending.icon = data.icon;
+        this.typespending.sicon = data.sicon;
+      }
+    });
+    pickModal.present();
   }
 
   dismiss(data) {

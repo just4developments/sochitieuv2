@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { HttpModule }    from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -12,6 +12,7 @@ import { Spending } from '../pages/spending';
 import { FormSpending } from '../pages/spending/form';
 import { Login } from '../pages/login';
 import { AppService } from '../app/app.service';
+import { SuggestionDataDirective, CssBackgroundDirective } from '../app/app.directive';
 import { Statistic } from '../pages/statistic';
 import { ChartDetailInMonth } from '../pages/statistic/detail-month';
 import { ChartPie } from '../pages/statistic/pie.component';
@@ -19,6 +20,7 @@ import { ChartLine } from '../pages/statistic/line.component';
 import { CuzSelect } from '../pages/component/cuz-select.component';
 import { SearchByDatePopover } from '../pages/statistic/index-search.popover';
 import { TextFilterPipe } from './app.pipe';
+import { IconPicker } from '../pages/type_spending/icon-picker';
 
 
 let provideStorage = function () {
@@ -41,11 +43,17 @@ let provideStorage = function () {
     ChartLine,
     CuzSelect,
     SearchByDatePopover,
-    TextFilterPipe
+    TextFilterPipe,
+    SuggestionDataDirective,
+    CssBackgroundDirective,
+    IconPicker
   ],
   imports: [
     HttpModule,
     IonicModule.forRoot(MyApp)
+  ],
+  schemas:[
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -62,7 +70,8 @@ let provideStorage = function () {
     ChartPie,
     ChartLine,
     CuzSelect,
-    SearchByDatePopover
+    SearchByDatePopover,
+    IconPicker
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, { provide: Storage, useFactory: provideStorage }, AppService]
 })

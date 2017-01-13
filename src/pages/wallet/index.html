@@ -19,9 +19,7 @@
     </ion-list-header>
     <ion-item-sliding *ngFor="let item of wallets.default" #slidingItem>
       <ion-item>
-        <ion-avatar item-left>
-          <img src="assets/img/logo.png">
-        </ion-avatar>        
+        <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
         <strong item-right [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
         <h2>{{item.name}}</h2>        
       </ion-item>
@@ -41,9 +39,7 @@
     </ion-list-header>
     <ion-item-sliding *ngFor="let item of wallets.saving" #slidingItem>
       <ion-item>
-        <ion-avatar item-left>
-          <img src="assets/img/logo.png">
-        </ion-avatar>        
+        <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
         <strong item-right [ngClass]="item.money < 0 ? 'spending' : (item.money > 0 ? 'earning' : '')">{{(item.money || 0) | currency:'VND':true}}</strong>
         <h2>{{item.name}}</h2>        
       </ion-item>

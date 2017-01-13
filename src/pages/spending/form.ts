@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer } from '@angular/core';
 import { AppService } from '../../app/app.service';
 import { NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 
@@ -22,8 +22,9 @@ export class FormSpending {
     title: 'Type spending',
     subTitle: 'Select your type spending'
   }
+  moneyCom: any;
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
+  constructor(private element: ElementRef, private renderer: Renderer, public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
       this.spending = params.get('spending');
       this.spending.input_date = this.spending.input_date.toISOString();
       let types = params.get('typeSpendings');
@@ -58,6 +59,15 @@ export class FormSpending {
         }
       }
       this.wallets = params.get('wallets');
+  }
+
+  ngOnInit(){
+    this.moneyCom = this.element.nativeElement.querySelector('#money input');
+    this.focusMoney();
+  }
+
+  focusMoney(){    
+    this.moneyCom.focus();
   }
   
   changeTabType(){
