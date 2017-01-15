@@ -6,14 +6,15 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AppService {
-    HOST: String = 'http://192.168.137.2:9001';
-    AUTH: String = 'http://192.168.137.2:9000';     
-    // HOST: String = 'http://localhost:9001';
-    // AUTH: String = 'http://localhost:9000'; 
-    // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
-    // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
-    DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
-    DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];    
+    HOST: String = 'http://localhost:9601';
+    AUTH: String = 'http://localhost:9600'; 
+    DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
+    DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
+
+    // HOST: String = 'http://sct.nanacloset.com';
+    // AUTH: String = 'http://authv2.nanacloset.com';     
+    // DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
+    // DEFAULT_ROLES: Array<String> = ['58799f33d6e7a31c8c6dba83'];    
     
     token: String;
     typeSpendings: Array<Object>;
@@ -42,8 +43,8 @@ export class AppService {
         }).toPromise()
         .then((resp: Response) => {
             this.token = resp.headers.get('token');
-            this.storage.set('token', this.token);            
-            return Promise.resolve(this.token);
+            this.storage.set('token', this.token);    
+            return Promise.resolve(resp.headers.get('isnew'));
         })
         .catch((error) => {
             return this.handleError(this, error);
@@ -53,6 +54,18 @@ export class AppService {
     logout(){
         this.storage.clear();
         return Promise.resolve();
+    }
+
+    merge(email:String, isnew   : boolean){
+        return this.http.put(`${this.HOST}/Sync/${email}`, {
+            isnew
+        }, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     getStatisticByMonth(filter?: any){
@@ -120,6 +133,16 @@ export class AppService {
 
     deleteSpending(item){
         return this.http.delete(`${this.HOST}/Spendings/${item._id}`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
+    transferWallet(trans){
+        return this.http.put(`${this.HOST}/Wallet/Transfer`, trans, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())

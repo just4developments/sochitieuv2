@@ -6,6 +6,7 @@ import { AppService } from '../../app/app.service';
 import { FormSpending } from './form';
 import { SearchByDatePopover } from '../statistic/index-search.popover';
 import { Statistic } from '../statistic';
+import { WalletSelection } from '../wallet/item-select';
 
 @Component({
   selector: 'list-spending',
@@ -137,6 +138,14 @@ export class Spending {
       this.filterText();
       loading.dismiss();
     });
+  }
+
+  pickWallet(){
+    let walletSelectionModal = this.modalController.create(WalletSelection, { wallets: this.wallets });
+    walletSelectionModal.onDidDismiss(data => { 
+      if(data) this.filter();
+    });
+    walletSelectionModal.present();
   }
 
   add(){

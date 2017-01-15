@@ -20,10 +20,20 @@ export class Login {
   }
 
   login(user:any, app?:String){
-    this.appService.login(user, app).then((token) => {
-      this.menuCtrl.enable(true, 'leftMenu');
-      this.navCtrl.setRoot(Spending);
+    return this.appService.login(user, app).then((isNew) => {
+      if(isNew) {
+        this.appService.merge(user.username, !!isNew).then(() => {
+          this.loginDone();
+        });
+      }else {
+        this.loginDone();
+      }
     });
+  }
+
+  loginDone(){
+    this.menuCtrl.enable(true, 'leftMenu');
+    this.navCtrl.setRoot(Spending);
   }
 
   loginDefault(){

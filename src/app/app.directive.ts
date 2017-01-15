@@ -4,7 +4,7 @@ import * as Uuid from 'node-uuid';
 @Directive({ selector: '[suggestionData]' })
 export class SuggestionDataDirective {
     @Input() suggestionData;
-    id: any = Uuid.v4();
+    id: any;
     input: any;
     dataList: any;
 
@@ -13,7 +13,8 @@ export class SuggestionDataDirective {
     }
 
     ngOnChanges(changes: any) {
-        if(!(changes.suggestionData.previousValue instanceof Array)){
+        if(!this.id) {
+            this.id = Uuid.v4();
             this.input = this.el.nativeElement.querySelector('input');
             this.renderer.setElementAttribute(this.input, 'list', this.id); 
             this.dataList = this.renderer.createElement(this.el.nativeElement, 'datalist');
@@ -37,15 +38,19 @@ export class CssBackgroundDirective {
         
     }
 
-    ngOnChanges(changes: any){     
-        if(typeof changes.cssBackground.previousValue !== 'string'){
-            if(this.el.nativeElement.tagName.toLowerCase() === 'ion-icon') {
+    ngOnChanges(changes: any){
+        let tagName = this.el.nativeElement.tagName.toLowerCase();
+        if(!this.elem) {            
+            if(tagName === 'ion-icon') {
                 this.elem = this.el.nativeElement;
-            }else if(this.el.nativeElement.tagName.toLowerCase() === 'ion-option') {
+            }else if(tagName === 'ion-option') {
                 console.log(this.el.nativeElement);
             }
-        }else {
+        }
+        if(tagName === 'ion-icon') {
             this.renderer.setElementStyle(this.elem, 'background-position', this.cssBackground);      
+        }else if(tagName === 'ion-option') {
+            console.log(this.el.nativeElement);
         }
     }
 }

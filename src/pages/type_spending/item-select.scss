@@ -1,0 +1,26 @@
+select-type-spending-popup {
+    .no-select .input-wrapper {
+        color: #939393;
+    }
+    .child-typespending {
+        padding-left: 32px;
+    }
+}
+select-type-spending {
+    ion-label {
+        padding-left: 12px; 
+        color: #999;
+    }
+    button {
+        padding-left: 8px !important;
+    }
+    .item-inner {
+        margin-left: 0px !important;
+    }
+}
+select-type-spending[color="dark"]{
+    button {        
+        background: black;
+        color: #cacaca;
+    }
+}

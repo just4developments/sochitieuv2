@@ -1,8 +1,8 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <ion-title>{{parent ? parent.name : '#ROOT'}}</ion-title>
     <ion-buttons start>
-      <button ion-button (click)="dismiss()">
+      <button ion-button (click)="dismiss()" color="light">
         <span color="primary" showWhen="ios">Cancel</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>

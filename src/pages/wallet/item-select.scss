@@ -1,0 +1,26 @@
+select-wallet-popup {
+    .no-select .input-wrapper {
+        color: #939393;
+    }
+}
+select-wallet {
+    .sub-label {
+        padding-right: 4px;
+    }
+    ion-label {
+        padding-left: 12px; 
+        color: #999;
+    }
+    button {
+        padding-left: 8px !important;
+    }
+    .item-inner {
+        margin-left: 0px !important;
+    }
+}
+select-wallet[color="dark"]{
+    button {        
+        background: black;
+        color: #cacaca;
+    }
+}

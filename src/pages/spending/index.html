@@ -31,16 +31,10 @@
   </ion-toolbar>  
 </ion-header>
 <ion-content>  
-  <ion-item color="dark" *ngIf="isFilter">
-    <ion-label>Wallet</ion-label>
-    <ion-select [(ngModel)]="total.walletId" (ionChange)="filter()">
-      <ion-option value="">No filter</ion-option>
-      <ion-option value="{{w._id}}" *ngFor="let w of wallets" [cssBackground]="w.icon">{{w.name}}</ion-option>     
-    </ion-select>       
-  </ion-item>
+  <select-wallet *ngIf="isFilter" color="dark" [wallets]="wallets" [default]="{_id: null, name: 'No Wallet Filter'}" [(ngModel)]="total.walletId" (change)="filter()"></select-wallet>
   <ion-card style="position: relative">
     <ion-card-header>
-      Dashboard
+      Dashboard      
       <div class="dashboard-buttons">
         <button ion-button clear icon-only (click)="gotoChart()" small item-right>
           <ion-icon name="stats"></ion-icon>

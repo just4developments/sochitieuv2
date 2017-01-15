@@ -2,7 +2,7 @@
   <ion-navbar color="danger">
     <ion-title>{{!spending._id ? 'Add' : 'Update'}} spending</ion-title>
     <ion-buttons start>
-      <button ion-button (click)="dismiss()">
+      <button ion-button (click)="dismiss()" color="light">
         <span showWhen="ios">Cancel</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
@@ -33,32 +33,23 @@
       </ion-item>      
     </ion-row>
     <ion-row>
-      <ion-item>
-        <ion-label stacked>Wallet</ion-label>
-        <ion-select [(ngModel)]="spending.wallet_id" [selectOptions]="walletOptions" interface="action-sheet">
-          <ion-option [value]="w._id" *ngFor="let w of wallets" [attr.newColor]="'test'">{{w.name}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
+      <ion-col width-50>
+        <select-wallet *ngIf="wallets" [wallets]="wallets" [(ngModel)]="spending.wallet_id" label="Wallet"></select-wallet>
+      </ion-col>
+      <ion-item width-50>
         <ion-label>Is monitor</ion-label>
         <ion-checkbox [(ngModel)]="spending.is_monitor"></ion-checkbox>
       </ion-item>
     </ion-row>
-  </ion-grid>
-  <div [ngSwitch]="type">
-    <ion-item *ngSwitchCase="'spending'">
-      <ion-label stacked class="spending">Type Spending</ion-label>
-      <ion-select [(ngModel)]="type_spending_id" [selectOptions]="typeSpendingOptions">
-        <ion-option [value]="t._id" *ngFor="let t of typeSpendings">{{t.parent_id ? '&nbsp;&nbsp;&nbsp;' : ''}}{{t.name}}</ion-option>
-      </ion-select>
-    </ion-item>   
-    <ion-item *ngSwitchCase="'earning'">
-      <ion-label stacked class="earning">Type Earning</ion-label>
-      <ion-select [(ngModel)]="type_earning_id" [selectOptions]="typeSpendingOptions">
-        <ion-option [value]="t._id" *ngFor="let t of typeEarnings">{{t.parent_id ? '&nbsp;&nbsp;&nbsp;' : ''}}{{t.name}}</ion-option>
-      </ion-select>
-    </ion-item>    
-  </div>  
+    <ion-row [ngSwitch]="type">
+      <ion-col width-100 *ngSwitchCase="'spending'">
+        <select-type-spending *ngIf="typeSpendings" [typeSpendings]="typeSpendings" [(ngModel)]="type_spending_id" label="Type spending"></select-type-spending>        
+      </ion-col>
+      <ion-col width-100 *ngSwitchCase="'earning'">
+        <select-type-spending *ngIf="typeEarnings" [typeSpendings]="typeEarnings" [(ngModel)]="type_earning_id" label="Type earning"></select-type-spending>
+      </ion-col>
+    </ion-row>
+  </ion-grid>  
   <ion-item>
     <ion-label stacked>Description</ion-label>
     <ion-input type="text" [(ngModel)]="spending.des" [suggestionData]="['thanh', 'intenet']"></ion-input>

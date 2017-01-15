@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import { AppService } from '../../app/app.service';
 import { FormWallet } from './form';
+import { TransferWallet } from './transfer';
 
 @Component({
   selector: 'wallet-list',
@@ -55,6 +56,15 @@ export class Wallet {
       if(data) this.loadData();
     });
     editModal.present();
+    // slidingItem.close();
+  }
+
+  transfer(item, slidingItem){
+    let transferModal = this.modalController.create(TransferWallet, { wallet: _.cloneDeep(item), wallets: this.wallets});
+    transferModal.onDidDismiss(data => {
+      if(data) this.loadData();
+    });
+    transferModal.present();
     // slidingItem.close();
   }
 

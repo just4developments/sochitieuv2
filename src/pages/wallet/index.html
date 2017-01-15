@@ -1,11 +1,11 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Wallet</ion-title>
     <ion-buttons end>
-      <button ion-button color="primary" (click)="add()">
+      <button ion-button color="primary" (click)="add()" color="light">
         <ion-icon name="add-circle"></ion-icon>&nbsp;Add
       </button>
     </ion-buttons>
@@ -24,6 +24,10 @@
         <h2>{{item.name}}</h2>        
       </ion-item>
       <ion-item-options side="right">
+        <button ion-button color="danger" (click)="transfer(item, slidingItem)">
+          <ion-icon name="git-compare"></ion-icon>
+          Tranfer
+        </button>
         <button ion-button color="primary" (click)="edit(item, slidingItem)">
           <ion-icon name="create"></ion-icon>
           Edit
@@ -44,6 +48,10 @@
         <h2>{{item.name}}</h2>        
       </ion-item>
       <ion-item-options side="right">
+        <button ion-button color="danger" (click)="transfer(item, slidingItem)">
+          <ion-icon name="git-compare"></ion-icon>
+          Tranfer
+        </button>
         <button ion-button color="primary" (click)="edit(item, slidingItem)">
           <ion-icon name="create"></ion-icon>
           Edit

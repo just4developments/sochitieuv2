@@ -10,6 +10,7 @@ import { Wallet } from '../pages/wallet';
 import { FormWallet } from '../pages/wallet/form';
 import { Spending } from '../pages/spending';
 import { FormSpending } from '../pages/spending/form';
+import { TransferWallet } from '../pages/wallet/transfer';
 import { Login } from '../pages/login';
 import { AppService } from '../app/app.service';
 import { SuggestionDataDirective, CssBackgroundDirective } from '../app/app.directive';
@@ -21,7 +22,8 @@ import { CuzSelect } from '../pages/component/cuz-select.component';
 import { SearchByDatePopover } from '../pages/statistic/index-search.popover';
 import { TextFilterPipe } from './app.pipe';
 import { IconPicker } from '../pages/type_spending/icon-picker';
-
+import { WalletSelection, WalletSelectionPopup } from '../pages/wallet/item-select';
+import { TypeSpendingSelection, TypeSpendingSelectionPopup } from '../pages/type_spending/item-select';
 
 let provideStorage = function () {
   return new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__mydb' })// optional config);
@@ -46,7 +48,12 @@ let provideStorage = function () {
     TextFilterPipe,
     SuggestionDataDirective,
     CssBackgroundDirective,
-    IconPicker
+    IconPicker,
+    WalletSelection,
+    WalletSelectionPopup,
+    TransferWallet,
+    TypeSpendingSelection, 
+    TypeSpendingSelectionPopup
   ],
   imports: [
     HttpModule,
@@ -71,7 +78,12 @@ let provideStorage = function () {
     ChartLine,
     CuzSelect,
     SearchByDatePopover,
-    IconPicker
+    IconPicker,
+    WalletSelection,
+    WalletSelectionPopup,
+    TransferWallet,
+    TypeSpendingSelection, 
+    TypeSpendingSelectionPopup
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, { provide: Storage, useFactory: provideStorage }, AppService]
 })
