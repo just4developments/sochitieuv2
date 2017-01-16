@@ -23,6 +23,7 @@ import { TextFilterPipe } from './app.pipe';
 import { IconPicker } from '../pages/type_spending/icon-picker';
 import { WalletSelection, WalletSelectionPopup } from '../pages/wallet/item-select';
 import { TypeSpendingSelection, TypeSpendingSelectionPopup } from '../pages/type_spending/item-select';
+import { Bookmark } from '../pages/bookmark';
 
 let provideStorage = function () {
   return new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__mydb' })// optional config);
@@ -51,7 +52,8 @@ let provideStorage = function () {
     WalletSelectionPopup,
     TransferWallet,
     TypeSpendingSelection, 
-    TypeSpendingSelectionPopup
+    TypeSpendingSelectionPopup,
+    Bookmark
   ],
   imports: [
     HttpModule,
@@ -80,7 +82,8 @@ let provideStorage = function () {
     WalletSelectionPopup,
     TransferWallet,
     TypeSpendingSelection, 
-    TypeSpendingSelectionPopup
+    TypeSpendingSelectionPopup,
+    Bookmark
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, { provide: Storage, useFactory: provideStorage }, AppService]
 })

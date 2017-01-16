@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppService } from '../../app/app.service';
 import { NavParams, ViewController, ToastController } from 'ionic-angular';
 import _ from 'lodash';
@@ -13,18 +13,13 @@ export class TransferWallet {
   wallets1: Array<any>;
   toWalletId: any;
   money: number;
-  moneyCom: any;
+  @ViewChild('moneyInput') moneyInput;
 
   constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
       this.wallet = params.get('wallet');
       let w = params.get('wallets');
       this.wallets = w.default.concat(w.saving);
       this.filterWallet(this.wallet);      
-  }
-
-  ngOnInit(){
-    this.moneyCom = this.element.nativeElement.querySelector('#money input');
-    this.focusMoney();
   }
 
   filterWallet(data:any){
@@ -58,7 +53,7 @@ export class TransferWallet {
   }
 
   focusMoney(){
-    this.moneyCom.focus();
+    this.moneyInput.setFocus();
   }
 
 }

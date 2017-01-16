@@ -25,7 +25,7 @@
     <ion-row>
       <ion-item>
         <ion-label stacked>Money</ion-label>
-        <ion-input type="number" [(ngModel)]="spending.money" id="money"></ion-input>
+        <ion-input type="number" [(ngModel)]="spending.money" #moneyInput></ion-input>
       </ion-item>      
       <ion-item>
         <ion-label stacked>Input date</ion-label>
@@ -36,10 +36,12 @@
       <ion-col width-50>
         <select-wallet *ngIf="wallets" [wallets]="wallets" [(ngModel)]="spending.wallet_id" label="Wallet"></select-wallet>
       </ion-col>
-      <ion-item width-50>
-        <ion-label>Is monitor</ion-label>
-        <ion-checkbox [(ngModel)]="spending.is_monitor"></ion-checkbox>
-      </ion-item>
+      <ion-col width-50 center>
+        <ion-item>
+          <ion-label>Bookmark</ion-label>
+          <ion-toggle color="primary" [(ngModel)]="spending.is_bookmark"></ion-toggle>
+        </ion-item>
+      </ion-col>
     </ion-row>
     <ion-row [ngSwitch]="type">
       <ion-col width-100 *ngSwitchCase="'spending'">

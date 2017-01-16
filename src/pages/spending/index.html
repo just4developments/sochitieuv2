@@ -88,7 +88,7 @@
             <p>{{itemByDate.monthyear}}</p>
           </div>
           <div *ngIf="itemByDate.today || itemByDate.yesterday">
-            <h2>{{itemByDate.today ? 'Today' : 'Yesterday'}}</h2>
+            <h2><b>{{itemByDate.today ? 'Today' : 'Yesterday'}}</b></h2>
             <p>{{itemByDate.day}} {{itemByDate.monthyear}}</p>
           </div>
         </ion-item-divider>
@@ -119,7 +119,7 @@
               <ion-icon name="create"></ion-icon>
               Edit
             </button>
-            <button ion-button color="secondary" (click)="delete(item, slidingItem)">
+            <button ion-button color="dark" (click)="delete(item, slidingItem)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>

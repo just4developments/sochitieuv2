@@ -35,22 +35,10 @@ export class CssBackgroundDirective {
     elem: any;
 
     constructor(public el: ElementRef, public renderer:Renderer) {
-        
+        this.elem = this.el.nativeElement;
     }
 
     ngOnChanges(changes: any){
-        let tagName = this.el.nativeElement.tagName.toLowerCase();
-        if(!this.elem) {            
-            if(tagName === 'ion-icon') {
-                this.elem = this.el.nativeElement;
-            }else if(tagName === 'ion-option') {
-                console.log(this.el.nativeElement);
-            }
-        }
-        if(tagName === 'ion-icon') {
-            this.renderer.setElementStyle(this.elem, 'background-position', this.cssBackground);      
-        }else if(tagName === 'ion-option') {
-            console.log(this.el.nativeElement);
-        }
+        this.renderer.setElementStyle(this.elem, 'background-position', this.cssBackground);      
     }
 }

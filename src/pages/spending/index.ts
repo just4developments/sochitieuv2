@@ -206,7 +206,6 @@ export class Spending {
   }
 
   reformatSpending(spendings, today, yesterday){
-    console.log(today, yesterday);
     let tmp;
     let arr;
     let spendingsRaw: any = [];
@@ -224,7 +223,6 @@ export class Spending {
           emoney: 0,
           items: []
         };
-        console.log(today.format('DD-MM-YYYY'), date);
         if(today.format('DD-MM-YYYY') === date) arr.today = true;
         else if(yesterday.format('DD-MM-YYYY') === date) arr.yesterday = true;
         tmp = date;

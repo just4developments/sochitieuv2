@@ -9,12 +9,12 @@ export class AppService {
     HOST: String = 'http://localhost:9601';
     AUTH: String = 'http://localhost:9600'; 
     // Home
-    // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
-    // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
+    DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
+    DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
     
     // Office
-    DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
-    DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
+    // DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
+    // DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
 
     // Server
     // HOST: String = 'http://sct.nanacloset.com';
@@ -137,6 +137,16 @@ export class AppService {
         });
     }
 
+    unbookmarkSpending(item){
+        return this.http.delete(`${this.HOST}/Spendings/Bookmark/${item._id}`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
     deleteSpending(item){
         return this.http.delete(`${this.HOST}/Spendings/${item._id}`, {headers: 
             new Headers({token: this.token})
@@ -220,6 +230,16 @@ export class AppService {
         });
     }
 
+    getBookmark(){ 
+        return this.http.get(`${this.HOST}/Spendings/Bookmark`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
     getSpendings(walletId: String, startDate: Date, endDate: Date, typeSpendingId?: String){ 
         let queries = [];
         if(walletId) queries.push(`walletId=${walletId}`);
@@ -287,7 +307,11 @@ export class AppService {
         });
         toast.present();
         return new Promise((resolve, reject) => {
-            reject(error.message || error);
+            if([403, 401].indexOf(error.status) !== -1) {
+                _self.logout().then(() => {
+                    window.location.href = '/';
+                }).catch(reject);
+            } else reject(error.message || error);
         });
     }
 }

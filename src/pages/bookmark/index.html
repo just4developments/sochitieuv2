@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar color="danger">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Bookmark</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="wallet-list">
+    <ion-list-header>
+      List bookmark 
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let item of spendings" #slidingItem>
+      <ion-item>
+        <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon"></ion-icon>
+        <strong item-right [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
+        <h2>{{item.type_spending.name}}</h2>        
+        <p>{{item.des}}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="remove(item, slidingItem)">
+          <ion-icon name="bookmark"></ion-icon>
+          Unbookmark
+        </button>
+        <button ion-button color="dark" (click)="delete(item, slidingItem)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

@@ -38,7 +38,6 @@ export class Wallet {
 
   add(){
     let item: any = {
-      money: 0,
       name: '',
       type: 1,
       icon: ''

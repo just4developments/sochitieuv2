@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppService } from '../../app/app.service';
 import { NavParams, ViewController, ToastController } from 'ionic-angular';
 
@@ -22,7 +22,7 @@ export class FormSpending {
     title: 'Type spending',
     subTitle: 'Select your type spending'
   }
-  moneyCom: any;
+  @ViewChild('moneyInput') moneyInput;
 
   constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
       this.spending = params.get('spending');
@@ -62,12 +62,11 @@ export class FormSpending {
   }
 
   ngOnInit(){
-    this.moneyCom = this.element.nativeElement.querySelector('#money input');
     this.focusMoney();
   }
 
   focusMoney(){    
-    this.moneyCom.focus();
+    this.moneyInput.setFocus();
   }
   
   changeTabType(){

@@ -9,6 +9,7 @@ import { TypeSpending } from '../pages/type_spending';
 import { Spending } from '../pages/spending';
 import { Statistic } from '../pages/statistic';
 import { MenuController } from 'ionic-angular';
+import { Bookmark } from '../pages/bookmark';
 import { AppService } from '../app/app.service';
 
 
@@ -33,6 +34,7 @@ export class MyApp {
       { title: 'Spending', component: Spending },
       { title: 'Wallet', component: Wallet },
       { title: 'Type Spending', component: TypeSpending },
+      { title: 'Bookmark', component: Bookmark },
       { title: 'Statistic', component: Statistic },
     ];
 
