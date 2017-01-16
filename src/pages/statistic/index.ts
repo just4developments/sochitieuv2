@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController, ViewController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, PopoverController, LoadingController, Loading } from 'ionic-angular';
 import _ from "lodash";
 
 import { AppService } from '../../app/app.service';

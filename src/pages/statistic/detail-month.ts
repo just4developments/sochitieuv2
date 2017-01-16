@@ -1,5 +1,5 @@
-import { Component, ElementRef, Renderer } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavParams } from 'ionic-angular';
 import _ from "lodash";
 
 import { AppService } from '../../app/app.service';
@@ -13,7 +13,7 @@ export class ChartDetailInMonth {
     type: String;
     data: any;
     
-    constructor(public navCtrl: NavController, public navParams: NavParams, private element: ElementRef, private renderer: Renderer, private appService: AppService){
+    constructor(public navParams: NavParams, private appService: AppService){
         this.item = this.navParams.data; 
         this.type = this.item.type || 'spending';
         this.loadChart();

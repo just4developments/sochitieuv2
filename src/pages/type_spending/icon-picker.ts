@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { ViewController } from 'ionic-angular';
 
 @Component({
   selector: 'icon-picker',
@@ -9,7 +9,7 @@ import { NavController, NavParams, ViewController, ToastController } from 'ionic
 export class IconPicker {
 	items: Array<any>;
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
+  constructor(public viewCtrl: ViewController, private appService: AppService) {
      this.items = [];
 		 let i = 0;
 		 let col= 13;

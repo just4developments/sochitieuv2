@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { NavController, PopoverController, ViewController, NavParams } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { ViewController, NavParams } from 'ionic-angular';
 
 @Component({
   template: `

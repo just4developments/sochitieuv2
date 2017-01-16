@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavController, NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
+import { NavParams, ViewController, ToastController } from 'ionic-angular';
 import _ from 'lodash';
 
 @Component({
@@ -13,23 +13,26 @@ export class TransferWallet {
   wallets1: Array<any>;
   toWalletId: any;
   money: number;
+  moneyCom: any;
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
+  constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
       this.wallet = params.get('wallet');
       let w = params.get('wallets');
       this.wallets = w.default.concat(w.saving);
-      this.filterWallet(this.wallet);
+      this.filterWallet(this.wallet);      
+  }
+
+  ngOnInit(){
+    this.moneyCom = this.element.nativeElement.querySelector('#money input');
+    this.focusMoney();
   }
 
   filterWallet(data:any){
     let id = _.clone(data._id);
-    this.wallets1 = null;
     let self = this;
-    // setTimeout(function() {
-      self.wallets1 = self.wallets.filter((e) => {
-        return e._id !== id;
-      });
-    // });
+    self.wallets1 = self.wallets.filter((e) => {
+      return e._id !== id;
+    });
   }
 
   transfer(){
@@ -52,6 +55,10 @@ export class TransferWallet {
 
   dismiss(data) {
     this.viewCtrl.dismiss(data);
+  }
+
+  focusMoney(){
+    this.moneyCom.focus();
   }
 
 }

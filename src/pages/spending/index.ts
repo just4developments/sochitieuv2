@@ -128,13 +128,15 @@ export class Spending {
     this.spendings = null;    
     this.appService.getSpendings(this.total.walletId, new Date(this.total.startDate), new Date(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
       let today:any = moment(new Date());
+      let yesterday:any = moment(new Date());
+      yesterday.add(-1, 'days');
       this.reformatSpending(spendings.map((e) => {
         e.type_spending = this.typeSpendings.find(t=>t._id === e.type_spending_id);
         e.type_spending_uname = e.type_spending.uname;  
         e.wallet = this.wallets.find(t=>t._id === e.wallet_id);
         e.input_date = new Date(e.input_date);                
         return e;
-      }), today, today.add(-1, 'days'));      
+      }), today, yesterday);      
       this.filterText();
       loading.dismiss();
     });
@@ -204,6 +206,7 @@ export class Spending {
   }
 
   reformatSpending(spendings, today, yesterday){
+    console.log(today, yesterday);
     let tmp;
     let arr;
     let spendingsRaw: any = [];
@@ -221,6 +224,7 @@ export class Spending {
           emoney: 0,
           items: []
         };
+        console.log(today.format('DD-MM-YYYY'), date);
         if(today.format('DD-MM-YYYY') === date) arr.today = true;
         else if(yesterday.format('DD-MM-YYYY') === date) arr.yesterday = true;
         tmp = date;

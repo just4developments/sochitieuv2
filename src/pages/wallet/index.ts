@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
+import { ModalController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
 import _ from 'lodash';
 
 import { AppService } from '../../app/app.service';
@@ -16,7 +16,7 @@ export class Wallet {
     saving: []
   };
 
-  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+  constructor(private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
     this.loadData();
   }
 

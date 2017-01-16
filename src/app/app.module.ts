@@ -18,7 +18,6 @@ import { Statistic } from '../pages/statistic';
 import { ChartDetailInMonth } from '../pages/statistic/detail-month';
 import { ChartPie } from '../pages/statistic/pie.component';
 import { ChartLine } from '../pages/statistic/line.component';
-import { CuzSelect } from '../pages/component/cuz-select.component';
 import { SearchByDatePopover } from '../pages/statistic/index-search.popover';
 import { TextFilterPipe } from './app.pipe';
 import { IconPicker } from '../pages/type_spending/icon-picker';
@@ -43,7 +42,6 @@ let provideStorage = function () {
     ChartDetailInMonth,
     ChartPie,
     ChartLine,
-    CuzSelect,
     SearchByDatePopover,
     TextFilterPipe,
     SuggestionDataDirective,
@@ -76,7 +74,6 @@ let provideStorage = function () {
     ChartDetailInMonth,
     ChartPie,
     ChartLine,
-    CuzSelect,
     SearchByDatePopover,
     IconPicker,
     WalletSelection,

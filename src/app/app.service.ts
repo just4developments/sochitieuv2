@@ -8,9 +8,15 @@ import 'rxjs/add/operator/toPromise';
 export class AppService {
     HOST: String = 'http://localhost:9601';
     AUTH: String = 'http://localhost:9600'; 
-    DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
-    DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
+    // Home
+    // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
+    // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
+    
+    // Office
+    DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
+    DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
 
+    // Server
     // HOST: String = 'http://sct.nanacloset.com';
     // AUTH: String = 'http://authv2.nanacloset.com';     
     // DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
@@ -142,6 +148,7 @@ export class AppService {
     }
 
     transferWallet(trans){
+        trans.input_date = new Date();
         return this.http.put(`${this.HOST}/Wallet/Transfer`, trans, {headers: 
             new Headers({token: this.token})
         }).toPromise()
@@ -152,6 +159,7 @@ export class AppService {
     }
 
     addWallet(item){
+        item.input_date = new Date();
         return this.http.post(`${this.HOST}/Wallet`, item, {headers: 
             new Headers({token: this.token})
         }).toPromise()
@@ -162,6 +170,7 @@ export class AppService {
     }
 
     updateWallet(item){
+        item.input_date = new Date();
         return this.http.put(`${this.HOST}/Wallet/${item._id}`, item, {headers: 
             new Headers({token: this.token})
         }).toPromise()

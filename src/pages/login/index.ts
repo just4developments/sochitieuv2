@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController, MenuController } from 'ionic-angular';
-import { Facebook } from 'ionic-native';
+import { NavController, ToastController, MenuController } from 'ionic-angular';
+import { Facebook, FacebookLoginResponse } from 'ionic-native';
 
 import { AppService } from '../../app/app.service';
 import { Spending } from '../spending';
@@ -15,7 +15,7 @@ export class Login {
     password: '123'
   };
 
-  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, private menuCtrl: MenuController) {
+  constructor(public navCtrl: NavController, private appService: AppService, public toastCtrl: ToastController, private menuCtrl: MenuController) {
     
   }
 
@@ -41,18 +41,20 @@ export class Login {
   }
 
   loginFacebook(){
-    this.login({
-      username: 'have.ice@gmail.com'
-    }, 'facebook');
-    // Facebook.login(['email']).then((resp) => {
-    //   if(resp.status === 'connected'){
-    //     this.login({
-    //       username: resp.authResponse.userID
-    //     }, 'facebook');
-    //   }else {
-        
-    //   }      
-    // });
+    Facebook.login(['email']).then((resp:FacebookLoginResponse) => {
+      if(resp.status === 'connected'){
+        console.log(resp);
+        // this.login({
+        //   username: resp.authResponse.userID
+        // }, 'facebook');
+      }else {
+        const toast = this.toastCtrl.create({
+            message: '#Error: Can not login facebook',
+            duration: 3000
+        });
+        toast.present();
+      }      
+    });
   }
 
   loginGoogle(){

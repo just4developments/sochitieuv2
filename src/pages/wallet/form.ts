@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavController, NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
+import { NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
 
 import { IconPicker } from '../type_spending/icon-picker';
 
@@ -12,7 +12,7 @@ export class FormWallet {
   wallet: any;
   isSaving: boolean;
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
+  constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
       this.wallet = params.get('wallet');
       this.isSaving = this.wallet.type === 0;
   }

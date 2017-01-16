@@ -1,6 +1,6 @@
-import { Component, ElementRef, Renderer } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { NavParams, ViewController, ToastController } from 'ionic-angular';
 
 @Component({
   selector: 'form-spending',
@@ -24,7 +24,7 @@ export class FormSpending {
   }
   moneyCom: any;
 
-  constructor(private element: ElementRef, private renderer: Renderer, public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
+  constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
       this.spending = params.get('spending');
       this.spending.input_date = this.spending.input_date.toISOString();
       let types = params.get('typeSpendings');

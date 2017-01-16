@@ -1,6 +1,5 @@
-import { Component, Input, Output, EventEmitter, SimpleChange, forwardRef } from '@angular/core';
-import { AppService } from '../../app/app.service';
-import { NavController, NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
+import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { NavParams, ViewController, ModalController } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import _ from 'lodash';
 
@@ -19,7 +18,7 @@ export class TypeSpendingSelectionPopup {
   selectedId: String;
   label: String;
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
+  constructor(public viewCtrl: ViewController, params: NavParams) {    
     this.typeSpendings = params.get('typeSpendings');
     this.selectedId = params.get('selectedId');
     this.label = params.get('label');
@@ -55,7 +54,7 @@ export class TypeSpendingSelection implements ControlValueAccessor {
   private onChangeCallback:any;  
   @Input() default;
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
+  constructor(public viewCtrl: ViewController, public modalController: ModalController) {
     
   }
   
