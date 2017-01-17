@@ -92,7 +92,7 @@
             <p>{{itemByDate.day}} {{itemByDate.monthyear}}</p>
           </div>
         </ion-item-divider>
-        <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem>
+        <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem [ngClass]="item.type === 0 ? 'type-0' : ''">
           <ion-item>
             <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon"></ion-icon>
             <span item-right class="money" [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.type !== 0">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
@@ -101,25 +101,26 @@
             <p *ngIf="item.type !== 0">{{item.des}}</p>
             <p *ngIf="item.type === 0">
               <span *ngIf="'Transfer to wallet' === item.type_spending.name">
-                <span>{{(item.wallet_money0 || 0) | currency:'VND':true}}</span> <ion-icon name="return-right"></ion-icon> <span class="spending">{{(item.wallet_money1 || 0) | currency:'VND':true}}</span>
+                <span>{{(item.wallet_money0 || 0) | currency:'VND':true}}</span> <ion-icon name="return-right"></ion-icon> <b class="spending">{{(item.wallet_money1 || 0) | currency:'VND':true}}</b>
               </span>
               <span *ngIf="'Received from wallet' === item.type_spending.name">
-                <span class="earning">{{(item.wallet_money1 || 0) | currency:'VND':true}}</span> <ion-icon name="return-left"></ion-icon> <span>{{(item.wallet_money0 || 0) | currency:'VND':true}}</span>
+                <b class="earning">{{(item.wallet_money1 || 0) | currency:'VND':true}}</b> <ion-icon name="return-left"></ion-icon> <span>{{(item.wallet_money0 || 0) | currency:'VND':true}}</span>
               </span>
               <span *ngIf="'Update wallet' === item.type_spending.name">
-                <span>{{(item.wallet_money0 || 0) | currency:'VND':true}}</span> <ion-icon name="return-right"></ion-icon> <span [ngClass]="item.wallet_money0 < item.wallet_money1 ? 'earning' : 'spending'">{{(item.wallet_money1 || 0) | currency:'VND':true}}</span>
+                <span *ngIf="item.wallet_money0 < item.wallet_money1"><b class="earning">{{(item.wallet_money1 || 0) | currency:'VND':true}}</b> <ion-icon name="return-left"></ion-icon> <span>{{(item.wallet_money0 || 0) | currency:'VND':true}}</span></span>
+                <span *ngIf="item.wallet_money0 > item.wallet_money1"><span>{{(item.wallet_money0 || 0) | currency:'VND':true}}</span> <ion-icon name="return-right"></ion-icon> <b class="spending">{{(item.wallet_money1 || 0) | currency:'VND':true}}</b></span>
               </span>
               <span *ngIf="'Add new wallet' === item.type_spending.name">
-                <span class="earning">{{(item.wallet_money1 || 0) | currency:'VND':true}}</span> <ion-icon name="return-left"></ion-icon>
+                <b class="earning">{{(item.wallet_money1 || 0) | currency:'VND':true}}</b> <ion-icon name="return-left"></ion-icon>
               </span>
             </p>
           </ion-item>
           <ion-item-options side="right">
-            <button ion-button color="primary" (click)="edit(item, slidingItem)">
+            <button ion-button color="primary" (click)="edit(item, slidingItem)" *ngIf="item.type !== 0">
               <ion-icon name="create"></ion-icon>
               Edit
             </button>
-            <button ion-button color="dark" (click)="delete(item, slidingItem)">
+            <button ion-button color="dark" (click)="delete(item, slidingItem)" *ngIf="item.type !== 0">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>

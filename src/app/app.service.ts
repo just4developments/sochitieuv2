@@ -6,15 +6,15 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AppService {
-    HOST: String = 'http://localhost:9601';
-    AUTH: String = 'http://localhost:9600'; 
+    HOST: String = 'http://192.168.0.111:9601';
+    AUTH: String = 'http://192.168.0.111:9600'; 
     // Home
-    DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
-    DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
+    // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
+    // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
     
     // Office
-    // DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
-    // DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
+    DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
+    DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
 
     // Server
     // HOST: String = 'http://sct.nanacloset.com';
@@ -66,6 +66,26 @@ export class AppService {
         return this.http.put(`${this.HOST}/Sync/${email}`, {
             isnew
         }, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
+    getMe(){
+        return this.http.get(`${this.AUTH}/Me`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
+    updateInfor(user){
+        return this.http.put(`${this.AUTH}/Me`, user, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
@@ -311,7 +331,7 @@ export class AppService {
                 _self.logout().then(() => {
                     window.location.href = '/';
                 }).catch(reject);
-            } else reject(error.message || error);
+            } // else reject(error.message || error);
         });
     }
 }

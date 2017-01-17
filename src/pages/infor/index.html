@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Account information</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input type="text" [(ngModel)]="user.username" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Full name</ion-label>
+      <ion-input type="text" [(ngModel)]="user.more.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Email recover password</ion-label>
+      <ion-input type="text" [(ngModel)]="user.recover_by"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Old password</ion-label>
+      <ion-input type="text" [(ngModel)]="user.old_password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>New password</ion-label>
+      <ion-input type="text" [(ngModel)]="user.password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Confirm new password</ion-label>
+      <ion-input type="text" [(ngModel)]="confirmPassword"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div padding>
+    <button block ion-button (click)="save()">Save</button>
+  </div>  
+</ion-content>

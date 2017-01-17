@@ -11,7 +11,7 @@ import { Statistic } from '../pages/statistic';
 import { MenuController } from 'ionic-angular';
 import { Bookmark } from '../pages/bookmark';
 import { AppService } from '../app/app.service';
-
+import { Infor } from '../pages/infor';
 
 @Component({
   templateUrl: 'app.html'
@@ -36,6 +36,7 @@ export class MyApp {
       { title: 'Type Spending', component: TypeSpending },
       { title: 'Bookmark', component: Bookmark },
       { title: 'Statistic', component: Statistic },
+      { title: 'Account', component: Infor },
     ];
 
   }
