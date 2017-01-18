@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavParams, ViewController, ToastController } from 'ionic-angular';
+import { NavParams, ViewController, ToastController, AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'form-spending',
@@ -24,7 +24,7 @@ export class FormSpending {
   }
   @ViewChild('moneyInput') moneyInput;
 
-  constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
+  constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, private alertCtrl: AlertController) {
       this.spending = params.get('spending');
       this.spending.input_date = this.spending.input_date.toISOString();
       let types = params.get('typeSpendings');
@@ -106,7 +106,27 @@ export class FormSpending {
           duration: 3000
         });
         toast.present();
-        this.dismiss(this.spending);
+        let confirm = this.alertCtrl.create({
+          title: 'Added successfully',
+          message: 'Do you want to add new one ?',
+          buttons: [
+            {
+              text: 'Back menu',
+              handler: () => {
+                this.dismiss(this.spending);
+              }
+            },
+            {
+              text: 'Add another',
+              handler: () => {
+                delete this.spending.money;
+                delete this.spending.des;
+                this.spending.is_bookmark = false;
+              }
+            }
+          ]
+        });
+        confirm.present();        
       }).catch((err) => {
         this.dismiss(undefined);
       });

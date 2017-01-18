@@ -12,6 +12,9 @@
     <ion-list-header>
       List bookmark 
     </ion-list-header>
+    <ion-item *ngIf="!spendings || spendings.length === 0">
+      No item is bookmarked
+    </ion-item>
     <ion-item-sliding *ngFor="let item of spendings" #slidingItem>
       <ion-item>
         <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon"></ion-icon>
@@ -21,7 +24,7 @@
       </ion-item>
       <ion-item-options side="right">
         <button ion-button color="danger" (click)="remove(item, slidingItem)">
-          <ion-icon name="bookmark"></ion-icon>
+          <ion-icon name="bookmarks"></ion-icon>
           Unbookmark
         </button>
         <button ion-button color="dark" (click)="delete(item, slidingItem)">

@@ -95,7 +95,7 @@
         <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem [ngClass]="item.type === 0 ? 'type-0' : ''">
           <ion-item>
             <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon"></ion-icon>
-            <span item-right class="money" [ngClass]="{'earning': item.type_spending.type > 0, 'spending': item.type_spending.type < 0}" *ngIf="item.type !== 0">{{item.type_spending.type > 0 ? '+' : (item.type_spending.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
+            <span item-right class="money" [ngClass]="{'earning': item.type > 0, 'spending': item.type < 0}" *ngIf="item.type !== 0">{{item.type > 0 ? '+' : (item.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
             <span item-right class="money" *ngIf="item.type === 0">{{item.wallet_money0 < item.wallet_money1 ? '+' : ''}} {{(item.money || 0) | currency:'VND':true}}</span>
             <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
             <p *ngIf="item.type !== 0">{{item.des}}</p>

@@ -24,7 +24,6 @@ export class Login {
   }
 
   login(user:any, app?:String){
-    console.log(user);
     return this.appService.login(user, app).then((isNew) => {
       if(isNew) {
         this.appService.merge(user.username, !!isNew).then(() => {
@@ -37,8 +36,11 @@ export class Login {
   }
 
   loginDone(){
-    this.menuCtrl.enable(true, 'leftMenu');
-    this.navCtrl.setRoot(Spending);
+    this.appService.getMe().then((user) => {
+      this.menuCtrl.enable(true, 'leftMenu');
+      this.navCtrl.setRoot(Spending);
+      this.appService.mainEvent.emit({signedIn: user});
+    });    
   }
 
   loginDefault(){
@@ -58,14 +60,17 @@ export class Login {
     Facebook.login(['email']).then((resp:FacebookLoginResponse) => {
       if(resp.status === 'connected'){
         Facebook.api('/me?fields=id,name,email', ['email']).then((resp) => {
-          this.login({
-            username: resp.email || resp.id,
-            recover_by: resp.email,
-            more: {
-              email: resp.email,
-              name: resp.name
-            }
-          }, 'facebook');
+          this.appService.toDataUrl('http://graph.facebook.com/'+resp.id+'/picture').then((avatar) => {
+            this.login({
+              username: resp.email || resp.id,
+              recover_by: resp.email,
+              more: {
+                email: resp.email,
+                name: resp.name,
+                avatar: avatar
+              }
+            }, 'facebook');
+          })          
         });                
       }else {
         const toast = this.toastCtrl.create({

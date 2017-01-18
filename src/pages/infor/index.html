@@ -1,36 +1,49 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Account information</ion-title>
   </ion-navbar>
+  <ion-toolbar color="danger">
+    <ion-segment [(ngModel)]="type" color="light">
+      <ion-segment-button value="infor">
+        Change information
+      </ion-segment-button>
+      <ion-segment-button value="pass">
+        Change password
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
+<ion-content [ngSwitch]="type">
+  <ion-list padding-top> 
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="assets/img/no-avatar.png" *ngIf="!user.more.avatar">
+        <img [src]="user.more.avatar" *ngIf="user.more.avatar">
+      </ion-avatar>
+      <h2>{{user.username}}</h2>
+    </ion-item> 
 
-<ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label floating>Username</ion-label>
-      <ion-input type="text" [(ngModel)]="user.username" disabled></ion-input>
-    </ion-item>
-    <ion-item>
+    <ion-item *ngSwitchCase="'infor'">
       <ion-label floating>Full name</ion-label>
       <ion-input type="text" [(ngModel)]="user.more.name"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngSwitchCase="'infor'">
       <ion-label floating>Email recover password</ion-label>
       <ion-input type="text" [(ngModel)]="user.recover_by"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngSwitchCase="'pass'">
       <ion-label floating>Old password</ion-label>
       <ion-input type="text" [(ngModel)]="user.old_password"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngSwitchCase="'pass'">
       <ion-label floating>New password</ion-label>
       <ion-input type="text" [(ngModel)]="user.password"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngSwitchCase="'pass'">
       <ion-label floating>Confirm new password</ion-label>
       <ion-input type="text" [(ngModel)]="confirmPassword"></ion-input>
     </ion-item>

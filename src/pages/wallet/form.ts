@@ -14,6 +14,7 @@ export class FormWallet {
 
   constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
       this.wallet = params.get('wallet');
+      this.wallet.isApplyToSpending = !!this.wallet.name;
       this.isSaving = this.wallet.type === 0;
   }
 

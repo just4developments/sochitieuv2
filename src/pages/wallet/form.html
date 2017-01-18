@@ -26,9 +26,23 @@
     </ion-row>
     <ion-row>
       <ion-item>
-        <ion-label stacked>Money <span class="earning">{{(wallet.money || 0) | currency:'VND':true }}</span></ion-label>
+        <ion-label stacked>Money <span [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'">{{(wallet.money || 0) | currency:'VND':true }}</span></ion-label>
         <ion-input type="number" [(ngModel)]="wallet.money"></ion-input>
+      </ion-item>            
+    </ion-row>   
+    <ion-row>
+      <ion-item>
+        <ion-label>Is add in spending ?</ion-label>
+        <ion-checkbox [(ngModel)]="wallet.isApplyToSpending"></ion-checkbox>
       </ion-item>
+    </ion-row>
+    <ion-row>
+      <ion-item>
+        <ion-label stacked>Description</ion-label>
+        <ion-textarea [(ngModel)]="wallet.des"></ion-textarea>
+      </ion-item>
+    </ion-row> 
+    <ion-row>
       <ion-item>
         <ion-label>Is saving</ion-label>
         <ion-checkbox [(ngModel)]="isSaving" (ionChange)="changeType()"></ion-checkbox>

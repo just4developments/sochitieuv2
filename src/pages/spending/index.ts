@@ -153,7 +153,6 @@ export class Spending {
   add(){
     let item: any = {
       input_date: new Date(),
-      isCal: 1,
       wallet_id: this.wallets[0]._id
     };
     let addModal = this.modalController.create(FormSpending, { spending: item, typeSpendings: this.typeSpendings, wallets: this.wallets });

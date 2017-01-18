@@ -19,7 +19,8 @@ import { Infor } from '../pages/infor';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any, icon: string}>;
+  me: any;
 
   constructor(public platform: Platform, public appService: AppService, private storage: Storage, private menuCtrl: MenuController) {
     this.initializeApp();
@@ -27,18 +28,32 @@ export class MyApp {
     appService.init().then((token) => {
       this.nav.setRoot(token ? Spending : Login);
       this.menuCtrl.enable(!!token, 'leftMenu');
+      if(token){
+        this.appService.getMe().then((me) => {
+          this.me = me;
+        });
+      }
     });
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Spending', component: Spending },
-      { title: 'Wallet', component: Wallet },
-      { title: 'Type Spending', component: TypeSpending },
-      { title: 'Bookmark', component: Bookmark },
-      { title: 'Statistic', component: Statistic },
-      { title: 'Account', component: Infor },
-    ];
+    appService.mainEvent.subscribe((data) => {
+      if(data.signedIn) this.me = data.signedIn;
+    });
 
+    this.pages = [
+      { title: 'Spending', component: Spending, icon: 'help-circle' },
+      { title: 'Wallet', component: Wallet, icon: 'cash' },
+      { title: 'Type Spending', component: TypeSpending, icon: 'archive' },
+      { title: 'Bookmark', component: Bookmark, icon: 'bookmarks' },
+      { title: 'Statistic', component: Statistic, icon: 'stats' }
+    ];
+  }
+
+  ngOnDestroy(){
+    this.appService.mainEvent.unsubscribe();
+  }
+
+  editInfor(){
+    this.nav.setRoot(Infor);
   }
 
   logout(){
