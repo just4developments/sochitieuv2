@@ -7,8 +7,8 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class AppService {
     mainEvent: EventEmitter<any> = new EventEmitter();
-    // HOST: String = 'http://192.168.0.111:9601';
-    // AUTH: String = 'http://192.168.0.111:9600'; 
+    // HOST: String = 'http://localhost:9601';
+    // AUTH: String = 'http://localhost:9600'; 
     // Home
     // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
     // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
@@ -186,7 +186,7 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => {
-            this.removeCached('spendings');
+            this.removeCached('wallets');
             return response.json();            
         })
         .catch((error) => {
@@ -199,7 +199,7 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => {
-            this.removeCached('spendings');
+            this.removeCached('wallets');
             return response.json();            
         })
         .catch((error) => {
@@ -211,7 +211,10 @@ export class AppService {
         return this.http.delete(`${this.HOST}/Spendings/Bookmark/${item._id}`, {headers: 
             new Headers({token: this.token})
         }).toPromise()
-        .then(response => response.json())
+        .then(response => {
+            this.removeCached('wallets');
+            return response.json();            
+        })
         .catch((error) => {
             return this.handleError(this, error);
         });
@@ -222,7 +225,7 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => {
-            this.removeCached('spendings');
+            this.removeCached('wallets');
             return response.json();            
         })
         .catch((error) => {

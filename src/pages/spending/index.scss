@@ -15,6 +15,12 @@ list-spending {
     .money {
         color: #989898;
     }
+    .logo-wallet {
+        position: absolute;
+        left: 66px;
+        zoom: 0.66;
+        bottom: -11px
+    }
     ion-item-sliding.type-0 {
         h2 {
             font-size: 12px;
