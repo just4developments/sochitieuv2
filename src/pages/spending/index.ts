@@ -94,21 +94,19 @@ export class Spending {
   }
 
   filterText(){
-    const text = this.txtSearch;
-    if(text !== this.txtSearch) return;
     let items = _.cloneDeep(this.spendingsRaw);
     this.total.spending = 0;
     this.total.earning = 0;
     this.total.remaining = 0;
     this.spendings = items.filter((item) => {
         item.items = item.items.filter((item0) => {            
-            if(item0['udes'].includes(text)) {
+            if(this.txtSearch && item0.udes.includes(this.txtSearch)) {
               if(!this.total.walletId && item0.sign_money === 0) return true;
               if(item0.type > 0) this.total.earning += item0.money;
               else if(item0.type < 0) this.total.spending += item0.money;
               return true;
             }
-            if(item0['type_spending_uname'].includes(text)) {
+            if(item0.type_spending_uname.includes(this.txtSearch)) {
               if(!this.total.walletId && item0.sign_money === 0) return true;
               if(item0.type > 0) this.total.earning += item0.money;
               else if(item0.type < 0) this.total.spending += item0.money;
