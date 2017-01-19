@@ -47,7 +47,12 @@ export class AppService {
         return this.cached[type][key];
     }
 
-    removeCached(type:string, key?:string){
+    removeCached(type?:string, key?:string){
+        if(!type && !key) {
+            this.cached.spendings = {};
+            this.cached.wallets = {};
+            this.cached.typeSpendings = {};
+        }
         if(key) return delete this.cached[type][key];
         this.cached[type] = {};
     }
@@ -100,6 +105,7 @@ export class AppService {
 
     logout(){
         this.storage.clear();
+        this.removeCached();
         return Promise.resolve();
     }
 
@@ -238,7 +244,6 @@ export class AppService {
         return this.http.put(`${this.HOST}/Wallet/Transfer`, trans, {headers: 
             new Headers({token: this.token})
         }).toPromise()
-        .then(response => response.json())
         .then(response => {
             this.removeCached('wallets');
             return response.json();

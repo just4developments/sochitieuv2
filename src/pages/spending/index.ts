@@ -23,7 +23,7 @@ export class Spending {
     startDate: String,
     endDate: String,
     typeSpendingId: undefined,
-    walletId: '',
+    walletId: undefined,
     inputDate: new Date().toISOString(),
     spending: 0,
     earning: 0,
@@ -101,13 +101,15 @@ export class Spending {
     this.total.earning = 0;
     this.total.remaining = 0;
     this.spendings = items.filter((item) => {
-        item.items = item.items.filter((item0) => {
+        item.items = item.items.filter((item0) => {            
             if(item0['udes'].includes(text)) {
+              if(!this.total.walletId && item0.sign_money === 0) return true;
               if(item0.type > 0) this.total.earning += item0.money;
               else if(item0.type < 0) this.total.spending += item0.money;
               return true;
             }
             if(item0['type_spending_uname'].includes(text)) {
+              if(!this.total.walletId && item0.sign_money === 0) return true;
               if(item0.type > 0) this.total.earning += item0.money;
               else if(item0.type < 0) this.total.spending += item0.money;
               return true;
@@ -134,7 +136,7 @@ export class Spending {
         e.type_spending = this.typeSpendings.find(t=>t._id === e.type_spending_id);
         e.type_spending_uname = e.type_spending.uname;  
         e.wallet = this.wallets.find(t=>t._id === e.wallet_id);
-        e.input_date = new Date(e.input_date);                
+        e.input_date = new Date(e.input_date);
         return e;
       }), today, yesterday);      
       this.filterText();
@@ -226,9 +228,10 @@ export class Spending {
         else if(yesterday.format('DD-MM-YYYY') === date) arr.yesterday = true;
         tmp = date;
       }
-      if(s.type < 0) arr.smoney += s.money;
-      else if(s.type > 0) arr.emoney += s.money;
       arr.items.push(s);
+      if(!this.total.walletId && s.sign_money === 0) continue;
+      if(s.type < 0) arr.smoney += s.money;
+      else if(s.type > 0) arr.emoney += s.money;      
     }    
     if(arr && arr.items.length > 0) spendingsRaw.push(arr);
     this.spendingsRaw = spendingsRaw;    

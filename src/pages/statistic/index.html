@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -10,12 +10,12 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-  <ion-toolbar>
+  <ion-toolbar color="danger">
     <ion-segment [(ngModel)]="chartType" (ionChange)="changeChartType()">
-      <ion-segment-button value="byMoney">
+      <ion-segment-button value="byMoney" color="light">
         Chart by Month
       </ion-segment-button>
-      <ion-segment-button value="byTypeSpending">
+      <ion-segment-button value="byTypeSpending" color="light">
         Chart by spending type
       </ion-segment-button>
     </ion-segment>
@@ -42,17 +42,17 @@
       </ion-list>
     </div> 
     <div *ngSwitchCase="'byTypeSpending'">
-      <ion-segment [(ngModel)]="type" (ionChange)="loadChartByTypeSpending()">
-        <ion-segment-button value="spending">
-          Spending
-        </ion-segment-button>
-        <ion-segment-button value="earning">
-          Earning
-        </ion-segment-button>
-      </ion-segment>
       <div [ngSwitch]="type">
         <div *ngSwitchCase="'spending'" style="position: relative">
           <chart-pie title="spending" [data]="chartDataByType.chart.spending" *ngIf="chartDataByType.chart.spending"></chart-pie>
+          <ion-segment [(ngModel)]="type" (ionChange)="loadChartByTypeSpending()">
+            <ion-segment-button value="spending">
+              Spending
+            </ion-segment-button>
+            <ion-segment-button value="earning">
+              Earning
+            </ion-segment-button>
+          </ion-segment>
           <ion-list *ngIf="chartDataByType.table.spending">
             <ion-list-header>
               Statistic by type<br/>
@@ -69,6 +69,14 @@
         </div>
         <div *ngSwitchCase="'earning'">
           <chart-pie title="earning" [data]="chartDataByType.chart.earning" *ngIf="chartDataByType.chart.earning"></chart-pie>
+          <ion-segment [(ngModel)]="type" (ionChange)="loadChartByTypeSpending()">
+            <ion-segment-button value="spending">
+              Spending
+            </ion-segment-button>
+            <ion-segment-button value="earning">
+              Earning
+            </ion-segment-button>
+          </ion-segment>
           <ion-list *ngIf="chartDataByType.table.earning">
             <ion-list-header>
               Statistic by type<br/>

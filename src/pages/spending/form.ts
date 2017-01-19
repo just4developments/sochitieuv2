@@ -119,6 +119,10 @@ export class FormSpending {
             {
               text: 'Add another',
               handler: () => {
+                this.wallets = this.wallets.map((e) => {
+                  e.money += this.spending.money * this.spending.type;
+                  return e;
+                });
                 delete this.spending.money;
                 delete this.spending.des;
                 this.spending.is_bookmark = false;

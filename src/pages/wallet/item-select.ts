@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChange, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, forwardRef } from '@angular/core';
 import { AppService } from '../../app/app.service';
 import { NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -42,7 +42,9 @@ export class WalletSelectionPopup {
         <h2 *ngIf="!item">{{emptyText}}</h2>        
         <ion-icon name="arrow-dropdown" item-right></ion-icon>        
       </button>
-      <div align="right" class="sub-label"><strong *ngIf="item" [ngClass]="(item.money + submoney) < 0 ? 'spending' : 'earning'">{{((item.money + submoney) || 0) | currency:'VND':true}}</strong></div>`,
+      <div align="right" class="sub-label" *ngIf="item">
+        <strong *ngIf="item" [ngClass]="(item.money + (submoney || 0)) < 0 ? 'spending' : 'earning'">{{((item.money + (submoney || 0)) || 0) | currency:'VND':true}}</strong>
+      </div>`,
     providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class WalletSelection implements ControlValueAccessor {
@@ -64,30 +66,32 @@ export class WalletSelection implements ControlValueAccessor {
     
   }
 
-  ngOnChanges(changes:SimpleChange){
-    this._wallets = _.cloneDeep(this.wallets);
-    if(this.default) {
-      this.default.icon = `-${5 * 53}px -${0 * 64}px`;
-      this.default.className = 'no-select';
-      this._wallets.splice(0, 0, this.default);
+  ngOnChanges(changes:SimpleChanges){
+    if(changes['wallets']) {
+      this._wallets = _.cloneDeep(this.wallets);
+      if(this.default) {
+        this.default.icon = `-${5 * 53}px -${0 * 64}px`;
+        this.default.className = 'no-select';
+        this._wallets.splice(0, 0, this.default);
+      }
+      if(this.item) {
+        this.item = this._wallets.find((e) => {
+          return e._id === this.item._id;
+        });
+      }
+      if(!this.item) {
+        if(this._wallets.length > 0) this.item = this._wallets[0];
+      }    
     }
-    if(this.item) {
-      this.item = this._wallets.find((e) => {
-        return e._id === this.item._id;
-      });
-    }
-    if(!this.item) {
-      if(this._wallets.length > 0) this.item = this._wallets[0];
-    }    
   }
 
   openPick() {
     let walletSelectionModal = this.modalController.create(WalletSelectionPopup, { wallets: this._wallets, selectedId: this.item._id });
     walletSelectionModal.onDidDismiss(data => { 
       if(data) {
-        this.item = data;
-        this.change.emit(data);
+        this.item = data;        
         this.onChangeCallback(data._id);
+        this.change.emit(data);
       }
     });
     walletSelectionModal.present();
