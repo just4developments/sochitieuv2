@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StatusBar, Splashscreen } from 'ionic-native';
+import { AdMob } from 'ionic-native';
 
 import { Login } from '../pages/login';
 import { Wallet } from '../pages/wallet';
@@ -37,6 +38,7 @@ export class MyApp {
 
     appService.mainEvent.subscribe((data) => {
       if(data.signedIn) this.me = data.signedIn;
+      else if(data.logout) this.logout();
     });
 
     this.pages = [
@@ -69,7 +71,12 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
       Splashscreen.hide();
+      AdMob.createBanner('ca-app-pub-7861623744178820~2877845990').then(() => { AdMob.showBanner(8); });
     });
+  }
+
+  ionViewDidLoad() {
+    AdMob.onBannerDismiss().subscribe(() => { console.log('User dismissed ad'); });
   }
 
   openPage(page) {

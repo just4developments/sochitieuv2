@@ -16,10 +16,15 @@ list-spending {
         color: #989898;
     }
     .logo-wallet {
-        position: absolute;
-        left: 66px;
-        zoom: 0.66;
-        bottom: -11px
+        zoom: 0.48;
+        min-height: auto;
+        float: left;
+        margin-right: 4px;
+        margin-top: 4px;
+    }
+    .close-wallet {
+        zoom: 1.6;
+        font-weight: bold;
     }
     ion-item-sliding.type-0 {
         h2 {

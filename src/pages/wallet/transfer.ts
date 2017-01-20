@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavParams, ViewController, ToastController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 import _ from 'lodash';
 
 @Component({
@@ -13,9 +13,10 @@ export class TransferWallet {
   wallets1: Array<any>;
   toWalletId: any;
   money: number;
+  des: string;
   @ViewChild('moneyInput') moneyInput;
 
-  constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController) {
+  constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams) {
       this.wallet = params.get('wallet');
       let w = params.get('wallets');
       this.wallets = w.default.concat(w.saving);
@@ -34,14 +35,11 @@ export class TransferWallet {
     let trans = {
       from: this.wallet._id,
       money: this.money,
-      to: this.toWalletId 
+      to: this.toWalletId,
+      des: this.des
     };
     this.appService.transferWallet(trans).then((item) => {
-      const toast = this.toastCtrl.create({
-        message: 'Transfer successfully',
-        duration: 3000
-      });
-      toast.present();
+      this.appService.toast('Transfer successfully');
       this.dismiss(this.wallet);
     }).catch((err) => {
       this.dismiss(undefined);

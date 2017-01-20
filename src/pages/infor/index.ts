@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ToastController } from 'ionic-angular';
 import _ from 'lodash';
 import * as md5 from 'md5';
 
@@ -16,7 +15,7 @@ export class Infor {
     more: {}
   };
 
-  constructor(private appService: AppService, public toastCtrl: ToastController) {
+  constructor(private appService: AppService) {
     this.appService.getMe().then((user) => {
         this.user = user;
     })
@@ -26,11 +25,7 @@ export class Infor {
 			const user = _.clone(this.user);
 			if((user.password)){
 				if(this.confirmPassword !== user.password) {
-					const toast = this.toastCtrl.create({
-						message: 'Confirm password is not matched',
-						duration: 3000
-					});
-					toast.present();
+					this.appService.toast('Confirm password is not matched');
 					return;
 				}else if(user.old_password === user.password){
 					delete user.password;
@@ -47,11 +42,7 @@ export class Infor {
 				this.confirmPassword = null;
 				delete this.user.password;
 				delete this.user.old_password;
-				const toast = this.toastCtrl.create({
-					message: 'Updated successfully',
-					duration: 3000
-				});
-				toast.present();
+				this.appService.toast('Updated successfully');
 			})
   }
 

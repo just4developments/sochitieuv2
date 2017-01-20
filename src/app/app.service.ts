@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Http, Headers, Response } from '@angular/http';
-import { ToastController } from 'ionic-angular';
+import { ToastController, LoadingController, Loading, AlertController } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -32,10 +32,11 @@ export class AppService {
         wallets: {},
         typeSpendings: {}
     };
+    loading:Loading;
 
     me: any;
 
-    constructor(private http: Http, public toastCtrl: ToastController, private storage: Storage){
+    constructor(private http: Http, public toastCtrl: ToastController, private storage: Storage, private loadingCtrl: LoadingController, private alertCtrl: AlertController){
         
     }
 
@@ -115,7 +116,7 @@ export class AppService {
         }, {headers: 
             new Headers({token: this.token})
         }).toPromise()
-        .then(response => response.json())
+        .then(response => response)
         .catch((error) => {
             return this.handleError(this, error);
         });
@@ -433,22 +434,46 @@ export class AppService {
         });
     }
 
-    handleError(_self:AppService, error: any): Promise<any> {
-        let err = error._body ? JSON.parse(error._body) : error._body;
-        if(typeof err === 'object'){
-            if(err.message) err = err.message;
-        }
-        const toast = _self.toastCtrl.create({
-            message: '#Error: ' + err,
-            duration: 3000
+    showLoading(text): Promise<any>{
+        this.loading = this.loadingCtrl.create({
+            content: text
+        });
+        return this.loading.present();
+    }
+
+    hideLoading(){
+        this.loading.dismiss();
+    }
+
+    toast(txt, time:number=3000){
+        const toast = this.toastCtrl.create({
+            message: txt,
+            duration: time
         });
         toast.present();
-        return new Promise((resolve, reject) => {
+    }
+
+    confirm(title: string, mes: string, buttons: Array<any>){
+        this.alertCtrl.create({
+            title: title,
+            message: mes,
+            buttons: buttons
+        }).present();
+    }
+
+    handleError(_self:AppService, error: any): Promise<any> {
+        return new Promise((resolve, reject) => {      
+            this.loading.dismissAll();      
             if([403, 401].indexOf(error.status) !== -1) {
-                _self.logout().then(() => {
-                    window.location.href = '/';
-                }).catch(reject);
-            } // else reject(error.message || error);
+                this.mainEvent.emit({logout: true});
+                this.toast('Session is expired');
+            }else {
+                let err = error._body ? JSON.parse(error._body) : error._body;
+                if(typeof err === 'object'){
+                    if(err.message) err = err.message;
+                }
+                this.toast('#Error: ' + err);
+            }
         });
     }
 }

@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavParams, ViewController, ToastController, AlertController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
+import _ from 'lodash';
 
 @Component({
   selector: 'form-spending',
@@ -17,15 +18,18 @@ export class FormSpending {
   walletOptions: any = {
     title: 'Wallets',
     subTitle: 'Select your available wallets'
-  }
+  };
   typeSpendingOptions: any = {
     title: 'Type spending',
     subTitle: 'Select your type spending'
-  }
+  };
   @ViewChild('moneyInput') moneyInput;
+  isChangedData: boolean = false;
+  oldSubmoney: number = 0;
 
-  constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, private alertCtrl: AlertController) {
+  constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams) {
       this.spending = params.get('spending');
+      if(this.spending._id) this.oldSubmoney = _.clone(this.spending.money)*this.spending.type;
       this.spending.input_date = this.spending.input_date.toISOString();
       let types = params.get('typeSpendings');
       this.typeEarnings = [];
@@ -90,26 +94,16 @@ export class FormSpending {
     this.spending.type = this.spending.typeSpending.type;
     if(this.spending._id){
       this.appService.updateSpending(this.spending).then((item) => {
-        const toast = this.toastCtrl.create({
-          message: 'Updated successfully',
-          duration: 3000
-        });
-        toast.present();
+        this.appService.toast('Updated successfully');
         this.dismiss(this.spending);
       }).catch((err) => {
         this.dismiss(undefined);
       });
     }else{
       this.appService.addSpending(this.spending).then((item) => {
-        const toast = this.toastCtrl.create({
-          message: 'Added successfully',
-          duration: 3000
-        });
-        toast.present();
-        let confirm = this.alertCtrl.create({
-          title: 'Added successfully',
-          message: 'Do you want to add new one ?',
-          buttons: [
+        this.isChangedData = true;
+        this.appService.toast('Added successfully');
+        this.appService.confirm('Added successfully', 'Do you want to add new one ?', [
             {
               text: 'Back menu',
               handler: () => {
@@ -128,13 +122,15 @@ export class FormSpending {
                 this.spending.is_bookmark = false;
               }
             }
-          ]
-        });
-        confirm.present();        
+        ]);
       }).catch((err) => {
         this.dismiss(undefined);
       });
     }    
+  }
+
+  submoney(){
+    return (this.spending.money||0)*(this.type === 'spending' ? -1 : 1) - this.oldSubmoney;
   }
 
   dismiss(data) {
@@ -143,7 +139,7 @@ export class FormSpending {
       data.input_date = moment(data.input_date, 'YYYY-MM-DD').toDate();
       data.wallet = this.wallets.find(t=>t._id === data.wallet_id);
     }
-    this.viewCtrl.dismiss(data);
+    this.viewCtrl.dismiss(data || this.isChangedData);
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import _ from 'lodash';
 
 import { AppService } from '../../app/app.service';
@@ -13,7 +13,7 @@ export class TypeSpending {
   type: String = 'spending';
   types: any;
 
-  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController) {
     
   }
 
@@ -22,36 +22,34 @@ export class TypeSpending {
   }
 
   loadData(){
-    const loading:Loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
-    loading.present();
-    let types = {
-      spending: [],
-      earning: []
-    };
-    this.appService.getTypeSpendings().then((typependings) => {
-      for(var s of typependings){
-        if(s.type === 0) continue;
-        if(!s.parent_id) { 
-          if(s.type > 0) types.earning.push(s);
-          else if(s.type < 0) types.spending.push(s);
-        }else {
-          if(s.type > 0) {
-            let parentIndex = types.earning.findIndex((e) => {
-              return e._id === s.parent_id;
-            });
-            types.earning.splice(parentIndex+1, 0, s);
-          } else if(s.type < 0) {
-            let parentIndex = types.spending.findIndex((e) => {
-              return e._id === s.parent_id;
-            });
-            types.spending.splice(parentIndex+1, 0, s);
+    this.appService.showLoading('Please wait...').then(() => {
+      let types = {
+        spending: [],
+        earning: []
+      };
+      this.appService.getTypeSpendings().then((typependings) => {
+        for(var s of typependings){
+          if(s.type === 0) continue;
+          if(!s.parent_id) { 
+            if(s.type > 0) types.earning.push(s);
+            else if(s.type < 0) types.spending.push(s);
+          }else {
+            if(s.type > 0) {
+              let parentIndex = types.earning.findIndex((e) => {
+                return e._id === s.parent_id;
+              });
+              types.earning.splice(parentIndex+1, 0, s);
+            } else if(s.type < 0) {
+              let parentIndex = types.spending.findIndex((e) => {
+                return e._id === s.parent_id;
+              });
+              types.spending.splice(parentIndex+1, 0, s);
+            }
           }
         }
-      }
-      this.types = types;
-      loading.dismiss();
+        this.types = types;
+        this.appService.hideLoading();
+      });
     });
   }
 
@@ -93,10 +91,7 @@ export class TypeSpending {
   }
 
   delete(item, slidingItem){
-    let confirm = this.alertCtrl.create({
-      title: 'Do you agree to delete it?',
-      message: item.name,
-      buttons: [
+    this.appService.confirm('Do you agree to delete it?', item.name, [
         {
           text: 'Disagree'
         },
@@ -104,19 +99,13 @@ export class TypeSpending {
           text: 'Agree',
           handler: () => {
             this.appService.deleteTypeSpending(item).then((resp) => {
-              const toast = this.toastCtrl.create({
-                message: 'Deleted successfully',
-                duration: 3000
-              });              
-              toast.present();
+              this.appService.toast('Deleted successfully');
               // slidingItem.close();
               this.loadData();
             }).catch((error) => {});
           }
         }
-      ]
-    });
-    confirm.present();
+    ]);
   }
 
 }

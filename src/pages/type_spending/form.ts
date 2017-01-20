@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
+import { NavParams, ViewController, ModalController } from 'ionic-angular';
 
 import { IconPicker } from './icon-picker';
 
@@ -12,7 +12,7 @@ export class FormTypeSpending {
   typespending: any;
   parent: any;
 
-  constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
+  constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public modalController: ModalController) {
       this.typespending = params.get('typespending');
       this.parent = params.get('parent');
   }
@@ -20,22 +20,14 @@ export class FormTypeSpending {
   save(){
     if(this.typespending._id){
       this.appService.updateTypeSpending(this.typespending).then((item) => {
-        const toast = this.toastCtrl.create({
-          message: 'Updated successfully',
-          duration: 3000
-        });
-        toast.present();
+        this.appService.toast('Updated successfully');
         this.dismiss(this.typespending);
       }).catch((err) => {
         this.dismiss(undefined);
       });
     }else{
       this.appService.addTypeSpending(this.typespending).then((item) => {
-        const toast = this.toastCtrl.create({
-          message: 'Added successfully',
-          duration: 3000
-        });
-        toast.present();
+        this.appService.toast('Added successfully');
         this.dismiss(this.typespending);
       }).catch((err) => {
         this.dismiss(undefined);

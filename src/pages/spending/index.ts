@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PopoverController, NavParams, NavController, ModalController, LoadingController, Loading, AlertController, ToastController } from 'ionic-angular';
+import { PopoverController, NavParams, NavController, ModalController } from 'ionic-angular';
 import _ from 'lodash';
 
 import { AppService } from '../../app/app.service';
@@ -24,13 +24,14 @@ export class Spending {
     endDate: String,
     typeSpendingId: undefined,
     walletId: undefined,
+    spendingTypeId: undefined,
     inputDate: new Date().toISOString(),
     spending: 0,
     earning: 0,
     remaining: 0
   };
 
-  constructor(navParams:NavParams, public navCtrl: NavController, public popoverCtrl: PopoverController, private appService: AppService, public modalController: ModalController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public toastCtrl: ToastController) {
+  constructor(navParams:NavParams, public navCtrl: NavController, public popoverCtrl: PopoverController, private appService: AppService, public modalController: ModalController) {
     this.total.typeSpendingId = navParams.get('typeSpendingId');
     let startDate = navParams.get('startDate');
     let endDate = navParams.get('endDate');
@@ -119,26 +120,34 @@ export class Spending {
     this.total.remaining = this.total.earning - this.total.spending;
   }
 
+  filterWallet(walletId){
+    this.total.walletId = this.total.walletId !== walletId ? walletId : null;    
+    this.filter();
+  }
+
+  filterSpendingType(typeSpendingId){
+    this.total.typeSpendingId = this.total.typeSpendingId !== typeSpendingId ? typeSpendingId : null;    
+    this.filter();
+  }
+
   filter(){
-    const loading:Loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
-    loading.present();
-    this.spendingsRaw = null;
-    this.spendings = null;    
-    this.appService.getSpendings(this.total.walletId, new Date(this.total.startDate), new Date(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
-      let today:any = moment(new Date());
-      let yesterday:any = moment(new Date());
-      yesterday.add(-1, 'days');
-      this.reformatSpending(spendings.map((e) => {
-        e.type_spending = this.typeSpendings.find(t=>t._id === e.type_spending_id);
-        e.type_spending_uname = e.type_spending.uname;  
-        e.wallet = this.wallets.find(t=>t._id === e.wallet_id);
-        e.input_date = new Date(e.input_date);
-        return e;
-      }), today, yesterday);      
-      this.filterText();
-      loading.dismiss();
+    this.appService.showLoading('Please wait...').then(() => {;
+      this.spendingsRaw = null;
+      this.spendings = null;   
+      this.appService.getSpendings(this.total.walletId, new Date(this.total.startDate), new Date(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
+        let today:any = moment(new Date());
+        let yesterday:any = moment(new Date());
+        yesterday.add(-1, 'days');
+        this.reformatSpending(spendings.map((e) => {
+          e.type_spending = this.typeSpendings.find(t=>t._id === e.type_spending_id);
+          e.type_spending_uname = e.type_spending.uname;  
+          e.wallet = this.wallets.find(t=>t._id === e.wallet_id);
+          e.input_date = new Date(e.input_date);
+          return e;
+        }), today, yesterday);      
+        this.filterText();
+        this.appService.hideLoading();
+      });
     });
   }
 
@@ -174,10 +183,7 @@ export class Spending {
   }
 
   delete(item, slidingItem){
-    let confirm = this.alertCtrl.create({
-      title: 'Do you agree to delete it?',
-      message: item.des,
-      buttons: [
+    this.appService.confirm('Do you agree to delete it?', item.des, [
         {
           text: 'Disagree'
         },
@@ -185,19 +191,13 @@ export class Spending {
           text: 'Agree',
           handler: () => {
             this.appService.deleteSpending(item).then((resp) => {
-              const toast = this.toastCtrl.create({
-                message: 'Deleted successfully',
-                duration: 3000
-              });
-              toast.present();
+              this.appService.toast('Deleted successfully');
               // slidingItem.close();
               this.filter();
             }).catch((err) => {});
           }
         }
-      ]
-    });
-    confirm.present();
+    ]);
   }
 
   toDate(sdate){

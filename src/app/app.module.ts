@@ -26,7 +26,7 @@ import { TypeSpendingSelection, TypeSpendingSelectionPopup } from '../pages/type
 import { Bookmark } from '../pages/bookmark';
 import { Infor } from '../pages/infor';
 
-let provideStorage = function () {
+export function provideStorage() {
   return new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__mydb' })// optional config);
 };
 

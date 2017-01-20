@@ -27,7 +27,13 @@
           <ion-input type="number" [(ngModel)]="money" #inputMoney></ion-input>
         </ion-item>
       </ion-col>
-    </ion-row>    
+    </ion-row>  
+    <ion-row>
+      <ion-item>
+        <ion-label stacked>Description</ion-label>
+        <ion-textarea [(ngModel)]="des"></ion-textarea>
+      </ion-item>
+    </ion-row>   
   </ion-grid>
   <div padding>
     <button ion-button block full (click)="transfer()">Transfer</button>

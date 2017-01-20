@@ -94,12 +94,16 @@
         </ion-item-divider>
         <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem [ngClass]="item.type === 0 ? 'type-0' : ''">
           <ion-item>
-            <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon"></ion-icon>
-            <ion-icon class="icon-logo logo-wallet" item-left [cssBackground]="item.wallet.icon"></ion-icon>
+            <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon" (click)="filterSpendingType(item.type_spending._id)">
+               <ion-icon name="close" *ngIf="total.typeSpendingId"></ion-icon>
+            </ion-icon>            
             
             <span *ngIf="total.walletId || (!this.total.walletId && item.sign_money !== 0)" item-right class="money" [ngClass]="{'earning': item.type > 0, 'spending': item.type < 0}">{{item.type > 0 ? '+' : (item.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
             <span *ngIf="!this.total.walletId && item.sign_money === 0" item-right class="money">{{item.type >= 0 ? '+' : '-'}} {{(item.money || 0) | currency:'VND':true}}</span>
 
+            <ion-icon class="icon-logo logo-wallet" [cssBackground]="item.wallet.icon" (click)="filterWallet(item.wallet._id)" align="center">
+              <ion-icon name="close" class="close-wallet" *ngIf="total.walletId"></ion-icon>
+            </ion-icon>
             <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
             <p *ngIf="item.type_spending.type !== 0">{{item.des}}</p>
             <p *ngIf="item.type_spending.type === 0">

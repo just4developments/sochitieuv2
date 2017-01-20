@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AlertController, ToastController } from 'ionic-angular';
 
 import { AppService } from '../../app/app.service';
 
@@ -11,7 +10,7 @@ export class Bookmark {
   spendings: Array<any> = [];
   typeSpendings: Array<any>;
 
-  constructor(private appService: AppService, public alertCtrl: AlertController, public toastCtrl: ToastController) {
+  constructor(private appService: AppService) {
       this.appService.getTypeSpendings().then((typeSpendings) => {
         this.typeSpendings = typeSpendings;  
         this.filter();
@@ -19,21 +18,21 @@ export class Bookmark {
   }
 
   filter(){
-      this.appService.getBookmark().then((spendings) => {
-          this.spendings = spendings.map((e) => {
-              e.type_spending = this.typeSpendings.find((t) => {
-                  return e.type_spending_id === t._id;
-              });
-              return e;
-          });
-      });
+      this.appService.showLoading('Please wait...').then(() => {
+        this.appService.getBookmark().then((spendings) => {
+            this.spendings = spendings.map((e) => {
+                e.type_spending = this.typeSpendings.find((t) => {
+                    return e.type_spending_id === t._id;
+                });
+                return e;
+            });
+            this.appService.hideLoading();
+        });
+      });      
   }
 
   remove(item){
-      let confirm = this.alertCtrl.create({
-      title: 'Do you agree to remove from bookmark?',
-      message: item.des,
-      buttons: [
+    this.appService.confirm('Do you agree to remove from bookmark?', item.des, [
         {
           text: 'Disagree'
         },
@@ -41,26 +40,17 @@ export class Bookmark {
           text: 'Agree',
           handler: () => {
             this.appService.unbookmarkSpending(item).then((resp) => {
-              const toast = this.toastCtrl.create({
-                message: 'Removed from list bookmark successfully',
-                duration: 3000
-              });
-              toast.present();
+              this.appService.toast('Removed from list bookmark successfully');
               // slidingItem.close();
               this.filter();
             }).catch((err) => {});
           }
         }
-      ]
-    });
-    confirm.present();
+      ]);
   }
 
   delete(item, slidingItem){
-    let confirm = this.alertCtrl.create({
-      title: 'Do you agree to delete it?',
-      message: item.des,
-      buttons: [
+    this.appService.confirm('Do you agree to delete it?', item.des, [
         {
           text: 'Disagree'
         },
@@ -68,19 +58,13 @@ export class Bookmark {
           text: 'Agree',
           handler: () => {
             this.appService.deleteSpending(item).then((resp) => {
-              const toast = this.toastCtrl.create({
-                message: 'Deleted successfully',
-                duration: 3000
-              });
-              toast.present();
+              this.appService.toast('Deleted successfully');
               // slidingItem.close();
               this.filter();
             }).catch((err) => {});
           }
         }
-      ]
-    });
-    confirm.present();
+    ]);
   }
 
 }

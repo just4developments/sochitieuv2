@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, MenuController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 import { Facebook, FacebookLoginResponse } from 'ionic-native';
 import _ from 'lodash';
 import * as md5 from 'md5';
@@ -19,20 +19,18 @@ export class Login {
     password: '123'
   };
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, private appService: AppService, public toastCtrl: ToastController, private menuCtrl: MenuController) {
+  constructor(public navCtrl: NavController, private appService: AppService, private menuCtrl: MenuController) {
     
   }
 
   login(user:any, app?:String){
     return this.appService.login(user, app).then((isNew) => {
       if(isNew) {
-        const loading:Loading = this.loadingCtrl.create({
-          content: 'Syncing from server...'
-        });
-        loading.present();
-        this.appService.merge(user.username, !!isNew).then(() => {
-          loading.dismiss();
-          this.loginDone();
+        this.appService.showLoading('Syncing from server...').then(() => {
+          this.appService.merge(user.username, !!isNew).then(() => {
+            this.appService.hideLoading();
+            this.loginDone();
+          });
         });
       }else {
         this.loginDone();
@@ -78,21 +76,13 @@ export class Login {
           })          
         });                
       }else {
-        const toast = this.toastCtrl.create({
-            message: '#Error: Can not login facebook',
-            duration: 3000
-        });
-        toast.present();
+        this.appService.toast('#Error: Can not login facebook');
       }      
     });
   }
 
   loginGoogle(){
-    const toast = this.toastCtrl.create({
-          message: '#Error: Not supported google yet',
-          duration: 3000
-    });
-    toast.present();
+    this.appService.toast('#Error: Not supported google yet');
   }
 
 }

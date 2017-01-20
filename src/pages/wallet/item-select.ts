@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, forwardRef } from '@angular/core';
 import { AppService } from '../../app/app.service';
-import { NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
+import { NavParams, ViewController, ModalController } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import _ from 'lodash';
 
@@ -18,7 +18,7 @@ export class WalletSelectionPopup {
   wallets: Array < any > ;
   selectedId: String;
 
-  constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public toastCtrl: ToastController, public modalController: ModalController) {
+  constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public modalController: ModalController) {
     this.wallets = params.get('wallets');
     this.selectedId = params.get('selectedId');
   }

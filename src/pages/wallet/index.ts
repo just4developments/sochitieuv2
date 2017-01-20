@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
 import _ from 'lodash';
 
 import { AppService } from '../../app/app.service';
@@ -16,23 +16,21 @@ export class Wallet {
     saving: []
   };
 
-  constructor(private appService: AppService, public modalController: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+  constructor(private appService: AppService, public modalController: ModalController) {
     this.loadData();
   }
 
   loadData(){
-    const loading:Loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
-    loading.present();
-    this.wallets.default = [];
-    this.wallets.saving = [];
-    this.appService.getWallets().then((wallets) => {
-      for(var w of wallets){
-        if(w.type > 0) this.wallets.default.push(w);
-        else if(w.type === 0) this.wallets.saving.push(w);
-      }
-      loading.dismiss();
+    this.appService.showLoading('Please wait...').then(() => {
+      this.wallets.default = [];
+      this.wallets.saving = [];
+      this.appService.getWallets().then((wallets) => {
+        for(var w of wallets){
+          if(w.type > 0) this.wallets.default.push(w);
+          else if(w.type === 0) this.wallets.saving.push(w);
+        }
+        this.appService.hideLoading();
+      });
     });
   }
 
@@ -68,10 +66,7 @@ export class Wallet {
   }
 
   delete(item, slidingItem){
-    let confirm = this.alertCtrl.create({
-      title: 'Do you agree to delete it?',
-      message: item.name,
-      buttons: [
+    this.appService.confirm('Do you agree to delete it?', item.name, [
         {
           text: 'Disagree'
         },
@@ -79,19 +74,13 @@ export class Wallet {
           text: 'Agree',
           handler: () => {
             this.appService.deleteWallet(item).then((resp) => {
-              const toast = this.toastCtrl.create({
-                message: 'Deleted successfully',
-                duration: 3000
-              });              
-              toast.present();
+              this.appService.toast('Deleted successfully');
               // slidingItem.close();
               this.loadData();
             }).catch((err) => {});
           }
         }
-      ]
-    });
-    confirm.present();
+    ]);
   }
 
 }
