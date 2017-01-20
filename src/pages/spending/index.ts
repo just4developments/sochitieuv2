@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PopoverController, NavParams, NavController, ModalController } from 'ionic-angular';
 import _ from 'lodash';
+import * as moment from 'moment';
 
 import { AppService } from '../../app/app.service';
 import { FormSpending } from './form';

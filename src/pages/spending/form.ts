@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppService } from '../../app/app.service';
 import { NavParams, ViewController } from 'ionic-angular';
 import _ from 'lodash';
+import * as moment from 'moment';
 
 @Component({
   selector: 'form-spending',

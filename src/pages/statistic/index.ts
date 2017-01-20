@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, PopoverController } from 'ionic-angular';
 import _ from "lodash";
+import * as moment from 'moment';
 
 import { AppService } from '../../app/app.service';
 import { ChartDetailInMonth } from './detail-month';
