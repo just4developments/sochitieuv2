@@ -37,22 +37,8 @@ export class FormSpending {
       this.typeSpendings = [];
       for(let s of types){
         if(s.type === 0) continue;
-        if(!s.parent_id) { 
-          if(s.type > 0) this.typeEarnings.push(s);
-          else if(s.type < 0) this.typeSpendings.push(s);
-        }else {
-          if(s.type > 0) {
-            let parentIndex = this.typeEarnings.findIndex((e) => {
-              return e._id === s.parent_id;
-            });
-            this.typeEarnings.splice(parentIndex+1, 0, s);
-          } else if(s.type < 0) {
-            let parentIndex = this.typeSpendings.findIndex((e) => {
-              return e._id === s.parent_id;
-            });
-            this.typeSpendings.splice(parentIndex+1, 0, s);
-          }
-        }        
+        if(s.type > 0) this.typeEarnings.push(s);
+        else if(s.type < 0) this.typeSpendings.push(s);  
         if(!this.spending.type_spending_id || this.spending.type_spending_id === s._id) {
           if(!this.type_earning_id && s.type > 0){
             if(this.spending.type_spending_id) this.type =  'earning';
@@ -115,7 +101,9 @@ export class FormSpending {
               text: 'Add another',
               handler: () => {
                 this.wallets = this.wallets.map((e) => {
-                  e.money += this.spending.money * this.spending.type;
+                  if(this.spending.wallet_id === e._id) {
+                    e.money += this.spending.money * this.spending.type;                    
+                  }
                   return e;
                 });
                 delete this.spending.money;

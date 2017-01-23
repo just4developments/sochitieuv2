@@ -7,21 +7,21 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class AppService {
     mainEvent: EventEmitter<any> = new EventEmitter();
-    // HOST: String = 'http://localhost:9601';
-    // AUTH: String = 'http://localhost:9600'; 
+    HOST: String = 'http://localhost:9601';
+    AUTH: String = 'http://localhost:9600'; 
     // Home
     // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
     // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
     
     // Office
-    // DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
-    // DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
+    DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
+    DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
 
     // Server
-    HOST: String = 'http://sct.nanacloset.com';
-    AUTH: String = 'http://authv2.nanacloset.com';     
-    DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
-    DEFAULT_ROLES: Array<String> = ['58799f33d6e7a31c8c6dba83'];    
+    // HOST: String = 'http://sct.nanacloset.com';
+    // AUTH: String = 'http://authv2.nanacloset.com';     
+    // DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
+    // DEFAULT_ROLES: Array<String> = ['58799f33d6e7a31c8c6dba83'];    
     
     token: String;
     typeSpendings: Array<any>;
@@ -373,6 +373,22 @@ export class AppService {
         });
     }
 
+    private sortTypeSpending(typeSpendings){
+        let root = [];
+        let childs = [];
+        let rs = [];
+        for(let t of typeSpendings){
+            if(!t.parent_id) root.push(t);
+            else childs.push(t);
+        }
+        for(let r of root) {
+            rs = rs.concat(r, childs.filter((e) => {
+                return e.parent_id === r._id;
+            }));
+        }
+        return rs;
+    }
+
     getTypeSpendings(type?: number){
         if(type !== undefined){
             const vl = this.getCached('typeSpendings', 'type'+type);
@@ -389,7 +405,7 @@ export class AppService {
         }).toPromise()
         .then(response => {
             console.log('new type spending');
-            const vl = response.json();
+            const vl = this.sortTypeSpending(response.json());
             if(type !== undefined) {                
                 this.setCached('typeSpendings', 'type'+type, vl.filter((e:any) => {
                     return e.type === type;
@@ -463,9 +479,8 @@ export class AppService {
 
     handleError(_self:AppService, error: any): Promise<any> {
         return new Promise((resolve, reject) => {      
-            this.loading.dismissAll();      
-            if([403, 401].indexOf(error.status) !== -1) {
-                this.mainEvent.emit({logout: true});
+            if(this.loading) this.loading.dismissAll();      
+            if([403, 401].indexOf(error.status) !== -1) {                
                 this.toast('Session is expired');
             }else {
                 let err = error._body ? JSON.parse(error._body) : error._body;
@@ -474,6 +489,7 @@ export class AppService {
                 }
                 this.toast('#Error: ' + err);
             }
+            this.mainEvent.emit({logout: true});
         });
     }
 }

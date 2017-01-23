@@ -29,6 +29,7 @@ export class TransferWallet {
     self.wallets1 = self.wallets.filter((e) => {
       return e._id !== id;
     });
+    this.toWalletId = self.wallets1[0]._id;
   }
 
   transfer(){

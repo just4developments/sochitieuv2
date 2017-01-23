@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, forwardRef } from '@angular/core';
 import { NavParams, ViewController, ModalController } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import _ from 'lodash';
@@ -58,20 +58,27 @@ export class TypeSpendingSelection implements ControlValueAccessor {
     
   }
   
-  ngOnInit(){
-    this.typeSpendings = _.cloneDeep(this.typeSpendings);
-    if(this.default) {
-      this.default.icon = `-${5 * 53}px -${0 * 64}px`;
-      this.default.className = 'no-select';
-      this.typeSpendings.splice(0, 0, this.default);
+  ngOnChanges(changes:SimpleChanges){
+    if(changes['typeSpendings']) {
+      this.typeSpendings = changes['typeSpendings'].currentValue;
+      if(this.default) {
+        this.default.icon = `-${5 * 53}px -${0 * 64}px`;
+        this.default.className = 'no-select';
+        this.typeSpendings.splice(0, 0, this.default);
 
-    }
-    if(!this.item) {
-      if(this.typeSpendings.length > 0) this.item = this.typeSpendings[0];
-    }else {
-      this.item = this.typeSpendings.find((e) => {
-        return e._id === this.item._id;
-      });
+      }
+      if(this.item) {
+        this.item = this.typeSpendings.find((e) => {
+          return e._id === this.item._id;
+        });
+      }
+      // if(!this.item) {
+      //   if(this.typeSpendings.length > 0) this.item = this.typeSpendings[0];
+      // }else {
+      //   this.item = this.typeSpendings.find((e) => {
+      //     return e._id === this.item._id;
+      //   });
+      // }
     }
   }
 
@@ -88,7 +95,9 @@ export class TypeSpendingSelection implements ControlValueAccessor {
   }
 
   writeValue(value: any) {
-      
+      this.item = this.typeSpendings.find((e) => {
+        return e._id === value;
+      });
   }
 
   //From ControlValueAccessor interface

@@ -50,7 +50,6 @@ export class WalletSelectionPopup {
 export class WalletSelection implements ControlValueAccessor {
   @Input() label;
 	@Input() wallets: Array < any > ;
-  _wallets: Array<any>;
   @Output() change: EventEmitter<any> = new EventEmitter();
   item: any;  
   private onTouchedCallback:any;
@@ -67,26 +66,27 @@ export class WalletSelection implements ControlValueAccessor {
   }
 
   ngOnChanges(changes:SimpleChanges){
+    console.log(changes);
     if(changes['wallets']) {
-      this._wallets = _.cloneDeep(this.wallets);
+      this.wallets = _.cloneDeep(changes['wallets'].currentValue);
       if(this.default) {
         this.default.icon = `-${5 * 53}px -${0 * 64}px`;
         this.default.className = 'no-select';
-        this._wallets.splice(0, 0, this.default);
+        this.wallets.splice(0, 0, this.default);
       }
       if(this.item) {
-        this.item = this._wallets.find((e) => {
+        this.item = this.wallets.find((e) => {
           return e._id === this.item._id;
         });
       }
-      if(!this.item) {
-        if(this._wallets.length > 0) this.item = this._wallets[0];
-      }    
+      // if(!this.item) {
+      //   if(this.wallets.length > 0) this.item = this.wallets[0];
+      // }    
     }
   }
 
   openPick() {
-    let walletSelectionModal = this.modalController.create(WalletSelectionPopup, { wallets: this._wallets, selectedId: this.item._id });
+    let walletSelectionModal = this.modalController.create(WalletSelectionPopup, { wallets: this.wallets, selectedId: this.item._id });
     walletSelectionModal.onDidDismiss(data => { 
       if(data) {
         this.item = data;        
@@ -98,7 +98,9 @@ export class WalletSelection implements ControlValueAccessor {
   }
 
   writeValue(value: any) {
-      
+      this.item = this.wallets.find((e) => {
+        return e._id === value;
+      });
   }
 
   //From ControlValueAccessor interface

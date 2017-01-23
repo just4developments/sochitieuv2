@@ -15,7 +15,7 @@ const EMAIL_REGEX:any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(
 })
 export class Login {
   user: any = { 
-    username: 'test',
+    username: 'have.ice@gmail.com',
     password: '123'
   };
 

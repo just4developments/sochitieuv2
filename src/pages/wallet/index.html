@@ -24,7 +24,7 @@
         <h2>{{item.name}}</h2>        
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="danger" (click)="transfer(item, slidingItem)">
+        <button ion-button color="danger" (click)="transfer(item, slidingItem)" *ngIf="wallets.default.length + wallets.saving.length > 1">
           <ion-icon name="git-compare"></ion-icon>
           Tranfer
         </button>

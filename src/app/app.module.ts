@@ -1,5 +1,5 @@
 import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
-import { HttpModule }    from '@angular/http';
+import { HttpModule, Http }    from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
@@ -25,10 +25,15 @@ import { WalletSelection, WalletSelectionPopup } from '../pages/wallet/item-sele
 import { TypeSpendingSelection, TypeSpendingSelectionPopup } from '../pages/type_spending/item-select';
 import { Bookmark } from '../pages/bookmark';
 import { Infor } from '../pages/infor';
+import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate/ng2-translate';
 
 export function provideStorage() {
   return new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__mydb' })// optional config);
 };
+
+export function createTranslateLoader(http: Http) {
+    return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -59,7 +64,12 @@ export function provideStorage() {
   ],
   imports: [
     HttpModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (createTranslateLoader),
+      deps: [Http]
+    })
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA

@@ -27,11 +27,12 @@
           <ion-icon name="md-arrow-dropright-circle"></ion-icon>
         </button>
       </ion-col>
-    </ion-row>
-  </ion-toolbar>  
+    </ion-row>    
+  </ion-toolbar>
 </ion-header>
-<ion-content>  
-  <select-wallet *ngIf="isFilter" color="dark" [wallets]="wallets" [default]="{_id: null, name: 'No Wallet Filter'}" [(ngModel)]="total.walletId" (change)="filter()"></select-wallet>
+<ion-content>      
+  <ion-searchbar *ngIf="isFilter" [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="#Filter by description or type name"></ion-searchbar>
+  <select-wallet *ngIf="isFilter" [wallets]="wallets" [default]="{_id: null, name: 'No Wallet Filter'}" [(ngModel)]="total.walletId" (change)="filter()"></select-wallet>
   <ion-card style="position: relative">
     <ion-card-header>
       Dashboard      
@@ -69,13 +70,22 @@
           <ion-col>
             <strong>{{(total.remaining || 0) | currency:'VND':true }}</strong>
           </ion-col>
-        </ion-row>
+        </ion-row>        
       </ion-grid>
     </ion-card-content>
+    <ion-card-footer>
+      <ion-row>
+        <ion-col width-33 *ngFor="let w of wallets" (click)="filterWallet(w._id)">
+          <ion-icon class="icon-logo logo-wallet" [cssBackground]="w.icon" align="center">
+            <ion-icon name="close" class="close-wallet" *ngIf="total.walletId && total.walletId !== w._id"></ion-icon>
+          </ion-icon> 
+          <b><small [ngClass]="w.money < 0 ? 'spending' : 'earning'">{{ (w.money || 0) | currency:'VND':true }}</small></b>
+        </ion-col>
+      </ion-row>
+    </ion-card-footer>
   </ion-card>  
-  <div *ngIf="spendings">
-    <ion-searchbar [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="#Filter by description or type name" *ngIf="isFilter"></ion-searchbar>
-    <ion-list>
+  <div *ngIf="spendings">                
+    <ion-list>      
       <ion-item-group *ngFor="let itemByDate of spendings" class="spending-list">
         <ion-item-divider color="light">
           <ion-icon item-left [ngClass]="itemByDate.day">{{itemByDate.date}}</ion-icon>      
@@ -97,13 +107,11 @@
             <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon" (click)="filterSpendingType(item.type_spending._id)">
                <ion-icon name="close" *ngIf="total.typeSpendingId"></ion-icon>
             </ion-icon>            
+            <ion-icon class="icon-logo logo-wallet" [cssBackground]="item.wallet.icon"></ion-icon>
             
             <span *ngIf="total.walletId || (!this.total.walletId && item.sign_money !== 0)" item-right class="money" [ngClass]="{'earning': item.type > 0, 'spending': item.type < 0}">{{item.type > 0 ? '+' : (item.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
             <span *ngIf="!this.total.walletId && item.sign_money === 0" item-right class="money">{{item.type >= 0 ? '+' : '-'}} {{(item.money || 0) | currency:'VND':true}}</span>
 
-            <ion-icon class="icon-logo logo-wallet" [cssBackground]="item.wallet.icon" (click)="filterWallet(item.wallet._id)" align="center">
-              <ion-icon name="close" class="close-wallet" *ngIf="total.walletId"></ion-icon>
-            </ion-icon>
             <h2 *ngIf="item.type_spending">{{item.type_spending.name}}</h2>
             <p *ngIf="item.type_spending.type !== 0">{{item.des}}</p>
             <p *ngIf="item.type_spending.type === 0">

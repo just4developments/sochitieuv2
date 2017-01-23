@@ -3,6 +3,7 @@ import { Nav, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { AdMob } from 'ionic-native';
+import {TranslateService} from 'ng2-translate';
 
 import { Login } from '../pages/login';
 import { Wallet } from '../pages/wallet';
@@ -23,7 +24,7 @@ export class MyApp {
   pages: Array<{title: string, component: any, icon: string}>;
   me: any;
 
-  constructor(public platform: Platform, public appService: AppService, private storage: Storage, private menuCtrl: MenuController) {
+  constructor(public platform: Platform, public appService: AppService, private storage: Storage, private menuCtrl: MenuController, private translate: TranslateService) {
     this.initializeApp();
     
     appService.init().then((token) => {
@@ -35,7 +36,7 @@ export class MyApp {
         });
       }
     });
-
+    
     appService.mainEvent.subscribe((data) => {
       if(data.signedIn) this.me = data.signedIn;
       else if(data.logout) this.logout();
@@ -66,12 +67,15 @@ export class MyApp {
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this.translate.setDefaultLang('vi');
+    this.platform.ready().then((readySource) => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
-      Splashscreen.hide();
-      AdMob.createBanner('ca-app-pub-7861623744178820~2877845990').then(() => { AdMob.showBanner(8); });
+      Splashscreen.hide();      
+      if(readySource === 'cordova') {
+         AdMob.createBanner('ca-app-pub-7861623744178820~2877845990').then(() => { AdMob.showBanner(8); });
+      }
     });
   }
 

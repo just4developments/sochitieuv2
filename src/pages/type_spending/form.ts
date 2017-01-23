@@ -13,7 +13,7 @@ export class FormTypeSpending {
   parent: any;
 
   constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public modalController: ModalController) {
-      this.typespending = params.get('typespending');
+      this.typespending = params.get('typespending');      
       this.parent = params.get('parent');
   }
 
