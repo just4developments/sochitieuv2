@@ -37,15 +37,15 @@
 
     <ion-item *ngSwitchCase="'pass'">
       <ion-label floating>Old password</ion-label>
-      <ion-input type="text" [(ngModel)]="user.old_password"></ion-input>
+      <ion-input type="password" [(ngModel)]="user.old_password"></ion-input>
     </ion-item>
     <ion-item *ngSwitchCase="'pass'">
       <ion-label floating>New password</ion-label>
-      <ion-input type="text" [(ngModel)]="user.password"></ion-input>
+      <ion-input type="password" [(ngModel)]="user.password"></ion-input>
     </ion-item>
     <ion-item *ngSwitchCase="'pass'">
       <ion-label floating>Confirm new password</ion-label>
-      <ion-input type="text" [(ngModel)]="confirmPassword"></ion-input>
+      <ion-input type="password" [(ngModel)]="confirmPassword"></ion-input>
     </ion-item>
   </ion-list>
   <div padding>

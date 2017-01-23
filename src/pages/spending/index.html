@@ -74,18 +74,16 @@
       </ion-grid>
     </ion-card-content>
     <ion-card-footer>
-      <ion-row>
-        <ion-col width-33 *ngFor="let w of wallets" (click)="filterWallet(w._id)">
-          <ion-icon class="icon-logo logo-wallet" [cssBackground]="w.icon" align="center">
-            <ion-icon name="close" class="close-wallet" *ngIf="total.walletId && total.walletId !== w._id"></ion-icon>
-          </ion-icon> 
-          <b><small [ngClass]="w.money < 0 ? 'spending' : 'earning'">{{ (w.money || 0) | currency:'VND':true }}</small></b>
-        </ion-col>
-      </ion-row>
+      <ion-col width-33 *ngFor="let w of wallets" (click)="filterWallet(w._id)" class="pull-left">
+        <ion-icon class="icon-logo logo-wallet" [cssBackground]="w.icon" align="center">
+          <ion-icon name="close" class="close-wallet" *ngIf="total.walletId && total.walletId !== w._id"></ion-icon>
+        </ion-icon> 
+        <b><small [ngClass]="w.money < 0 ? 'spending' : 'earning'">{{ (w.money || 0) | currency:'VND':true }}</small></b>
+      </ion-col>
     </ion-card-footer>
   </ion-card>  
   <div *ngIf="spendings">                
-    <ion-list>      
+    <ion-list no-lines>      
       <ion-item-group *ngFor="let itemByDate of spendings" class="spending-list">
         <ion-item-divider color="light">
           <ion-icon item-left [ngClass]="itemByDate.day">{{itemByDate.date}}</ion-icon>      
@@ -94,20 +92,20 @@
             <div class="spending" *ngIf="itemByDate.smoney > 0">- {{(itemByDate.smoney || 0) | currency:'VND':true}}</div>        
           </strong>
           <div *ngIf="!itemByDate.today && !itemByDate.yesterday">
-            <h2>{{itemByDate.day}}</h2>
+            <h2 [ngClass]="itemByDate.day"><b>{{itemByDate.day}}</b></h2>
             <p>{{itemByDate.monthyear}}</p>
           </div>
           <div *ngIf="itemByDate.today || itemByDate.yesterday">
             <h2><b>{{itemByDate.today ? 'Today' : 'Yesterday'}}</b></h2>
-            <p>{{itemByDate.day}} {{itemByDate.monthyear}}</p>
+            <p><b [ngClass]="itemByDate.day">{{itemByDate.day}}</b> {{itemByDate.monthyear}}</p>
           </div>
         </ion-item-divider>
         <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem [ngClass]="item.type === 0 ? 'type-0' : ''">
           <ion-item>
             <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon" (click)="filterSpendingType(item.type_spending._id)">
                <ion-icon name="close" *ngIf="total.typeSpendingId"></ion-icon>
-            </ion-icon>            
-            <ion-icon class="icon-logo logo-wallet" [cssBackground]="item.wallet.icon"></ion-icon>
+               <ion-icon class="icon-logo logo-wallet" [cssBackground]="item.wallet.icon"></ion-icon>
+            </ion-icon>                        
             
             <span *ngIf="total.walletId || (!this.total.walletId && item.sign_money !== 0)" item-right class="money" [ngClass]="{'earning': item.type > 0, 'spending': item.type < 0}">{{item.type > 0 ? '+' : (item.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:'VND':true}}</span>
             <span *ngIf="!this.total.walletId && item.sign_money === 0" item-right class="money">{{item.type >= 0 ? '+' : '-'}} {{(item.money || 0) | currency:'VND':true}}</span>

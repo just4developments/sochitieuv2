@@ -7,21 +7,21 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class AppService {
     mainEvent: EventEmitter<any> = new EventEmitter();
-    HOST: String = 'http://localhost:9601';
-    AUTH: String = 'http://localhost:9600'; 
+    // HOST: String = 'http://localhost:9601';
+    // AUTH: String = 'http://localhost:9600'; 
     // Home
     // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
     // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
     
     // Office
-    DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
-    DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
+    // DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
+    // DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
 
     // Server
-    // HOST: String = 'http://sct.nanacloset.com';
-    // AUTH: String = 'http://authv2.nanacloset.com';     
-    // DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
-    // DEFAULT_ROLES: Array<String> = ['58799f33d6e7a31c8c6dba83'];    
+    HOST: String = 'http://sct.nanacloset.com';
+    AUTH: String = 'http://authv2.nanacloset.com';     
+    DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
+    DEFAULT_ROLES: Array<String> = ['58799f33d6e7a31c8c6dba83'];    
     
     token: String;
     typeSpendings: Array<any>;

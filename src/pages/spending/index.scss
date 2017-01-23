@@ -15,12 +15,20 @@ list-spending {
     .money {
         color: #989898;
     }
-    .logo-wallet {
+    ion-card-footer .logo-wallet {
         zoom: 0.48;
         min-height: auto;
         float: left;
         margin-right: 4px;
         margin-top: 4px;
+    }
+    ion-icon .logo-wallet {
+        zoom: 0.6;
+        min-height: auto;
+        float: left;
+        position: absolute;
+        left: 70px;
+        top: 70px;
     }
     .close-wallet {
         zoom: 1.6;

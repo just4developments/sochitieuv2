@@ -66,7 +66,6 @@ export class WalletSelection implements ControlValueAccessor {
   }
 
   ngOnChanges(changes:SimpleChanges){
-    console.log(changes);
     if(changes['wallets']) {
       this.wallets = _.cloneDeep(changes['wallets'].currentValue);
       if(this.default) {

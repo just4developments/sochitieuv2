@@ -5,17 +5,17 @@
     </button>
     <ion-title>Chart</ion-title>
     <ion-buttons end>
-      <button ion-button color="primary" (click)="openSearch($event)">
+      <button ion-button color="light" (click)="openSearch($event)">
         <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
   <ion-toolbar color="danger">
-    <ion-segment [(ngModel)]="chartType" (ionChange)="changeChartType()">
-      <ion-segment-button value="byMoney" color="light">
+    <ion-segment [(ngModel)]="chartType" (ionChange)="changeChartType()" color="light">
+      <ion-segment-button value="byMoney">
         Chart by Month
       </ion-segment-button>
-      <ion-segment-button value="byTypeSpending" color="light">
+      <ion-segment-button value="byTypeSpending">
         Chart by spending type
       </ion-segment-button>
     </ion-segment>

@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, forwardRef } from '@angular/core';
 import { NavParams, ViewController, ModalController } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import _ from 'lodash';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,

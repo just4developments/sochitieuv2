@@ -28,6 +28,10 @@
       <ion-item>
         <ion-label stacked>Money <span [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'">{{(wallet.money || 0) | currency:'VND':true }}</span></ion-label>
         <ion-input type="number" [(ngModel)]="wallet.money"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Position</ion-label>
+        <ion-input type="number" placeholder="Position" [(ngModel)]="wallet.oder"></ion-input>
       </ion-item>            
     </ion-row>   
     <ion-row>
