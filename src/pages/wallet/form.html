@@ -8,6 +8,9 @@
       </button>
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar>
+    <h3 [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'" text-center (click)="focusMoney()">{{(wallet.money || 0) | currency:'VND':true }}</h3>
+  </ion-toolbar>
 </ion-header>
 <ion-content text-center *ngIf="wallet">
   <ion-grid>
@@ -27,7 +30,7 @@
     <ion-row>
       <ion-item>
         <ion-label stacked>Money <span [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'">{{(wallet.money || 0) | currency:'VND':true }}</span></ion-label>
-        <ion-input type="number" [(ngModel)]="wallet.money"></ion-input>
+        <ion-input type="number" [(ngModel)]="wallet.money" #moneyInput></ion-input>
       </ion-item>
       <ion-item>
         <ion-label stacked>Position</ion-label>

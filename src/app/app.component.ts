@@ -43,7 +43,7 @@ export class MyApp {
     });
 
     this.pages = [
-      { title: 'Spending', component: Spending, icon: 'help-circle' },
+      { title: 'Dashboard', component: Spending, icon: 'home' },
       { title: 'Wallet', component: Wallet, icon: 'cash' },
       { title: 'Type Spending', component: TypeSpending, icon: 'archive' },
       { title: 'Bookmark', component: Bookmark, icon: 'bookmarks' },
@@ -74,7 +74,7 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();      
       if(readySource === 'cordova') {
-         AdMob.createBanner('ca-app-pub-7861623744178820~2877845990').then(() => { AdMob.showBanner(8); });
+         AdMob.createBanner(this.appService.ADMOB_ID).then(() => { AdMob.showBanner(8); });
       }
     });
   }

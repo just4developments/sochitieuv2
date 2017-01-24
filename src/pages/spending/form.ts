@@ -27,14 +27,26 @@ export class FormSpending {
   @ViewChild('moneyInput') moneyInput;
   isChangedData: boolean = false;
   oldSubmoney: number = 0;
+  suggestion: Array<any> = [];
+  suggestionObject: Array<any> = [];
 
   constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams) {
       this.spending = params.get('spending');
       if(this.spending._id) this.oldSubmoney = _.clone(this.spending.money)*this.spending.type;
       this.spending.input_date = this.spending.input_date.toISOString();
+      
+      this.appService.getSuggestion().then((resp) => {
+        this.suggestion = resp.map((e) => {
+          return e._id;
+        });
+        for(let i in resp) {
+          this.suggestionObject[resp[i]._id] = resp[i].spendings;
+        }
+      });
+
       let types = params.get('typeSpendings');
       this.typeEarnings = [];
-      this.typeSpendings = [];
+      this.typeSpendings = [];      
       for(let s of types){
         if(s.type === 0) continue;
         if(s.type > 0) this.typeEarnings.push(s);
@@ -52,8 +64,13 @@ export class FormSpending {
       this.wallets = params.get('wallets');
   }
 
-  ngOnInit(){
-    this.focusMoney();
+  pickSuggestion(name){
+    const pick = this.suggestionObject[name];
+    if(pick){
+      if(pick.type < 0) this.type_spending_id = pick.type_spending_id;
+      else if(pick.type > 0) this.type_earning_id = pick.type_spending_id;
+      this.spending.wallet_id = pick.wallet_id;
+    }
   }
 
   focusMoney(){    

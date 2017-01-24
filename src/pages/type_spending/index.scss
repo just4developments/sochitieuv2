@@ -1,5 +1,19 @@
 typespending-list {
     .child-typespending {
-        padding-left: 16px;
+        padding-left: 32px;
+    }
+    .tree ion-item-sliding:first-child ion-item {
+        background-position: 28px 28px;
+    }
+    .tree ion-item-sliding:last-child ion-item {
+        background-position: 28px -56px;
+    }
+    .tree ion-item {
+        background-image: url('../../assets/img/tree.png');
+        background-repeat: no-repeat;
+        background-position: 28px -21px;
+    }
+    .tree .child-typespending ion-item {
+        background-position: -4px -21px;
     }
 }

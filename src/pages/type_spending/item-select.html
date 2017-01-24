@@ -10,7 +10,7 @@
   </ion-navbar>  
 </ion-header>
 <ion-content text-center *ngIf="typeSpendings">
-  <ion-list>
+  <ion-list class="tree">
     <button ion-item *ngFor="let item of typeSpendings" (click)="pick(item)" [ngClass]="'item.className' + (item.parent_id ? ' child-typespending' : '')">
         <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
         <h2>{{item.name}}</h2>      

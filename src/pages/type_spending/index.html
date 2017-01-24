@@ -10,11 +10,8 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-</ion-header>
-
-<ion-content>
-  <div padding>
-    <ion-segment [(ngModel)]="type">
+  <ion-toolbar color="danger">
+    <ion-segment [(ngModel)]="type" color="light">
       <ion-segment-button value="spending">
         Spending
       </ion-segment-button>
@@ -22,9 +19,12 @@
         Earning
       </ion-segment-button>
     </ion-segment>
-  </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
   <div [ngSwitch]="type" class="wallet-list" *ngIf="types">
-    <ion-list *ngSwitchCase="'spending'">
+    <ion-list *ngSwitchCase="'spending'" class="tree">
       <ion-item-sliding *ngFor="let item of types.spending" [ngClass]="{'child-typespending': item.parent_id}" #slidingItem>
         <ion-item>
           <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
@@ -46,7 +46,7 @@
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
-    <ion-list *ngSwitchCase="'earning'">
+    <ion-list *ngSwitchCase="'earning'" class="tree">
       <ion-item-sliding *ngFor="let item of types.earning" [ngClass]="{'child-typespending': item.parent_id}" #slidingItem>
         <ion-item>
           <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>

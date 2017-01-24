@@ -1,25 +1,25 @@
 <ion-menu [content]="content" id="leftMenu">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar no-padding>
       <ion-title *ngIf="!me">Notexpv2</ion-title>
-      <ion-item *ngIf="me" no-lines>        
+      <ion-item *ngIf="me" no-lines color="primary">        
         <ion-avatar item-left>
           <img src="assets/img/no-avatar.png" *ngIf="!me.more.avatar">
           <img [src]="me.more.avatar" *ngIf="me.more.avatar">
         </ion-avatar>
         <h2 menuClose (click)="editInfor()">
-          {{me.username}}<br/>
-          <small><ion-icon name="create" color="primary"></ion-icon></small>
+          <span style="text-shadow: 0px 0px 1px #270000;">{{me.username}}</span><br/>
+          <small><ion-icon name="create" color="light"></ion-icon></small>
         </h2>        
-        <button menuClose ion-button item-right clear (click)="logout()" color="primary">
-          {{'logout' | translate}}&nbsp;&nbsp;<ion-icon name="exit"></ion-icon>
+        <button menuClose ion-button item-right clear (click)="logout()" color="light">
+          {{'logout' | translate}}&nbsp;<ion-icon name="exit"></ion-icon>
         </button>
       </ion-item>
     </ion-toolbar>
   </ion-header>
 
   <ion-content *ngIf="me">
-    <ion-list>      
+    <ion-list class="my-menu">      
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon [name]="p.icon"></ion-icon> {{p.title}}
       </button>      

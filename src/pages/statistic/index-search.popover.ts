@@ -5,18 +5,18 @@ import { ViewController, NavParams } from 'ionic-angular';
   template: `
     <ion-list>
       <ion-list-header>
-        Show chart by time
+        {{'filter__by_time' | translate}}
       </ion-list-header>
       <ion-item>
-        <ion-label stacked>Start Time</ion-label>
+        <ion-label stacked>{{'filter__start' | translate}}</ion-label>
         <ion-datetime displayFormat="DD/MM/YYYY" [max]="filter.endDate" [(ngModel)]="filter.startDate"></ion-datetime>
       </ion-item>
       <ion-item>
-        <ion-label stacked>End Time</ion-label>
+        <ion-label stacked>{{'filter__end' | translate}}</ion-label>
         <ion-datetime displayFormat="DD/MM/YYYY" [min]="filter.startDate" [(ngModel)]="filter.endDate"></ion-datetime>
       </ion-item>
       <div padding>
-        <button ion-button block (click)="apply()">Search</button>
+        <button ion-button block (click)="apply()">{{'button__search' | translate}}</button>
       </div>
     </ion-list>
   `

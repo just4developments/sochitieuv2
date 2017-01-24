@@ -20,6 +20,7 @@ export class Spending {
   spendings: Array<any>;
   typeSpendings: Array<any>;
   wallets: Array<any>;
+  defaultWalletItem: any;
   total: any = {
     startDate: String,
     endDate: String,
@@ -54,7 +55,14 @@ export class Spending {
       startDate.setMilliseconds(999); 
     }
     this.total.startDate = startDate.toISOString();
-    this.total.endDate = endDate.toISOString();
+    this.total.endDate = endDate.toISOString();    
+    this.appService.getI18('logout').subscribe((vl) => {
+      console.log(vl);
+      this.defaultWalletItem = {
+        _id: null, 
+        name: vl
+      };
+    });    
   }
 
   ngOnInit(){

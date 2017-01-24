@@ -1,9 +1,10 @@
-import { Directive, ElementRef, Input, Renderer } from '@angular/core';
+import { Directive, ElementRef, Input, Renderer, Output, EventEmitter } from '@angular/core';
 import * as Uuid from 'node-uuid';
 
 @Directive({ selector: '[suggestionData]' })
 export class SuggestionDataDirective {
     @Input() suggestionData;
+    @Output() pick:EventEmitter<any> = new EventEmitter();
     id: any;
     input: any;
     dataList: any;
@@ -19,6 +20,9 @@ export class SuggestionDataDirective {
             this.renderer.setElementAttribute(this.input, 'list', this.id); 
             this.dataList = this.renderer.createElement(this.el.nativeElement, 'datalist');
             this.renderer.setElementAttribute(this.dataList, 'id', this.id);
+            this.renderer.listen(this.input, 'blur', () => {
+                this.pick.emit(this.input.value);
+            });
         }else {
             this.dataList.innerHTML = '';
         }

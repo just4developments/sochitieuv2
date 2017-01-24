@@ -3,10 +3,10 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List spending</ion-title>
+    <ion-title>{{'dashboard__title' | translate}}</ion-title>
     <ion-buttons end>
       <button ion-button (click)="add()">
-        <ion-icon name="add-circle"></ion-icon>&nbsp;Add
+        <ion-icon name="add-circle"></ion-icon>&nbsp;{{'button__add' | translate}}
       </button>      
     </ion-buttons>
   </ion-navbar>
@@ -31,11 +31,11 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>      
-  <ion-searchbar *ngIf="isFilter" [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="#Filter by description or type name"></ion-searchbar>
-  <select-wallet *ngIf="isFilter" [wallets]="wallets" [default]="{_id: null, name: 'No Wallet Filter'}" [(ngModel)]="total.walletId" (change)="filter()"></select-wallet>
+  <ion-searchbar *ngIf="isFilter" [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="{{'dashboard__filter_text' | translate}}"></ion-searchbar>
+  <select-wallet *ngIf="isFilter" [wallets]="wallets" [default]="defaultWalletItem" [(ngModel)]="total.walletId" (change)="filter()"></select-wallet>
   <ion-card style="position: relative">
     <ion-card-header>
-      Dashboard      
+      <ion-icon name="home"></ion-icon> {{'dashboard__title' | translate}}
       <div class="dashboard-buttons">
         <button ion-button clear icon-only (click)="gotoChart()" small item-right>
           <ion-icon name="stats"></ion-icon>
@@ -49,7 +49,7 @@
       <ion-grid>        
         <ion-row>
           <ion-col width-33 center>
-            Earning
+            {{'dashboard__earning_label' | translate}}
           </ion-col>
           <ion-col class="earning" center>
             <strong>+ {{(total.earning || 0) | currency:'VND':true }}</strong>
@@ -57,7 +57,7 @@
         </ion-row>
         <ion-row>
           <ion-col width-33>
-            Spending
+            {{'dashboard__spending_label' | translate}}
           </ion-col>
           <ion-col class="spending">
             <strong>- {{(total.spending || 0) | currency:'VND':true }}</strong>
@@ -65,9 +65,9 @@
         </ion-row>
         <ion-row>
           <ion-col width-33>
-            Remaining
+            {{'dashboard__remaining_label' | translate}}
           </ion-col>
-          <ion-col>
+          <ion-col [ngClass]="total.remaining >= 0 ? 'earning' : 'spending'">
             <strong>{{(total.remaining || 0) | currency:'VND':true }}</strong>
           </ion-col>
         </ion-row>        
@@ -132,11 +132,11 @@
           <ion-item-options side="right">
             <button ion-button color="primary" (click)="edit(item, slidingItem)" *ngIf="item.type_spending.type !== 0">
               <ion-icon name="create"></ion-icon>
-              Edit
+              {{'button__edit' | translate}}
             </button>
             <button ion-button color="dark" (click)="delete(item, slidingItem)">
               <ion-icon name="trash"></ion-icon>
-              Delete
+              {{'button__delete' | translate}}
             </button>
           </ion-item-options>
         </ion-item-sliding>

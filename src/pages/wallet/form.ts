@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AppService } from '../../app/app.service';
 import { NavParams, ViewController, ModalController } from 'ionic-angular';
 
@@ -11,6 +11,7 @@ import { IconPicker } from '../type_spending/icon-picker';
 export class FormWallet {
   wallet: any;
   isSaving: boolean;
+  @ViewChild('moneyInput') moneyInput;
 
   constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public modalController: ModalController) {
       this.wallet = params.get('wallet');
@@ -21,6 +22,10 @@ export class FormWallet {
 
   changeType(){
     this.wallet.type = this.isSaving ? 0 : 1;
+  }
+
+  focusMoney(){
+    this.moneyInput.setFocus();
   }
 
   save(){

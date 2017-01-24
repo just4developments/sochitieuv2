@@ -3,7 +3,21 @@ select-type-spending-popup {
         color: #939393;
     }
     .child-typespending {
-        padding-left: 32px;
+        padding-left: 44px;
+    }
+    .tree button:first-child {
+        background-position: 28px 28px;
+    }
+    .tree button:last-child {
+        background-position: 28px -56px;
+    }
+    .tree button {
+        background-image: url('../../assets/img/tree.png');
+        background-repeat: no-repeat;
+        background-position: 28px -21px;
+    }
+    .tree button.child-typespending {
+        background-position: 28px -22px;
     }
 }
 select-type-spending {

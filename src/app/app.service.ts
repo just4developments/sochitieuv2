@@ -3,17 +3,21 @@ import { Storage } from '@ionic/storage';
 import { Http, Headers, Response } from '@angular/http';
 import { ToastController, LoadingController, Loading, AlertController } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
+import { Observable } from "rxjs/Observable";
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 @Injectable()
 export class AppService {
-    mainEvent: EventEmitter<any> = new EventEmitter();
+    mainEvent: EventEmitter<any> = new EventEmitter();    
+    // Home
     // HOST: String = 'http://localhost:9601';
     // AUTH: String = 'http://localhost:9600'; 
-    // Home
     // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
     // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
     
     // Office
+    // HOST: String = 'http://localhost:9601';
+    // AUTH: String = 'http://localhost:9600'; 
     // DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
     // DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
 
@@ -22,6 +26,8 @@ export class AppService {
     AUTH: String = 'http://authv2.nanacloset.com';     
     DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
     DEFAULT_ROLES: Array<String> = ['58799f33d6e7a31c8c6dba83'];    
+
+    ADMOB_ID: String = 'ca-app-pub-7861623744178820~2877845990';
     
     token: String;
     typeSpendings: Array<any>;
@@ -36,8 +42,12 @@ export class AppService {
 
     me: any;
 
-    constructor(private http: Http, public toastCtrl: ToastController, private storage: Storage, private loadingCtrl: LoadingController, private alertCtrl: AlertController){
+    constructor(private http: Http, public toastCtrl: ToastController, private storage: Storage, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private translateService: TranslateService){
         
+    }
+
+    getI18(key:string, opts?: any): Observable<any>{
+        return this.translateService.get(key, opts);
     }
 
     setCached(type:string, key:string, value:any){
@@ -342,6 +352,16 @@ export class AppService {
 
     getBookmark(){ 
         return this.http.get(`${this.HOST}/Spendings/Bookmark`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then(response => response.json())
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
+    getSuggestion(){
+        return this.http.get(`${this.HOST}/Spendings/Suggestion`, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())

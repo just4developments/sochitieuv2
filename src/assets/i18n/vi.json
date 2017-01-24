@@ -1,4 +1,29 @@
 {
-    "app.name": "Vietnamese",
+    "app__name": "Sổ chi tiêu",
+    "menu__dashboard": "Tổng quan",
+    "dashboard__title": "Tổng quan",
+    
+    "dashboard__remaining_label": "Còn lại",    
+    "dashboard__filter_text": "Tìm theo mô tả, loại chi tiêu",
+    "dashboard__filter_wallet_all": "Tìm theo tất cả ví",
+
+    
+
+    "menu__wallet": "Ví tiền",
+    "menu__type_spending": "Loại chi tiêu",
+    "menu__bookmark": "Danh sách đánh dấu",
+    "menu__statistic": "Biều đồ",
+
+    "label__earning": "Thu nhập",
+    "label__spending": "Chi tiêu",
+    "filter__by_time": "Lọc theo thời gian",
+    "filter__start": "Từ ngày",
+    "filter__end": "Đến ngày",
+    "button__cancel": "Hủy bỏ",
+    "button__search": "Tìm kiếm",
+    "button__add": "Thêm mới",
+    "button__edit": "Sửa",
+    "button__delete": "Xóa",
+    "button__transfer": "Chuyển tiền",
     "logout": "Đăng xuất"
 }

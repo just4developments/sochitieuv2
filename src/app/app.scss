@@ -37,6 +37,9 @@ ion-select.full {
 ion-select.small {
   padding: 4px;   
 }
+.my-menu button {
+  color: color($colors, dark);
+}
 .icon-logo {  
   background-image: url('../assets/img/icons.png');
   background-repeat: no-repeat;
