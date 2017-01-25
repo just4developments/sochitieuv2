@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="just4developments.app.ionic.sochitieuv2newest" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>sochitieuv2</name>
+<widget id="just4developments.app.ionic.sochitieuv2newest" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>SochitieuV2</name>
   <description>New version of ExpensiveNote</description>
   <author email="just4developments@gmail.com" href="http://ionicframework.com/">Ionic Framework Team</author>
   <content src="index.html"/>
@@ -36,6 +36,7 @@
     <allow-intent href="itms:*"/>
     <allow-intent href="itms-apps:*"/>
   </platform>
+  <preference name="Orientation" value="portrait"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -62,5 +63,6 @@
   <allow-navigation href="http://*"/>
   <allow-navigation href="https://*"/>
   <allow-navigation href="data:*"/>
+  <allow-navigation href="http://192.168.0.111:8100"/>
   <icon src="resources\android\icon\drawable-xhdpi-icon.png"/>
 </widget>

@@ -1,15 +1,16 @@
 <ion-header>
   <ion-navbar color="danger">
-    <ion-title>{{!wallet._id ? 'Add' : 'Update'}} wallet</ion-title>
+    <ion-title *ngIf="!wallet._id">{{'wallet__title_add' | translate}}</ion-title>
+    <ion-title *ngIf="wallet._id">{{'wallet__title_edit' | translate}}</ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()" color="light">
-        <span color="primary" showWhen="ios">Cancel</span>
+        <span color="primary" showWhen="ios">{{'button__cancel' | translate}}</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
   <ion-toolbar>
-    <h3 [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'" text-center (click)="focusMoney()">{{(wallet.money || 0) | currency:'VND':true }}</h3>
+    <h3 [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'" text-center (click)="focusMoney()">{{(wallet.money || 0) | currency:appService.currency:true }}</h3>
   </ion-toolbar>
 </ion-header>
 <ion-content text-center *ngIf="wallet">
@@ -22,41 +23,41 @@
       </ion-col>
       <ion-col center>
         <ion-item>
-          <ion-label stacked>Name</ion-label>
+          <ion-label stacked>{{'wallet__name' | translate}}</ion-label>
           <ion-input type="text" [(ngModel)]="wallet.name"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-item>
-        <ion-label stacked>Money <span [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'">{{(wallet.money || 0) | currency:'VND':true }}</span></ion-label>
+        <ion-label stacked>{{'wallet__money' | translate}} <span [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'">{{(wallet.money || 0) | currency:appService.currency:true }}</span></ion-label>
         <ion-input type="number" [(ngModel)]="wallet.money" #moneyInput></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label stacked>Position</ion-label>
+        <ion-label stacked>{{'label__pos' | translate}}</ion-label>
         <ion-input type="number" placeholder="Position" [(ngModel)]="wallet.oder"></ion-input>
       </ion-item>            
     </ion-row>   
     <ion-row>
       <ion-item>
-        <ion-label>Is add in spending ?</ion-label>
+        <ion-label>{{'wallet__is_add_in_spending' | translate}}</ion-label>
         <ion-checkbox [(ngModel)]="wallet.isApplyToSpending"></ion-checkbox>
       </ion-item>
     </ion-row>
     <ion-row>
       <ion-item>
-        <ion-label stacked>Description</ion-label>
+        <ion-label stacked>{{'wallet__des' | translate}}</ion-label>
         <ion-textarea [(ngModel)]="wallet.des"></ion-textarea>
       </ion-item>
     </ion-row> 
     <ion-row>
       <ion-item>
-        <ion-label>Is saving</ion-label>
+        <ion-label>{{'wallet__is_saving' | translate}}</ion-label>
         <ion-checkbox [(ngModel)]="isSaving" (ionChange)="changeType()"></ion-checkbox>
       </ion-item>
     </ion-row>
   </ion-grid>
   <div padding>
-    <button ion-button block full (click)="save()">Save</button>
+    <button ion-button block full (click)="save()">{{'button__save' | translate}}</button>
   </div>
 </ion-content>

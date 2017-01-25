@@ -7,8 +7,9 @@ import { AppService } from '../../app/app.service';
   templateUrl: 'index.html'
 })
 export class Bookmark {
-  spendings: Array<any> = [];
+  spendings: Array<any>;
   typeSpendings: Array<any>;
+  currency: string;
 
   constructor(private appService: AppService) {
       this.appService.getTypeSpendings().then((typeSpendings) => {
@@ -18,7 +19,8 @@ export class Bookmark {
   }
 
   filter(){
-      this.appService.showLoading('Please wait...').then(() => {
+    this.appService.getI18("msg__wait").subscribe((msg) => {
+      this.appService.showLoading(msg).then(() => {
         this.appService.getBookmark().then((spendings) => {
             this.spendings = spendings.map((e) => {
                 e.type_spending = this.typeSpendings.find((t) => {
@@ -29,42 +31,49 @@ export class Bookmark {
             this.appService.hideLoading();
         });
       });      
+    });      
   }
 
   remove(item){
-    this.appService.confirm('Do you agree to remove from bookmark?', item.des, [
+    this.appService.getI18(['confirm__remove_bookmark', 'button__disagree', 'button__agree']).subscribe((msg) => {
+      this.appService.confirm(msg['confirm__remove_bookmark'], item.des, [
         {
-          text: 'Disagree'
+          text: msg['button__disagree']
         },
         {
-          text: 'Agree',
+          text: msg['button__agree'],
           handler: () => {
             this.appService.unbookmarkSpending(item).then((resp) => {
-              this.appService.toast('Removed from list bookmark successfully');
-              // slidingItem.close();
-              this.filter();
+              this.appService.getI18('confirm__transfer_done').subscribe((msg) => {
+                this.appService.toast(msg);
+                // slidingItem.close();
+                this.filter();
+              });              
             }).catch((err) => {});
           }
         }
       ]);
+    });    
   }
 
   delete(item, slidingItem){
-    this.appService.confirm('Do you agree to delete it?', item.des, [
-        {
-          text: 'Disagree'
-        },
-        {
-          text: 'Agree',
-          handler: () => {
-            this.appService.deleteSpending(item).then((resp) => {
-              this.appService.toast('Deleted successfully');
-              // slidingItem.close();
-              this.filter();
-            }).catch((err) => {});
+    this.appService.getI18(["confirm__delete", "button__agree", "button__disagree", "confirm__delete_done"]).subscribe((msg) => {
+      this.appService.confirm(msg["confirm__delete"], item.des, [
+          {
+            text: msg['button__disagree']
+          },
+          {
+            text: msg['button__agree'],
+            handler: () => {
+              this.appService.deleteSpending(item).then((resp) => {
+                this.appService.toast(msg["confirm__delete_done"]);
+                // slidingItem.close();
+                this.filter();
+              }).catch((err) => {});
+            }
           }
-        }
-    ]);
+      ]);
+    });
   }
 
 }

@@ -31,15 +31,19 @@ export class FormWallet {
   save(){
     if(this.wallet._id){
       this.appService.updateWallet(this.wallet).then((item) => {
-        this.appService.toast('Updated successfully');
-        this.dismiss(this.wallet);
+        this.appService.getI18('confirm__update_done').subscribe((msg) => {
+					this.appService.toast(msg);
+          this.dismiss(this.wallet);
+				});      
       }).catch((err) => {
         this.dismiss(undefined);
       });
     }else{
       this.appService.addWallet(this.wallet).then((item) => {
-        this.appService.toast('Added successfully');
-        this.dismiss(this.wallet);
+        this.appService.getI18('confirm__add_done').subscribe((msg) => {
+					this.appService.toast(msg);
+          this.dismiss(this.wallet);
+        });        
       }).catch((err) => {
         this.dismiss(undefined);
       });

@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Chart</ion-title>
+    <ion-title>{{'statistic__title' | translate}}</ion-title>
     <ion-buttons end>
       <button ion-button color="light" (click)="openSearch($event)">
         <ion-icon name="search"></ion-icon>
@@ -13,10 +13,10 @@
   <ion-toolbar color="danger">
     <ion-segment [(ngModel)]="chartType" (ionChange)="changeChartType()" color="light">
       <ion-segment-button value="byMoney">
-        Chart by Month
+        {{'statistic__by_month' | translate}}
       </ion-segment-button>
       <ion-segment-button value="byTypeSpending">
-        Chart by spending type
+        {{'statistic__by_type' | translate}}
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -29,13 +29,13 @@
       </div>
       <ion-list *ngIf="chartDataByMonth.table">
         <ion-list-header>
-          Statistic by month<br/>
+          {{'statistic__by_month' | translate}}<br/>
           <small>{{toDate(filter.startDate) | date: 'dd MMM,yyyy'}} - {{toDate(filter.endDate) | date: 'dd MM,yyyy'}}</small>
         </ion-list-header>
         <button ion-item *ngFor="let item of chartDataByMonth.table" (click)="gotoMonthChart(item)">
           <span item-right>
-            <div class="earning">+ {{(item.emoney || 0) | currency:'VND':true}}</div>
-            <div class="spending">- {{(item.smoney || 0) | currency:'VND':true}}</div>        
+            <div class="earning">+ {{(item.emoney || 0) | currency:appService.currency:true}}</div>
+            <div class="spending">- {{(item.smoney || 0) | currency:appService.currency:true}}</div>        
           </span>
           <h2>{{item._id.month+1}}-{{item._id.year}}</h2>      
         </button>
@@ -47,21 +47,21 @@
           <chart-pie title="spending" [data]="chartDataByType.chart.spending" *ngIf="chartDataByType.chart.spending"></chart-pie>
           <ion-segment [(ngModel)]="type" (ionChange)="loadChartByTypeSpending()">
             <ion-segment-button value="spending">
-              Spending
+              {{'label__spending' | translate}}
             </ion-segment-button>
             <ion-segment-button value="earning">
-              Earning
+              {{'label__earning' | translate}}
             </ion-segment-button>
           </ion-segment>
           <ion-list *ngIf="chartDataByType.table.spending">
             <ion-list-header>
-              Statistic by type<br/>
+              {{'statistic__by_type' | translate}}<br/>
               <small>{{toDate(filter.startDate) | date: 'dd MMM, yyyy'}} -  {{toDate(filter.endDate) | date: 'dd MMM, yyyy'}}</small>
-              <strong item-right>{{chartDataByType.table.totalSpending | currency:'VND':true}}</strong>
+              <strong item-right>{{chartDataByType.table.totalSpending | currency:appService.currency:true}}</strong>
             </ion-list-header>
             <button ion-item *ngFor="let item of chartDataByType.table.spending" (click)="gotoSpendingByType(item)">
               <span item-right>
-                <div class="spending">- {{(item.money || 0) | currency:'VND':true}}</div>        
+                <div class="spending">- {{(item.money || 0) | currency:appService.currency:true}}</div>        
               </span>
               <h2>{{item.name}}</h2>      
             </button>
@@ -71,21 +71,21 @@
           <chart-pie title="earning" [data]="chartDataByType.chart.earning" *ngIf="chartDataByType.chart.earning"></chart-pie>
           <ion-segment [(ngModel)]="type" (ionChange)="loadChartByTypeSpending()">
             <ion-segment-button value="spending">
-              Spending
+              {{'label__spending' | translate}}
             </ion-segment-button>
             <ion-segment-button value="earning">
-              Earning
+              {{'label__earning' | translate}}
             </ion-segment-button>
           </ion-segment>
           <ion-list *ngIf="chartDataByType.table.earning">
             <ion-list-header>
-              Statistic by type<br/>
+              {{'statistic__by_type' | translate}}<br/>
               <small>{{toDate(filter.startDate) | date: 'dd MMM,yyyy'}} -  {{toDate(filter.endDate) | date: 'dd MM,yyyy'}}</small>
-              <strong item-right>{{chartDataByType.table.totalEarning | currency:'VND':true}}</strong>
+              <strong item-right>{{chartDataByType.table.totalEarning | currency:appService.currency:true}}</strong>
             </ion-list-header>
             <button ion-item *ngFor="let item of chartDataByType.table.earning" (click)="gotoSpendingByType(item)">
               <span item-right>
-                <div class="earning">+ {{(item.money || 0) | currency:'VND':true}}</div>
+                <div class="earning">+ {{(item.money || 0) | currency:appService.currency:true}}</div>
               </span>
               <h2>{{item.name}}</h2>      
             </button>

@@ -27,7 +27,7 @@ export class FormSpending {
   @ViewChild('moneyInput') moneyInput;
   isChangedData: boolean = false;
   oldSubmoney: number = 0;
-  suggestion: Array<any> = [];
+  suggestion: Array<any>;
   suggestionObject: Array<any> = [];
 
   constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams) {
@@ -98,24 +98,28 @@ export class FormSpending {
     this.spending.type = this.spending.typeSpending.type;
     if(this.spending._id){
       this.appService.updateSpending(this.spending).then((item) => {
-        this.appService.toast('Updated successfully');
-        this.dismiss(this.spending);
+        this.appService.getI18('confirm__update_done').subscribe((msg) => {
+					this.appService.toast(msg);
+          this.dismiss(this.spending);
+				});        
       }).catch((err) => {
         this.dismiss(undefined);
       });
     }else{
       this.appService.addSpending(this.spending).then((item) => {
         this.isChangedData = true;
-        this.appService.toast('Added successfully');
-        this.appService.confirm('Added successfully', 'Do you want to add new one ?', [
+        this.appService.getI18(['confirm__add_done', 'confirm__add_more', 'button__backmenu', 'button__continue']).subscribe((msg) => {
+          console.log(msg);
+					this.appService.toast(msg['confirm__add_done']);
+          this.appService.confirm(msg['confirm__add_done'], msg['confirm__add_more'], [
             {
-              text: 'Back menu',
+              text: msg['button__backmenu'],
               handler: () => {
                 this.dismiss(this.spending);
               }
             },
             {
-              text: 'Add another',
+              text: msg['button__continue'],
               handler: () => {
                 this.wallets = this.wallets.map((e) => {
                   if(this.spending.wallet_id === e._id) {
@@ -128,7 +132,8 @@ export class FormSpending {
                 this.spending.is_bookmark = false;
               }
             }
-        ]);
+          ]);
+        });        
       }).catch((err) => {
         this.dismiss(undefined);
       });

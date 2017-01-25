@@ -20,14 +20,18 @@ export class FormTypeSpending {
   save(){
     if(this.typespending._id){
       this.appService.updateTypeSpending(this.typespending).then((item) => {
-        this.appService.toast('Updated successfully');
-        this.dismiss(this.typespending);
+        this.appService.getI18('confirm__update_done').subscribe((msg) => {
+					this.appService.toast(msg);
+          this.dismiss(this.typespending);
+				});        
       }).catch((err) => {
         this.dismiss(undefined);
       });
     }else{
       this.appService.addTypeSpending(this.typespending).then((item) => {
-        this.appService.toast('Added successfully');
+        this.appService.getI18('confirm__add_done').subscribe((msg) => {
+					this.appService.toast(msg);
+        });
         this.dismiss(this.typespending);
       }).catch((err) => {
         this.dismiss(undefined);

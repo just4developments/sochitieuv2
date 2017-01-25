@@ -12,7 +12,7 @@
           <small><ion-icon name="create" color="light"></ion-icon></small>
         </h2>        
         <button menuClose ion-button item-right clear (click)="logout()" color="light">
-          {{'logout' | translate}}&nbsp;<ion-icon name="exit"></ion-icon>
+          {{'button__logout' | translate}}&nbsp;<ion-icon name="exit"></ion-icon>
         </button>
       </ion-item>
     </ion-toolbar>
@@ -20,9 +20,21 @@
 
   <ion-content *ngIf="me">
     <ion-list class="my-menu">      
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        <ion-icon [name]="p.icon"></ion-icon> {{p.title}}
-      </button>      
+      <button menuClose ion-item (click)="openPage('Spending')">
+        <ion-icon name="home" item-left></ion-icon> {{'menu__dashboard' | translate}}
+      </button>
+      <button menuClose ion-item (click)="openPage('Wallet')">
+        <ion-icon name="cash" item-left></ion-icon> {{'menu__wallet' | translate}}
+      </button>
+      <button menuClose ion-item (click)="openPage('Type Spending')">
+        <ion-icon name="archive" item-left></ion-icon> {{'menu__type_spending' | translate}}
+      </button>
+      <button menuClose ion-item (click)="openPage('Bookmark')">
+        <ion-icon name="bookmarks" item-left></ion-icon> {{'menu__bookmark' | translate}}
+      </button>
+      <button menuClose ion-item (click)="openPage('Statistic')">
+        <ion-icon name="stats" item-left></ion-icon> {{'menu__statistic' | translate}}
+      </button>
     </ion-list>
   </ion-content>
 

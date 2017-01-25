@@ -3,20 +3,20 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Type spending</ion-title>
+    <ion-title>{{'type_spending__title' | translate}}</ion-title>
     <ion-buttons end>
       <button ion-button color="primary" (click)="add()" color="light">
-        <ion-icon name="add-circle"></ion-icon>&nbsp;Add
+        <ion-icon name="add-circle"></ion-icon>&nbsp;{{'button__add' | translate}}
       </button>
     </ion-buttons>
   </ion-navbar>
   <ion-toolbar color="danger">
     <ion-segment [(ngModel)]="type" color="light">
       <ion-segment-button value="spending">
-        Spending
+        {{'label__spending' | translate}}
       </ion-segment-button>
       <ion-segment-button value="earning">
-        Earning
+        {{'label__earning' | translate}}
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -33,15 +33,15 @@
         <ion-item-options side="right">
           <button ion-button color="secondary" (click)="add(item, slidingItem)" *ngIf="!item.parent_id">
             <ion-icon name="add-circle"></ion-icon>
-            Add
+            {{'button__add' | translate}}
           </button>
           <button ion-button color="primary" (click)="edit(item, slidingItem)">
             <ion-icon name="create"></ion-icon>
-            Edit
+            {{'button__edit' | translate}}
           </button>
           <button ion-button color="dark" (click)="delete(item, slidingItem)">
             <ion-icon name="trash"></ion-icon>
-            Delete
+            {{'button__delete' | translate}}
           </button>
         </ion-item-options>
       </ion-item-sliding>
@@ -55,15 +55,15 @@
         <ion-item-options side="right">
           <button ion-button color="secondary" (click)="add(item, slidingItem)" *ngIf="!item.parent_id">
             <ion-icon name="add-circle"></ion-icon>
-            Add
+            {{'button__add' | translate}}
           </button>
           <button ion-button color="primary" (click)="edit(item, slidingItem)">
             <ion-icon name="create"></ion-icon>
-            Edit
+            {{'button__edit' | translate}}
           </button>
           <button ion-button color="dark" (click)="delete(item, slidingItem)">
             <ion-icon name="trash"></ion-icon>
-            Delete
+            {{'button__delete' | translate}}
           </button>
         </ion-item-options>
       </ion-item-sliding>

@@ -1,6 +1,6 @@
 typespending-list {
     .child-typespending {
-        padding-left: 32px;
+        padding-left: 28px;
     }
     .tree ion-item-sliding:first-child ion-item {
         background-position: 28px 28px;
@@ -14,6 +14,6 @@ typespending-list {
         background-position: 28px -21px;
     }
     .tree .child-typespending ion-item {
-        background-position: -4px -21px;
+        background-position: 0px -21px;
     }
 }

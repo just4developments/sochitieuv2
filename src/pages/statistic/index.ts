@@ -73,93 +73,97 @@ export class Statistic {
     loadChartByTypeSpending(){
         if(this.chartDataByType.chart.spending && this.type === 'spending') return;
         if(this.chartDataByType.chart.earning && this.type === 'earning') return;
-        this.appService.showLoading('Please wait...').then(() => {
-            this.appService.getTypeSpendings().then((typeSpendings) => {
-                this.appService.getStatisticByTypeSpending(this.type === 'spending' ? -1 : 1, this.toDate(this.filter.startDate), this.toDate(this.filter.endDate)).then((data) => {
-                    let tmp = {
-                        labels: [],
-                        datasets: [
-                            {
-                                label: this.type === 'spending' ? 'Spending' : 'Earning',
-                                data: []
-                            }
-                        ]
-                    };
-                    for(let i in data) {
-                        let e = data[i];
-                        let name = typeSpendings.find((e0) => {
-                            return e0._id === e._id;
-                        });
-                        name = name ? name.name : e._id;
-                        data[i].name = name;
-                        tmp.labels.push(name);
-                        tmp.datasets[0].data.push(e.money); 
-                    };
-                    let tmpData = _.merge({}, this.type === 'spending' ? {
-                        datasets: [
-                            {
-                                backgroundColor: this.setColors
-                            }
-                        ]
-                    } : {
-                        datasets: [
-                            {
-                                backgroundColor: this.setColors.reverse()
-                            }
-                        ]
-                    }, tmp);
-                    if(this.type === 'spending') {
-                        this.chartDataByType.chart.spending = tmpData;
-                        this.chartDataByType.table.totalSpending = 0;
-                        this.chartDataByType.table.spending = data.map((e) => {
-                            this.chartDataByType.table.totalSpending += e.money;
-                            return e;
-                        });
-                    }
-                    else {
-                        this.chartDataByType.chart.earning = tmpData;
-                        this.chartDataByType.table.totalEarning = 0;
-                        this.chartDataByType.table.earning = data.map((e) => {
-                            this.chartDataByType.table.totalEarning += e.money;
-                            return e;
-                        });
-                    }
-                    this.appService.hideLoading();
-                }); 
+        this.appService.getI18("msg__wait").subscribe((msg) => {
+            this.appService.showLoading(msg).then(() => {
+                this.appService.getTypeSpendings().then((typeSpendings) => {
+                    this.appService.getStatisticByTypeSpending(this.type === 'spending' ? -1 : 1, this.toDate(this.filter.startDate), this.toDate(this.filter.endDate)).then((data) => {
+                        let tmp = {
+                            labels: [],
+                            datasets: [
+                                {
+                                    label: this.type === 'spending' ? 'Spending' : 'Earning',
+                                    data: []
+                                }
+                            ]
+                        };
+                        for(let i in data) {
+                            let e = data[i];
+                            let name = typeSpendings.find((e0) => {
+                                return e0._id === e._id;
+                            });
+                            name = name ? name.name : e._id;
+                            data[i].name = name;
+                            tmp.labels.push(name);
+                            tmp.datasets[0].data.push(e.money); 
+                        };
+                        let tmpData = _.merge({}, this.type === 'spending' ? {
+                            datasets: [
+                                {
+                                    backgroundColor: this.setColors
+                                }
+                            ]
+                        } : {
+                            datasets: [
+                                {
+                                    backgroundColor: this.setColors.reverse()
+                                }
+                            ]
+                        }, tmp);
+                        if(this.type === 'spending') {
+                            this.chartDataByType.chart.spending = tmpData;
+                            this.chartDataByType.table.totalSpending = 0;
+                            this.chartDataByType.table.spending = data.map((e) => {
+                                this.chartDataByType.table.totalSpending += e.money;
+                                return e;
+                            });
+                        }
+                        else {
+                            this.chartDataByType.chart.earning = tmpData;
+                            this.chartDataByType.table.totalEarning = 0;
+                            this.chartDataByType.table.earning = data.map((e) => {
+                                this.chartDataByType.table.totalEarning += e.money;
+                                return e;
+                            });
+                        }
+                        this.appService.hideLoading();
+                    }); 
+                });
             });
         });
     }
     loadChartByMoney(){
         if(this.chartDataByMonth.chart) return;
-        this.appService.showLoading('Please wait...').then(() => {
-            this.chartDataByMonth.chart = null;
-            this.chartDataByMonth.table = null;
-            this.appService.getStatisticByMonth(this.filter).then((data) => {
-                let chartData = {
-                    labels: [],
-                    datasets: [
-                        {
-                            label: 'Spending',
-                            data: [],
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: this.setColors[0],
-                        },
-                        {
-                            label: 'Earning',
-                            data: [],
-                            backgroundColor: 'rgba(75,192,192,0.4)',
-                            borderColor: this.setColors[this.setColors.length-1],
-                        }
-                    ]
-                };
-                for(let r of data){
-                    chartData.labels.push(moment(new Date(r._id.year, r._id.month, 1)).format('MM YYYY'));
-                    chartData.datasets[0].data.push(r.smoney); 
-                    chartData.datasets[1].data.push(r.emoney); 
-                }            
-                this.chartDataByMonth.chart = chartData;
-                this.chartDataByMonth.table = data;
-                this.appService.hideLoading();
+        this.appService.getI18("msg__wait").subscribe((msg) => {
+            this.appService.showLoading(msg).then(() => {
+                this.chartDataByMonth.chart = null;
+                this.chartDataByMonth.table = null;
+                this.appService.getStatisticByMonth(this.filter).then((data) => {
+                    let chartData = {
+                        labels: [],
+                        datasets: [
+                            {
+                                label: 'Spending',
+                                data: [],
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: this.setColors[0],
+                            },
+                            {
+                                label: 'Earning',
+                                data: [],
+                                backgroundColor: 'rgba(75,192,192,0.4)',
+                                borderColor: this.setColors[this.setColors.length-1],
+                            }
+                        ]
+                    };
+                    for(let r of data){
+                        chartData.labels.push(moment(new Date(r._id.year, r._id.month, 1)).format('MM YYYY'));
+                        chartData.datasets[0].data.push(r.smoney); 
+                        chartData.datasets[1].data.push(r.emoney); 
+                    }            
+                    this.chartDataByMonth.chart = chartData;
+                    this.chartDataByMonth.table = data;
+                    this.appService.hideLoading();
+                });
             });
         });
     }

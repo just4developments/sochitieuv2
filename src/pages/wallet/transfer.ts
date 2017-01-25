@@ -40,7 +40,9 @@ export class TransferWallet {
       des: this.des
     };
     this.appService.transferWallet(trans).then((item) => {
-      this.appService.toast('Transfer successfully');
+      this.appService.getI18('confirm__transfer_done').subscribe((msg) => {
+        this.appService.toast(msg);
+      });
       this.dismiss(this.wallet);
     }).catch((err) => {
       this.dismiss(undefined);

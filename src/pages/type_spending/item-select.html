@@ -1,9 +1,9 @@
 <ion-header>
   <ion-navbar color="danger">
-    <ion-title>{{label}}</ion-title>
+    <ion-title>{{'type_spending__pick_title' | translate}} {{label}}</ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()" color="light">
-        <span color="primary" showWhen="ios">Cancel</span>
+        <span color="primary" showWhen="ios">{{'button__cancel' | translate}}</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>

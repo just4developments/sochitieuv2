@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, Renderer, Output, EventEmitter } from '@angular/core';
+import { Directive, ElementRef, Input, Renderer, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import * as Uuid from 'node-uuid';
 
 @Directive({ selector: '[suggestionData]' })
@@ -13,22 +13,24 @@ export class SuggestionDataDirective {
         
     }
 
-    ngOnChanges(changes: any) {
-        if(!this.id) {
-            this.id = Uuid.v4();
-            this.input = this.el.nativeElement.querySelector('input');
-            this.renderer.setElementAttribute(this.input, 'list', this.id); 
-            this.dataList = this.renderer.createElement(this.el.nativeElement, 'datalist');
-            this.renderer.setElementAttribute(this.dataList, 'id', this.id);
-            this.renderer.listen(this.input, 'blur', () => {
-                this.pick.emit(this.input.value);
-            });
-        }else {
-            this.dataList.innerHTML = '';
-        }
-        for(var i in this.suggestionData) {
-            let option = this.renderer.createElement(this.dataList, 'option');
-            this.renderer.setElementAttribute(option, 'value', this.suggestionData[i]);
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes['suggestionData'] && changes['suggestionData'].currentValue) {
+            if(!this.id) {
+                this.id = Uuid.v4();
+                this.input = this.el.nativeElement.querySelector('input');
+                this.renderer.setElementAttribute(this.input, 'list', this.id); 
+                this.dataList = this.renderer.createElement(this.el.nativeElement, 'datalist');
+                this.renderer.setElementAttribute(this.dataList, 'id', this.id);
+                this.renderer.listen(this.input, 'blur', () => {
+                    this.pick.emit(this.input.value);
+                });
+            }else {
+                this.dataList.innerHTML = '';
+            }
+            for(var i in this.suggestionData) {
+                let option = this.renderer.createElement(this.dataList, 'option');
+                this.renderer.setElementAttribute(option, 'value', this.suggestionData[i]);
+            }
         }
     }
 }

@@ -43,7 +43,7 @@ export class WalletSelectionPopup {
         <ion-icon name="arrow-dropdown" item-right></ion-icon>        
       </button>
       <div align="right" class="sub-label" *ngIf="item">
-        <strong *ngIf="item" [ngClass]="(item.money + (submoney || 0)) < 0 ? 'spending' : 'earning'">{{((item.money + (submoney || 0)) || 0) | currency:'VND':true}}</strong>
+        <strong *ngIf="item" [ngClass]="(item.money + (submoney || 0)) < 0 ? 'spending' : 'earning'">{{((item.money + (submoney || 0)) || 0) | currency:appService.currency:true}}</strong>
       </div>`,
     providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })

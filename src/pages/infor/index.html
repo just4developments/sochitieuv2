@@ -3,15 +3,15 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Account information</ion-title>
+    <ion-title>{{'account__title' | translate}}</ion-title>
   </ion-navbar>
   <ion-toolbar color="danger">
     <ion-segment [(ngModel)]="type" color="light">
       <ion-segment-button value="infor">
-        Change information
+        {{'account__change_infor_label' | translate}}
       </ion-segment-button>
       <ion-segment-button value="pass">
-        Change password
+        {{'account__change_pass_label' | translate}}
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -27,28 +27,28 @@
     </ion-item> 
 
     <ion-item *ngSwitchCase="'infor'">
-      <ion-label floating>Full name</ion-label>
+      <ion-label floating>{{'account__fullname' | translate}}</ion-label>
       <ion-input type="text" [(ngModel)]="user.more.name"></ion-input>
     </ion-item>
     <ion-item *ngSwitchCase="'infor'">
-      <ion-label floating>Email recover password</ion-label>
+      <ion-label floating>{{'account__recover' | translate}}</ion-label>
       <ion-input type="text" [(ngModel)]="user.recover_by"></ion-input>
     </ion-item>
 
     <ion-item *ngSwitchCase="'pass'">
-      <ion-label floating>Old password</ion-label>
+      <ion-label floating>{{'account__oldpass' | translate}}</ion-label>
       <ion-input type="password" [(ngModel)]="user.old_password"></ion-input>
     </ion-item>
     <ion-item *ngSwitchCase="'pass'">
-      <ion-label floating>New password</ion-label>
+      <ion-label floating>{{'account__newpass' | translate}}</ion-label>
       <ion-input type="password" [(ngModel)]="user.password"></ion-input>
     </ion-item>
     <ion-item *ngSwitchCase="'pass'">
-      <ion-label floating>Confirm new password</ion-label>
+      <ion-label floating>{{'account__confirm_newpass' | translate}}</ion-label>
       <ion-input type="password" [(ngModel)]="confirmPassword"></ion-input>
     </ion-item>
   </ion-list>
   <div padding>
-    <button block ion-button (click)="save()">Save</button>
+    <button block ion-button (click)="save()">{{'button__save' | translate}}</button>
   </div>  
 </ion-content>

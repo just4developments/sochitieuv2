@@ -21,15 +21,17 @@ export class Wallet {
   }
 
   loadData(){
-    this.appService.showLoading('Please wait...').then(() => {
-      this.wallets.default = [];
-      this.wallets.saving = [];
-      this.appService.getWallets().then((wallets) => {
-        for(var w of wallets){
-          if(w.type > 0) this.wallets.default.push(w);
-          else if(w.type === 0) this.wallets.saving.push(w);
-        }
-        this.appService.hideLoading();
+    this.appService.getI18("msg__wait").subscribe((msg) => {
+      this.appService.showLoading(msg).then(() => {
+        this.wallets.default = [];
+        this.wallets.saving = [];
+        this.appService.getWallets().then((wallets) => {
+          for(var w of wallets){
+            if(w.type > 0) this.wallets.default.push(w);
+            else if(w.type === 0) this.wallets.saving.push(w);
+          }
+          this.appService.hideLoading();
+        });
       });
     });
   }
@@ -66,21 +68,23 @@ export class Wallet {
   }
 
   delete(item, slidingItem){
-    this.appService.confirm('Do you agree to delete it?', item.name, [
-        {
-          text: 'Disagree'
-        },
-        {
-          text: 'Agree',
-          handler: () => {
-            this.appService.deleteWallet(item).then((resp) => {
-              this.appService.toast('Deleted successfully');
-              // slidingItem.close();
-              this.loadData();
-            }).catch((err) => {});
+    this.appService.getI18(["confirm__delete", "button__agree", "button__disagree", "confirm__delete_done"]).subscribe((msg) => {
+      this.appService.confirm(msg["confirm__delete"], item.name, [
+          {
+            text: msg['button__disagree']
+          },
+          {
+            text: msg['button__agree'],
+            handler: () => {
+              this.appService.deleteWallet(item).then((resp) => {
+                this.appService.toast(msg["confirm__delete_done"]);
+                // slidingItem.close();
+                this.loadData();
+              }).catch((err) => {});
+            }
           }
-        }
-    ]);
+      ]);
+    });
   }
 
 }

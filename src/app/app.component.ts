@@ -3,7 +3,6 @@ import { Nav, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { AdMob } from 'ionic-native';
-import {TranslateService} from 'ng2-translate';
 
 import { Login } from '../pages/login';
 import { Wallet } from '../pages/wallet';
@@ -20,11 +19,9 @@ import { Infor } from '../pages/infor';
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-
-  pages: Array<{title: string, component: any, icon: string}>;
   me: any;
 
-  constructor(public platform: Platform, public appService: AppService, private storage: Storage, private menuCtrl: MenuController, private translate: TranslateService) {
+  constructor(public platform: Platform, public appService: AppService, private storage: Storage, private menuCtrl: MenuController) {
     this.initializeApp();
     
     appService.init().then((token) => {
@@ -41,14 +38,6 @@ export class MyApp {
       if(data.signedIn) this.me = data.signedIn;
       else if(data.logout) this.logout();
     });
-
-    this.pages = [
-      { title: 'Dashboard', component: Spending, icon: 'home' },
-      { title: 'Wallet', component: Wallet, icon: 'cash' },
-      { title: 'Type Spending', component: TypeSpending, icon: 'archive' },
-      { title: 'Bookmark', component: Bookmark, icon: 'bookmarks' },
-      { title: 'Statistic', component: Statistic, icon: 'stats' }
-    ];
   }
 
   ngOnDestroy(){
@@ -67,7 +56,7 @@ export class MyApp {
   }
 
   initializeApp() {
-    this.translate.setDefaultLang('vi');
+    this.appService.changeLanguage();
     this.platform.ready().then((readySource) => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -86,6 +75,18 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    let com;
+    if(page === 'Spending') {
+      com = Spending;
+    }else if(page === 'Wallet') {
+      com = Wallet;
+    }else if(page === 'Type Spending') {
+      com = TypeSpending;
+    }else if(page === 'Bookmark') {
+      com = Bookmark;
+    }else if(page === 'Statistic') {
+      com = Statistic;
+    }
+    this.nav.setRoot(com);
   }
 }

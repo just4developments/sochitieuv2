@@ -39,14 +39,23 @@ export class AppService {
         typeSpendings: {}
     };
     loading:Loading;
-
+    public language: string = 'vi';
+    public currency: string = 'VND';
     me: any;
 
     constructor(private http: Http, public toastCtrl: ToastController, private storage: Storage, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private translateService: TranslateService){
         
     }
 
-    getI18(key:string, opts?: any): Observable<any>{
+    changeLanguage(lang?:string){
+        if(lang) {
+            this.language = lang;
+            this.currency = lang === 'vi' ? 'VND' : 'USD';
+        }
+        this.translateService.setDefaultLang(this.language);
+    }
+
+    getI18(key:any, opts?: any): Observable<any>{
         return this.translateService.get(key, opts);
     }
 
@@ -478,7 +487,7 @@ export class AppService {
     }
 
     hideLoading(){
-        this.loading.dismiss();
+        this.loading.dismissAll();
     }
 
     toast(txt, time:number=3000){
@@ -500,16 +509,20 @@ export class AppService {
     handleError(_self:AppService, error: any): Promise<any> {
         return new Promise((resolve, reject) => {      
             if(this.loading) this.loading.dismissAll();      
-            if([403, 401].indexOf(error.status) !== -1) {                
-                this.toast('Session is expired');
+            if([403, 401].indexOf(error.status) !== -1) { 
+                this.getI18("error__session_expired").subscribe((msg) => {
+                   this.toast(msg);
+                });                
             }else {
                 let err = error._body ? JSON.parse(error._body) : error._body;
                 if(typeof err === 'object'){
                     if(err.message) err = err.message;
                 }
-                this.toast('#Error: ' + err);
+                this.getI18("error__common", {msg: err}).subscribe((msg) => {
+                   this.toast(msg);
+                });                
             }
-            this.mainEvent.emit({logout: true});
+            if(error.status !== 400) this.mainEvent.emit({logout: true});
         });
     }
 }

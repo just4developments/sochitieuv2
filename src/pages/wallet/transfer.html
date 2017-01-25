@@ -1,41 +1,41 @@
 <ion-header>
   <ion-navbar color="danger">
-    <ion-title>{{!wallet._id ? 'Add' : 'Update'}} wallet</ion-title>
+    <ion-title>{{'wallet__transfer_title' | translate}}</ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()" color="light">
-        <span color="primary" showWhen="ios">Cancel</span>
+        <span color="primary" showWhen="ios">{{'button__cancel' | translate}}</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
   <ion-toolbar>
-    <h3 [ngClass]="money >= 0 ? 'earning' : 'spending'" text-center (click)="focusMoney()">{{(money || 0) | currency:'VND':true }}</h3>
+    <h3 [ngClass]="money >= 0 ? 'earning' : 'spending'" text-center (click)="focusMoney()">{{(money || 0) | currency:appService.currency:true }}</h3>
   </ion-toolbar>
 </ion-header>
 <ion-content>  
   <ion-grid>
     <ion-row>
       <ion-col width-50>
-        <select-wallet *ngIf="wallets && wallets" [wallets]="wallets" [(ngModel)]="wallet._id" (change)="filterWallet($event)" label="From wallet" [submoney]="(money*-1) || 0"></select-wallet>
+        <select-wallet *ngIf="wallets && wallets" [wallets]="wallets" [(ngModel)]="wallet._id" (change)="filterWallet($event)" label="{{'wallet__transfer_from_wallet' | translate}}" [submoney]="(money*-1) || 0"></select-wallet>
       </ion-col>
       <ion-col width-50>
-        <select-wallet *ngIf="wallets1" [wallets]="wallets1" [(ngModel)]="toWalletId" label="To wallet" [submoney]="(money*1) || 0"></select-wallet>
+        <select-wallet *ngIf="wallets1" [wallets]="wallets1" [(ngModel)]="toWalletId" label="{{'wallet__transfer_to_wallet' | translate}}" [submoney]="(money*1) || 0"></select-wallet>
       </ion-col>
     </ion-row>        
     <ion-row>
       <ion-item>
-        <ion-label stacked>Money from</ion-label>
+        <ion-label stacked>{{'wallet__transfer_money' | translate}}</ion-label>
         <ion-input type="number" [(ngModel)]="money" #moneyInput></ion-input>
       </ion-item>
     </ion-row>  
     <ion-row>
       <ion-item>
-        <ion-label stacked>Description</ion-label>
+        <ion-label stacked>{{'wallet__transfer_des' | translate}}</ion-label>
         <ion-textarea [(ngModel)]="des"></ion-textarea>
       </ion-item>
     </ion-row>   
   </ion-grid>
   <div padding>
-    <button ion-button block full (click)="transfer()">Transfer</button>
+    <button ion-button block full (click)="transfer()">{{'button__transfer' | translate}}</button>
   </div>
 </ion-content>

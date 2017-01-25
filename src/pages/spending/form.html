@@ -1,6 +1,7 @@
 <ion-header>
   <ion-navbar color="danger">
-    <ion-title>{{!spending._id ? 'Add' : 'Update'}} spending</ion-title>
+    <ion-title *ngIf="!spending._id">{{'spending__title_add' | translate}}</ion-title>
+    <ion-title *ngIf="spending._id">{{'spending__title_edit' | translate}}</ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()" color="light">
         <span showWhen="ios">{{'button__cancel' | translate}}</span>
@@ -11,56 +12,56 @@
   <ion-toolbar color="danger">
     <ion-segment [(ngModel)]="type" (ionChange)="changeTabType()" color="light">
       <ion-segment-button value="spending">
-        {{'label_spending' | translate}}
+        {{'label__spending' | translate}}
       </ion-segment-button>
       <ion-segment-button value="earning">
-        {{'label_earning' | translate}}
+        {{'label__earning' | translate}}
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
   <ion-toolbar>
-    <h3 [ngClass]="type" text-center (click)="focusMoney()">{{type==='spending' ? '-' : '+'}} {{(spending.money || 0) | currency:'VND':true }}</h3>
+    <h3 [ngClass]="type" text-center (click)="focusMoney()">{{type==='spending' ? '-' : '+'}} {{(spending.money || 0) | currency:appService.currency:true }}</h3>
   </ion-toolbar>
 </ion-header>
 <ion-content padding-top>  
   <ion-grid>
     <ion-row>
       <ion-item>
-        <ion-label stacked>Money</ion-label>
+        <ion-label stacked>{{'label__money' | translate}}</ion-label>
         <ion-input type="number" [(ngModel)]="spending.money" #moneyInput></ion-input>
       </ion-item>      
       <ion-item>
-        <ion-label stacked>Input date</ion-label>
+        <ion-label stacked>{{'label__input_date' | translate}}</ion-label>
         <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="spending.input_date"></ion-datetime>
       </ion-item>      
     </ion-row>
     <ion-row>
       <ion-item>
-        <ion-label stacked>Description</ion-label>
+        <ion-label stacked>{{'label__des' | translate}}</ion-label>
         <ion-input type="text" [(ngModel)]="spending.des" [suggestionData]="suggestion" (pick)="pickSuggestion($event)"></ion-input>
       </ion-item>
     </ion-row>
     <ion-row>
       <ion-col width-50>
-        <select-wallet *ngIf="wallets" [wallets]="wallets" [(ngModel)]="spending.wallet_id" label="Wallet" [submoney]="submoney()"></select-wallet>
+        <select-wallet *ngIf="wallets" [wallets]="wallets" [(ngModel)]="spending.wallet_id" label="{{'label__money' | translate}}" [submoney]="submoney()"></select-wallet>
       </ion-col>
       <ion-col width-50 center>
         <ion-item>
-          <ion-label>Bookmark</ion-label>
+          <ion-label>{{'label__bookmark' | translate}}</ion-label>
           <ion-toggle color="primary" [(ngModel)]="spending.is_bookmark"></ion-toggle>
         </ion-item>
       </ion-col>
     </ion-row>    
     <ion-row [ngSwitch]="type">
       <ion-col width-100 *ngSwitchCase="'spending'">
-        <select-type-spending *ngIf="typeSpendings" [typeSpendings]="typeSpendings" [(ngModel)]="type_spending_id" label="Type spending"></select-type-spending>        
+        <select-type-spending *ngIf="typeSpendings" [typeSpendings]="typeSpendings" [(ngModel)]="type_spending_id" label="{{'label__spending' | translate}}"></select-type-spending>        
       </ion-col>
       <ion-col width-100 *ngSwitchCase="'earning'">
-        <select-type-spending *ngIf="typeEarnings" [typeSpendings]="typeEarnings" [(ngModel)]="type_earning_id" label="Type earning"></select-type-spending>
+        <select-type-spending *ngIf="typeEarnings" [typeSpendings]="typeEarnings" [(ngModel)]="type_earning_id" label="{{'label__earning' | translate}}"></select-type-spending>
       </ion-col>
     </ion-row>
   </ion-grid>    
   <div padding>
-    <button ion-button block full (click)="save()">Save</button>
+    <button ion-button block full (click)="save()">{{'button__save' | translate}}</button>
   </div>
 </ion-content>

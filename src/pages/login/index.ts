@@ -14,28 +14,37 @@ const EMAIL_REGEX:any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(
   templateUrl: 'index.html'
 })
 export class Login {
+  language: string;
   user: any = { 
     username: '',
     password: ''
   };
 
   constructor(public navCtrl: NavController, private appService: AppService, private menuCtrl: MenuController) {
-    
+    this.language = this.appService.language;
   }
 
   login(user:any, app?:String){
-    return this.appService.login(user, app).then((isNew) => {
-      if(isNew) {
-        this.appService.showLoading('Syncing from server...').then(() => {
-          this.appService.merge(user.username, !!isNew).then(() => {
-            this.appService.hideLoading();
+    this.appService.getI18(['login__logging_msg', 'login__sync_msg']).subscribe((msg) => {          
+      this.appService.showLoading(msg['login__logging_msg']).then(() => {
+        this.appService.login(user, app).then((isNew) => {
+          if(isNew) {
+            this.appService.showLoading(msg['login__sync_msg']).then(() => {
+              this.appService.merge(user.username, !!isNew).then(() => {
+                this.appService.hideLoading();
+                this.loginDone();
+              });
+            });
+          }else {
             this.loginDone();
-          });
+          }
         });
-      }else {
-        this.loginDone();
-      }
+      });
     });
+  }
+
+  changeLanguage(){
+    this.appService.changeLanguage(this.language);
   }
 
   loginDone(){
@@ -76,7 +85,9 @@ export class Login {
           })          
         });                
       }else {
-        this.appService.toast('#Error: Can not login facebook');
+        this.appService.getI18(['login__fb_failed_msg']).subscribe((msg) => {          
+          this.appService.toast(msg['login__fb_failed_msg']);
+        });
       }      
     });
   }

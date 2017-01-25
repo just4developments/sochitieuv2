@@ -1,4 +1,110 @@
 {
-    "app.name": "English",
-    "logout": "Logout"
+    "app__name": "Notexpv2",
+    
+    "menu__dashboard": "Dashboard",
+    "menu__wallet": "Budgets",
+    "menu__type_spending": "Categories",
+    "menu__bookmark": "Bookmark",
+    "menu__statistic": "Statistic & Chart",
+
+    "account__title": "Account information",
+    "account__change_infor_label": "Change information",
+    "account__change_pass_label": "Change password",
+    "account__fullname": "Full name",
+    "account__recover": "Email which is used to recover password",
+    "account__oldpass": "Old password",
+    "account__newpass": "New password",
+    "account__confirm_newpass": "Confirm new password",
+    "account.pass_not_match": "New password is not match",
+
+    "login__username": "Username",
+    "login__password": "Password",
+    "login__logging_msg": "Processing...",    
+    "login__sync_msg": "Syncing data...",
+    "login__fb_failed_msg": "Could not login facebook",
+    "login__language": "Language",
+    "login__language_vi": "Vietnamese",
+    "login__language_en": "English",
+
+    "dashboard__title": "Dashboard",    
+    "dashboard__remaining_label": "Remaining",    
+    "dashboard__filter_text": "Filter by description, category",
+    "dashboard__filter_wallet_all": "Not use filter",
+    
+    "spending__title_add": "Add new transaction",
+    "spending__title_edit": "Edit the transaction",
+
+    "wallet__title": "Budgets",
+    "wallet__normal": "Available budgets",
+    "wallet__saving": "Saving",
+    "wallet__name": "Name",
+    "wallet__des": "Description",
+    "wallet__money": "Money", 
+    "wallet__is_add_in_spending": "Auto add new transaction ?",
+    "wallet__is_saving": "Is saving ?",
+    "wallet__title_add": "Add new budget",
+    "wallet__title_edit": "Edit the budget",
+
+    "wallet__pick_title": "Budget picking",
+
+    "wallet__transfer_title": "Tranfer money",
+    "wallet__transfer_money": "Money",
+    "wallet__transfer_des": "Description",
+    "wallet__transfer_from_wallet": "From budget",
+    "wallet__transfer_to_wallet": "To budget",
+
+    "type_spending__pick_title": "Category picking",
+
+    "type_spending__title": "Category",
+    "type_spending__name": "Category",
+    "type_spending__icon_pick_title": "Icon picking",    
+
+    "bookmark__title": "Bookmark",
+    "bookmark__label": "List bookmark",
+    "bookmark__no_item": "There is no bookmark",
+
+    "statistic__title": "Statistic chart",
+    "statistic__by_month": "By time",
+    "statistic__by_type": "By category",
+
+    "label__pos": "Position",
+    "label__money": "Budget",
+    "label__des": "Description",
+    "label__input_date": "Input date",
+    "label__typespending": "Category",
+    "label__wallet": "Budget",
+    "label__bookmark": "Bookmark",
+
+    "label__earning": "Inflow",
+    "label__spending": "Outflow",
+    "filter__by_time": "Filter by time",
+    "filter__start": "From date",
+    "filter__end": "To date",
+
+    "confirm__remove_bookmark": "Remove this in bookmark (Not delete) ?",
+    "confirm__delete": "Do you want to delete this ?",
+    "confirm__delete_done": "Deleted successfully",
+    "confirm__update_done": "Updated successfully",
+    "confirm__add_done": "Added successfully",
+    "confirm__add_more": "Do you want to keep adding another ?",
+    "confirm__transfer_done": "Transfer successfully",
+
+    "msg__wait": "Please wait...",
+
+    "error__session_expired": "Session is expired",
+    "error__common": "Error: {{msg}}",
+
+    "button__backmenu": "Back menu",
+    "button__continue": "Yes, continue",
+    "button__signin": "Sign-in",
+    "button__agree": "Agree",
+    "button__disagree": "Disagree",
+    "button__cancel": "Cancel",
+    "button__search": "Search",
+    "button__add": "Add",
+    "button__edit": "Edit",
+    "button__delete": "Delete",
+    "button__transfer": "Transfer",
+    "button__save": "Save",
+    "button__logout": "Logout!"
 }

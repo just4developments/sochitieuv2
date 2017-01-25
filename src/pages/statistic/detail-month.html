@@ -1,19 +1,19 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <ion-title>{{item.startDate | date:'dd/MM/yyyy'}} - {{item.endDate | date:'dd/MM/yyyy'}}</ion-title>
   </ion-navbar>
-</ion-header>
-<ion-content>
-  <div padding>
-    <ion-segment [(ngModel)]="type" (ionChange)="loadChart()">
+  <ion-toolbar color="danger">
+    <ion-segment [(ngModel)]="type" (ionChange)="loadChart()" color="light">
       <ion-segment-button value="spending">
-        Spending
+        {{'label__spending' | translate}}
       </ion-segment-button>
       <ion-segment-button value="earning">
-        Earning
+        {{'label__earning' | translate}}
       </ion-segment-button>
     </ion-segment>
-  </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
   <div [ngSwitch]="type">
     <div *ngSwitchCase="'spending'">
       <chart-pie title="spending" [data]="data" *ngIf="data"></chart-pie>

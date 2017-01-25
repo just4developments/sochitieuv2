@@ -3,22 +3,22 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Bookmark</ion-title>
+    <ion-title>{{'bookmark__title' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list class="wallet-list">
     <ion-list-header>
-      List bookmark 
+      {{'bookmark__label' | translate}}
     </ion-list-header>
-    <ion-item *ngIf="!spendings || spendings.length === 0">
-      No item is bookmarked
+    <ion-item *ngIf="spendings && spendings.length === 0">
+      {{'bookmark__no_item' | translate}}
     </ion-item>
     <ion-item-sliding *ngFor="let item of spendings" #slidingItem>
       <ion-item>
         <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon"></ion-icon>
-        <strong item-right [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
+        <strong item-right [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:appService.currency:true}}</strong>
         <h2>{{item.type_spending.name}}</h2>        
         <p>{{item.des}}</p>
       </ion-item>

@@ -25,8 +25,9 @@ export class Infor {
 			const user = _.clone(this.user);
 			if((user.password)){
 				if(this.confirmPassword !== user.password) {
-					this.appService.toast('Confirm password is not matched');
-					return;
+					return this.appService.getI18('account.pass_not_match').subscribe((msg) => {
+						this.appService.toast(msg);
+					});		
 				}else if(user.old_password === user.password){
 					delete user.password;
 					delete user.old_password;	
@@ -42,7 +43,9 @@ export class Infor {
 				this.confirmPassword = null;
 				delete this.user.password;
 				delete this.user.old_password;
-				this.appService.toast('Updated successfully');
+				return this.appService.getI18('confirm__update_done').subscribe((msg) => {
+					this.appService.toast(msg['confirm__update_done']);
+				});
 			})
   }
 

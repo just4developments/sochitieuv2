@@ -22,33 +22,35 @@ export class TypeSpending {
   }
 
   loadData(){
-    this.appService.showLoading('Please wait...').then(() => {
-      let types = {
-        spending: [],
-        earning: []
-      };
-      this.appService.getTypeSpendings().then((typependings) => {        
-        for(var s of typependings){          
-          if(s.type === 0) continue;
-          if(!s.parent_id) { 
-            if(s.type > 0) types.earning.push(s);
-            else if(s.type < 0) types.spending.push(s);
-          }else {
-            if(s.type > 0) {
-              let parentIndex = types.earning.findIndex((e) => {
-                return e._id === s.parent_id;
-              });
-              types.earning.splice(parentIndex+1, 0, s);
-            } else if(s.type < 0) {
-              let parentIndex = types.spending.findIndex((e) => {
-                return e._id === s.parent_id;
-              });
-              types.spending.splice(parentIndex+1, 0, s);
+    this.appService.getI18("msg__wait").subscribe((msg) => {
+      this.appService.showLoading(msg).then(() => {
+        let types = {
+          spending: [],
+          earning: []
+        };
+        this.appService.getTypeSpendings().then((typependings) => {        
+          for(var s of typependings){          
+            if(s.type === 0) continue;
+            if(!s.parent_id) { 
+              if(s.type > 0) types.earning.push(s);
+              else if(s.type < 0) types.spending.push(s);
+            }else {
+              if(s.type > 0) {
+                let parentIndex = types.earning.findIndex((e) => {
+                  return e._id === s.parent_id;
+                });
+                types.earning.splice(parentIndex+1, 0, s);
+              } else if(s.type < 0) {
+                let parentIndex = types.spending.findIndex((e) => {
+                  return e._id === s.parent_id;
+                });
+                types.spending.splice(parentIndex+1, 0, s);
+              }
             }
           }
-        }
-        this.types = types;
-        this.appService.hideLoading();
+          this.types = types;
+          this.appService.hideLoading();
+        });
       });
     });
   }
@@ -91,21 +93,23 @@ export class TypeSpending {
   }
 
   delete(item, slidingItem){
-    this.appService.confirm('Do you agree to delete it?', item.name, [
+    this.appService.getI18(["confirm__delete", "button__agree", "button__disagree", "confirm__delete_done"]).subscribe((msg) => {
+      this.appService.confirm(msg["confirm__delete"], item.name, [
         {
-          text: 'Disagree'
+          text: msg['button__disagree']
         },
         {
-          text: 'Agree',
+          text: msg['button__agree'],
           handler: () => {
             this.appService.deleteTypeSpending(item).then((resp) => {
-              this.appService.toast('Deleted successfully');
+              this.appService.toast(msg["confirm__delete_done"]);
               // slidingItem.close();
               this.loadData();
             }).catch((error) => {});
           }
         }
-    ]);
+      ]);
+    });
   }
 
 }

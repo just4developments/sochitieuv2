@@ -1,9 +1,9 @@
 <ion-header>
   <ion-navbar color="danger">
-    <ion-title>Pick wallet</ion-title>
+    <ion-title>{{'wallet__pick_title' | translate}}</ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()" color="light">
-        <span color="primary" showWhen="ios">Cancel</span>
+        <span color="primary" showWhen="ios">{{'button__cancel' | translate}}</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>
@@ -14,7 +14,7 @@
     <button ion-item *ngFor="let item of wallets" (click)="pick(item)" [ngClass]="item.className">
         <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
         <h2>{{item.name}}</h2>      
-        <strong [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:'VND':true}}</strong>
+        <strong [ngClass]="item.money < 0 ? 'spending' : 'earning'">{{(item.money || 0) | currency:appService.currency:true}}</strong>
         <ion-icon name="ios-checkmark" item-right *ngIf="selectedId === item._id"></ion-icon>        
     </button> 
   </ion-list>

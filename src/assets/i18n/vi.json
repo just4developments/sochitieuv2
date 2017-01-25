@@ -1,29 +1,110 @@
 {
     "app__name": "Sổ chi tiêu",
+    
     "menu__dashboard": "Tổng quan",
-    "dashboard__title": "Tổng quan",
-    
-    "dashboard__remaining_label": "Còn lại",    
-    "dashboard__filter_text": "Tìm theo mô tả, loại chi tiêu",
-    "dashboard__filter_wallet_all": "Tìm theo tất cả ví",
-
-    
-
     "menu__wallet": "Ví tiền",
     "menu__type_spending": "Loại chi tiêu",
     "menu__bookmark": "Danh sách đánh dấu",
     "menu__statistic": "Biều đồ",
+
+    "account__title": "Tài khoản của tôi",
+    "account__change_infor_label": "Thay đổi thông tin",
+    "account__change_pass_label": "Thay đổi mật khẩu",
+    "account__fullname": "Họ tên",
+    "account__recover": "Email lấy lại mật khẩu",
+    "account__oldpass": "Mật khẩu cũ",
+    "account__newpass": "Mật khẩu mới",
+    "account__confirm_newpass": "Nhập lại mật khẩu mới",
+    "account.pass_not_match": "Mật khẩu xác nhận không khớp với mật khẩu mới",
+
+    "login__username": "Tài khoản",
+    "login__password": "Mật khẩu",
+    "login__logging_msg": "Đang xử lý...",    
+    "login__sync_msg": "Đồng bộ dữ liệu...",
+    "login__fb_failed_msg": "Không thể login facebook",
+    "login__language": "Ngôn ngữ",
+    "login__language_vi": "Tiếng việt",
+    "login__language_en": "Tiếng anh",
+
+    "dashboard__title": "Tổng quan",    
+    "dashboard__remaining_label": "Còn lại",    
+    "dashboard__filter_text": "Tìm theo mô tả, loại chi tiêu",
+    "dashboard__filter_wallet_all": "Tìm theo tất cả ví",
+    
+    "spending__title_add": "Thêm chi tiêu mới",
+    "spending__title_edit": "Sửa lại chi tiêu",
+
+    "wallet__title": "Ví tiền",
+    "wallet__normal": "Ví tiêu dùng",
+    "wallet__saving": "Khoản tiết kiệm",
+    "wallet__name": "Tên ví",
+    "wallet__des": "Mô tả",
+    "wallet__money": "Tiền trong ví",    
+    "wallet__is_add_in_spending": "Có nhập vào chi tiêu không ?",
+    "wallet__is_saving": "Đây là khoản tiết kiệm ?",
+    "wallet__title_add": "Thêm ví mới",
+    "wallet__title_edit": "Sửa lại ví",
+
+    "wallet__pick_title": "Chọn ví",
+
+    "wallet__transfer_title": "Chuyển tiền",
+    "wallet__transfer_money": "Số tiền chuyển",
+    "wallet__transfer_des": "Nội dung chuyển tiền",
+    "wallet__transfer_from_wallet": "Từ ví",
+    "wallet__transfer_to_wallet": "Đến ví",
+
+    "type_spending__pick_title": "Chọn loại",
+
+    "type_spending__title": "Loại chi tiêu",
+    "type_spending__name": "Loại chi tiêu",
+    "type_spending__icon_pick_title": "Chọn icon",    
+
+    "bookmark__title": "Ghi nhớ",
+    "bookmark__label": "Danh sách ghi nhớ",
+    "bookmark__no_item": "Không có ghi nhớ nào",
+
+    "statistic__title": "Biểu đồ thống kê",
+    "statistic__by_month": "Theo thời gian",
+    "statistic__by_type": "Theo loại chi tiêu",
+
+    "label__pos": "Thứ tự hiển thị",
+    "label__money": "Ví tiền",
+    "label__des": "Mô tả",
+    "label__input_date": "Ngày chi tiêu",
+    "label__typespending": "Loại chi tiêu",
+    "label__wallet": "Ví tiền",
+    "label__bookmark": "Ghi nhớ",
 
     "label__earning": "Thu nhập",
     "label__spending": "Chi tiêu",
     "filter__by_time": "Lọc theo thời gian",
     "filter__start": "Từ ngày",
     "filter__end": "Đến ngày",
+
+    "confirm__remove_bookmark": "Không ghi nhớ chi tiêu này nữa ?",
+    "confirm__delete": "Bạn có chắc muốn xóa không ?",
+    "confirm__delete_done": "Xóa thành công",
+    "confirm__update_done": "Cập nhật thành công",
+    "confirm__add_done": "Thêm mới thành công",
+    "confirm__add_more": "Bạn có muốn thêm cái khác không ?",
+    "confirm__transfer_done": "Đã chuyển tiền thành công",
+
+    "msg__wait": "Đang tải dữ liệu...",
+
+    "error__session_expired": "Thời gian login đã quá lâu",
+    "error__common": "Có lỗi: {{msg}}",
+
+    "button__backmenu": "Quay lại",
+    "button__continue": "Tiếp tục",
+    "button__signin": "Đăng nhập",
+    "button__agree": "Tôi đồng ý",
+    "button__disagree": "Không, cám ơn",
     "button__cancel": "Hủy bỏ",
     "button__search": "Tìm kiếm",
     "button__add": "Thêm mới",
     "button__edit": "Sửa",
     "button__delete": "Xóa",
     "button__transfer": "Chuyển tiền",
-    "logout": "Đăng xuất"
+    "button__save": "Lưu",
+    "button__logout": "Đăng xuất"
 }

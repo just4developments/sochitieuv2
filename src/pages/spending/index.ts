@@ -137,26 +137,28 @@ export class Spending {
   }
 
   filter(){
-    this.appService.showLoading('Please wait...').then(() => {;
-      this.spendingsRaw = null;
-      this.spendings = null;   
-      this.appService.getWallets(1).then((wallets) => {
-        this.wallets = wallets;              
-        this.appService.getSpendings(this.total.walletId, new Date(this.total.startDate), new Date(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
-          let today:any = moment(new Date());
-          let yesterday:any = moment(new Date());
-          yesterday.add(-1, 'days');
-          this.reformatSpending(spendings.map((e) => {
-            e.type_spending = this.typeSpendings.find(t=>t._id === e.type_spending_id);
-            e.type_spending_uname = e.type_spending.uname;  
-            e.wallet = this.wallets.find(t=>t._id === e.wallet_id);
-            e.input_date = new Date(e.input_date);
-            return e;
-          }), today, yesterday);      
-          this.filterText();
-          this.appService.hideLoading();
-        });
-      });        
+    this.appService.getI18("msg__wait").subscribe((msg) => {
+      this.appService.showLoading(msg).then(() => {
+        this.spendingsRaw = null;
+        this.spendings = null;   
+        this.appService.getWallets(1).then((wallets) => {
+          this.wallets = wallets;              
+          this.appService.getSpendings(this.total.walletId, new Date(this.total.startDate), new Date(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
+            let today:any = moment(new Date());
+            let yesterday:any = moment(new Date());
+            yesterday.add(-1, 'days');
+            this.reformatSpending(spendings.map((e) => {
+              e.type_spending = this.typeSpendings.find(t=>t._id === e.type_spending_id);
+              e.type_spending_uname = e.type_spending.uname;  
+              e.wallet = this.wallets.find(t=>t._id === e.wallet_id);
+              e.input_date = new Date(e.input_date);
+              return e;
+            }), today, yesterday);      
+            this.filterText();
+            this.appService.hideLoading();
+          });
+        });        
+      });
     });
   }
 
@@ -192,21 +194,23 @@ export class Spending {
   }
 
   delete(item, slidingItem){
-    this.appService.confirm('Do you agree to delete it?', item.des, [
-        {
-          text: 'Disagree'
-        },
-        {
-          text: 'Agree',
-          handler: () => {
-            this.appService.deleteSpending(item).then((resp) => {
-              this.appService.toast('Deleted successfully');
-              // slidingItem.close();
-              this.filter();
-            }).catch((err) => {});
+    this.appService.getI18(["confirm__delete", "button__agree", "button__disagree", "confirm__delete_done"]).subscribe((msg) => {
+      this.appService.confirm(msg["confirm__delete"], item.des, [
+          {
+            text: msg['button__disagree']
+          },
+          {
+            text: msg['button__agree'],
+            handler: () => {
+              this.appService.deleteSpending(item).then((resp) => {
+                this.appService.toast(msg["confirm__delete_done"]);
+                // slidingItem.close();
+                this.filter();
+              }).catch((err) => {});
+            }
           }
-        }
-    ]);
+      ]);
+    });    
   }
 
   toDate(sdate){
