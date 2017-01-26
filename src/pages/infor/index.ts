@@ -44,7 +44,7 @@ export class Infor {
 				delete this.user.password;
 				delete this.user.old_password;
 				return this.appService.getI18('confirm__update_done').subscribe((msg) => {
-					this.appService.toast(msg['confirm__update_done']);
+					this.appService.toast(msg);
 				});
 			})
   }

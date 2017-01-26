@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppService } from '../../app/app.service';
 import { NavParams, ViewController } from 'ionic-angular';
-import _ from 'lodash';
 
 @Component({
   selector: 'transfer-wallet',
@@ -24,12 +23,10 @@ export class TransferWallet {
   }
 
   filterWallet(data:any){
-    let id = _.clone(data._id);
-    let self = this;
-    self.wallets1 = self.wallets.filter((e) => {
-      return e._id !== id;
+    this.wallets1 = this.wallets.filter((e) => {
+      return e._id !== data._id;
     });
-    this.toWalletId = self.wallets1[0]._id;
+    if(this.wallets1.length > 0) this.toWalletId = this.wallets1[0]._id;
   }
 
   transfer(){

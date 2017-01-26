@@ -3,28 +3,29 @@
     <ion-title>{{'app__name' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label floating>{{'login__username' | translate}}</ion-label>
-      <ion-input type="text" [(ngModel)]="user.username"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>{{'login__password' | translate}}</ion-label>
-      <ion-input type="password" [(ngModel)]="user.password"></ion-input>
-    </ion-item>
-  </ion-list>
-  <ion-item>
-    <ion-label stacked>{{'login__language' | translate}}</ion-label>
-    <ion-select [(ngModel)]="language" (ionChange)="changeLanguage()">
-      <ion-option value="vi">{{'login__language_vi' | translate}}</ion-option>
-      <ion-option value="en">{{'login__language_en' | translate}}</ion-option>      
-    </ion-select>
-  </ion-item>
-  <div padding><br/>
-    <button block ion-button (click)="loginDefault()">{{'button__signin' | translate}}</button>
-  </div>
+  <form (ngSubmit)="loginDefault()">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>{{'login__username' | translate}}</ion-label>
+        <ion-input type="text" [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>{{'login__password' | translate}}</ion-label>
+        <ion-input type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>    
+      <ion-item>
+        <ion-label stacked>{{'login__language' | translate}}</ion-label>
+        <ion-select [(ngModel)]="language" (ionChange)="changeLanguage()" [ngModelOptions]="{standalone: true}">
+          <ion-option value="vi">{{'login__language_vi' | translate}}</ion-option>
+          <ion-option value="en">{{'login__language_en' | translate}}</ion-option>      
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <div padding><br/>
+      <button block ion-button >{{'button__signin' | translate}}</button>
+    </div>  
+  </form>
   <br/>
   <br/>
   <ion-grid>
@@ -42,5 +43,5 @@
         </button>
       </ion-col>
     </ion-row>
-  </ion-grid>  
+  </ion-grid>    
 </ion-content>

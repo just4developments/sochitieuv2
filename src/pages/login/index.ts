@@ -85,8 +85,8 @@ export class Login {
           })          
         });                
       }else {
-        this.appService.getI18(['login__fb_failed_msg']).subscribe((msg) => {          
-          this.appService.toast(msg['login__fb_failed_msg']);
+        this.appService.getI18('login__fb_failed_msg').subscribe((msg) => {          
+          this.appService.toast(msg);
         });
       }      
     });

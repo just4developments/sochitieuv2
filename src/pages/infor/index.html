@@ -26,29 +26,36 @@
       <h2>{{user.username}}</h2>
     </ion-item> 
 
-    <ion-item *ngSwitchCase="'infor'">
-      <ion-label floating>{{'account__fullname' | translate}}</ion-label>
-      <ion-input type="text" [(ngModel)]="user.more.name"></ion-input>
-    </ion-item>
-    <ion-item *ngSwitchCase="'infor'">
-      <ion-label floating>{{'account__recover' | translate}}</ion-label>
-      <ion-input type="text" [(ngModel)]="user.recover_by"></ion-input>
-    </ion-item>
+    <form *ngSwitchCase="'infor'" (ngSubmit)="save()">
+      <ion-item>
+        <ion-label floating>{{'account__fullname' | translate}}</ion-label>
+        <ion-input type="text" [(ngModel)]="user.more.name" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>{{'account__recover' | translate}}</ion-label>
+        <ion-input type="text" [(ngModel)]="user.recover_by" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>
+      <div padding>
+        <button block ion-button>{{'button__save' | translate}}</button>
+      </div>  
+    </form>
 
-    <ion-item *ngSwitchCase="'pass'">
-      <ion-label floating>{{'account__oldpass' | translate}}</ion-label>
-      <ion-input type="password" [(ngModel)]="user.old_password"></ion-input>
-    </ion-item>
-    <ion-item *ngSwitchCase="'pass'">
-      <ion-label floating>{{'account__newpass' | translate}}</ion-label>
-      <ion-input type="password" [(ngModel)]="user.password"></ion-input>
-    </ion-item>
-    <ion-item *ngSwitchCase="'pass'">
-      <ion-label floating>{{'account__confirm_newpass' | translate}}</ion-label>
-      <ion-input type="password" [(ngModel)]="confirmPassword"></ion-input>
-    </ion-item>
-  </ion-list>
-  <div padding>
-    <button block ion-button (click)="save()">{{'button__save' | translate}}</button>
-  </div>  
+    <form *ngSwitchCase="'pass'" (ngSubmit)="save()">
+      <ion-item>
+        <ion-label floating>{{'account__oldpass' | translate}}</ion-label>
+        <ion-input type="password" [(ngModel)]="user.old_password" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>{{'account__newpass' | translate}}</ion-label>
+        <ion-input type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>{{'account__confirm_newpass' | translate}}</ion-label>
+        <ion-input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>
+      <div padding>
+        <button block ion-button>{{'button__save' | translate}}</button>
+      </div>  
+    </form>
+  </ion-list>  
 </ion-content>

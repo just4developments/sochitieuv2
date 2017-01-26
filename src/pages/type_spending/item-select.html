@@ -11,7 +11,7 @@
 </ion-header>
 <ion-content text-center *ngIf="typeSpendings">
   <ion-list class="tree">
-    <button ion-item *ngFor="let item of typeSpendings" (click)="pick(item)" [ngClass]="'item.className' + (item.parent_id ? ' child-typespending' : '')">
+    <button ion-item *ngFor="let item of typeSpendings" (click)="pick(item)" [ngClass]="['bg-tree', 'item.className' + (item.parent_id ? ' child-typespending' : '')]">
         <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
         <h2>{{item.name}}</h2>      
         <ion-icon name="ios-checkmark" item-right *ngIf="selectedId === item._id"></ion-icon>

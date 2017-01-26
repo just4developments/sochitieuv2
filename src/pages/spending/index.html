@@ -32,7 +32,7 @@
 </ion-header>
 <ion-content>      
   <ion-searchbar *ngIf="isFilter" [(ngModel)]="txtSearch" (ionInput)="filterText()" placeholder="{{'dashboard__filter_text' | translate}}"></ion-searchbar>
-  <select-wallet *ngIf="isFilter" [wallets]="wallets" [default]="defaultWalletItem" [(ngModel)]="total.walletId" (change)="filter()"></select-wallet>
+  <select-wallet *ngIf="isFilter" [wallets]="totalWallets" [default]="defaultWalletItem" [(ngModel)]="total.walletId" (change)="filter()"></select-wallet>
   <ion-card style="position: relative">
     <ion-card-header>
       <ion-icon name="home"></ion-icon> <b>{{'dashboard__title' | translate}}</b>

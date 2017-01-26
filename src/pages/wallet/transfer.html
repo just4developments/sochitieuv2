@@ -13,29 +13,31 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>  
-  <ion-grid>
-    <ion-row>
-      <ion-col width-50>
-        <select-wallet *ngIf="wallets && wallets" [wallets]="wallets" [(ngModel)]="wallet._id" (change)="filterWallet($event)" label="{{'wallet__transfer_from_wallet' | translate}}" [submoney]="(money*-1) || 0"></select-wallet>
-      </ion-col>
-      <ion-col width-50>
-        <select-wallet *ngIf="wallets1" [wallets]="wallets1" [(ngModel)]="toWalletId" label="{{'wallet__transfer_to_wallet' | translate}}" [submoney]="(money*1) || 0"></select-wallet>
-      </ion-col>
-    </ion-row>        
-    <ion-row>
-      <ion-item>
-        <ion-label stacked>{{'wallet__transfer_money' | translate}}</ion-label>
-        <ion-input type="number" [(ngModel)]="money" #moneyInput></ion-input>
-      </ion-item>
-    </ion-row>  
-    <ion-row>
-      <ion-item>
-        <ion-label stacked>{{'wallet__transfer_des' | translate}}</ion-label>
-        <ion-textarea [(ngModel)]="des"></ion-textarea>
-      </ion-item>
-    </ion-row>   
-  </ion-grid>
-  <div padding>
-    <button ion-button block full (click)="transfer()">{{'button__transfer' | translate}}</button>
-  </div>
+  <form (ngSubmit)="transfer()">
+    <ion-grid>
+      <ion-row>
+        <ion-col width-50>
+          <select-wallet *ngIf="wallets && wallets" [wallets]="wallets" [(ngModel)]="wallet._id" (change)="filterWallet($event)" label="{{'wallet__transfer_from_wallet' | translate}}" [submoney]="(money*-1) || 0" [ngModelOptions]="{standalone: true}"></select-wallet>
+        </ion-col>
+        <ion-col width-50>
+          <select-wallet *ngIf="wallets1" [wallets]="wallets1" [(ngModel)]="toWalletId" label="{{'wallet__transfer_to_wallet' | translate}}" [submoney]="(money*1) || 0" [ngModelOptions]="{standalone: true}"></select-wallet>
+        </ion-col>
+      </ion-row>        
+      <ion-row>
+        <ion-item>
+          <ion-label stacked>{{'wallet__transfer_money' | translate}}</ion-label>
+          <ion-input type="number" [(ngModel)]="money" #moneyInput [ngModelOptions]="{standalone: true}" required min="1"></ion-input>
+        </ion-item>
+      </ion-row>  
+      <ion-row>
+        <ion-item>
+          <ion-label stacked>{{'wallet__transfer_des' | translate}}</ion-label>
+          <ion-textarea [(ngModel)]="des" [ngModelOptions]="{standalone: true}"></ion-textarea>
+        </ion-item>
+      </ion-row>   
+    </ion-grid>
+    <div padding>
+      <button ion-button block full >{{'button__transfer' | translate}}</button>
+    </div>
+  </form>
 </ion-content>

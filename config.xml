@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="just4developments.app.ionic.sochitieuv2newest" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="just4developments.app.ionic.sochitieuv2newest" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>SochitieuV2</name>
   <description>New version of ExpensiveNote</description>
-  <author email="just4developments@gmail.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+  <author email="just4developments@gmail.com" href="http://ionicframework.com/">Just4developments</author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-intent href="http://*/*"/>
@@ -64,5 +64,6 @@
   <allow-navigation href="https://*"/>
   <allow-navigation href="data:*"/>
   <allow-navigation href="http://192.168.0.111:8100"/>
+  <allow-navigation href="http://192.168.11.6:8100"/>
   <icon src="resources\android\icon\drawable-xhdpi-icon.png"/>
 </widget>

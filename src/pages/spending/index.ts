@@ -20,6 +20,7 @@ export class Spending {
   spendings: Array<any>;
   typeSpendings: Array<any>;
   wallets: Array<any>;
+  totalWallets: Array<any>;
   defaultWalletItem: any;
   total: any = {
     startDate: String,
@@ -56,8 +57,7 @@ export class Spending {
     }
     this.total.startDate = startDate.toISOString();
     this.total.endDate = endDate.toISOString();    
-    this.appService.getI18('logout').subscribe((vl) => {
-      console.log(vl);
+    this.appService.getI18('dashboard__filter_wallet_all').subscribe((vl) => {
       this.defaultWalletItem = {
         _id: null, 
         name: vl
@@ -141,8 +141,11 @@ export class Spending {
       this.appService.showLoading(msg).then(() => {
         this.spendingsRaw = null;
         this.spendings = null;   
-        this.appService.getWallets(1).then((wallets) => {
-          this.wallets = wallets;              
+        this.appService.getWallets().then((wallets) => {
+          this.totalWallets = wallets;
+          this.wallets = wallets.filter((e) => {
+            return e.type === 1;
+          });              
           this.appService.getSpendings(this.total.walletId, new Date(this.total.startDate), new Date(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
             let today:any = moment(new Date());
             let yesterday:any = moment(new Date());
@@ -150,7 +153,7 @@ export class Spending {
             this.reformatSpending(spendings.map((e) => {
               e.type_spending = this.typeSpendings.find(t=>t._id === e.type_spending_id);
               e.type_spending_uname = e.type_spending.uname;  
-              e.wallet = this.wallets.find(t=>t._id === e.wallet_id);
+              e.wallet = wallets.find(t=>t._id === e.wallet_id);
               e.input_date = new Date(e.input_date);
               return e;
             }), today, yesterday);      

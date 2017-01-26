@@ -21,19 +21,22 @@
   <ion-content *ngIf="me">
     <ion-list class="my-menu">      
       <button menuClose ion-item (click)="openPage('Spending')">
-        <ion-icon name="home" item-left></ion-icon> {{'menu__dashboard' | translate}}
+        <ion-icon name="home" item-left color="danger"></ion-icon> {{'menu__dashboard' | translate}}
       </button>
       <button menuClose ion-item (click)="openPage('Wallet')">
-        <ion-icon name="cash" item-left></ion-icon> {{'menu__wallet' | translate}}
+        <ion-icon name="cash" item-left color="primary"></ion-icon> {{'menu__wallet' | translate}}
       </button>
       <button menuClose ion-item (click)="openPage('Type Spending')">
-        <ion-icon name="archive" item-left></ion-icon> {{'menu__type_spending' | translate}}
+        <ion-icon name="archive" item-left color="primary"></ion-icon> {{'menu__type_spending' | translate}}
       </button>
       <button menuClose ion-item (click)="openPage('Bookmark')">
-        <ion-icon name="bookmarks" item-left></ion-icon> {{'menu__bookmark' | translate}}
+        <ion-icon name="bookmarks" item-left color="dark"></ion-icon> {{'menu__bookmark' | translate}}
+      </button>
+      <button menuClose ion-item (click)="openPage('Note')">
+        <ion-icon name="ios-create" item-left color="dark"></ion-icon> {{'menu__note' | translate}}
       </button>
       <button menuClose ion-item (click)="openPage('Statistic')">
-        <ion-icon name="stats" item-left></ion-icon> {{'menu__statistic' | translate}}
+        <ion-icon name="stats" item-left color="secondary"></ion-icon> {{'menu__statistic' | translate}}
       </button>
     </ion-list>
   </ion-content>

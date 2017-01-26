@@ -17,10 +17,23 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 export class WalletSelectionPopup {
   wallets: Array < any > ;
   selectedId: String;
+  wallets0: Array<any>;
+  wallets1: Array<any>;
+  default: any;
 
   constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public modalController: ModalController) {
     this.wallets = params.get('wallets');
     this.selectedId = params.get('selectedId');
+  }
+
+  ngOnInit(){
+    if(this.wallets.length > 0 && this.wallets[0].type === undefined) this.default = this.wallets[0];
+    this.wallets0 = this.wallets.filter((e) => {
+      return e.type === 0;
+    });
+    this.wallets1 = this.wallets.filter((e) => {
+      return e.type === 1;
+    });
   }
 
   pick(item) {
@@ -35,13 +48,14 @@ export class WalletSelectionPopup {
 
 @Component({
   selector: 'select-wallet',
-  template: `<ion-label stacked *ngIf="label">{{label}}</ion-label><button ion-item (click)="openPick()" class="">  
+  template: `<ion-label stacked *ngIf="label">{{label}}</ion-label>
+      <ion-item (click)="openPick()">  
         <ion-icon class="icon-logo" item-left [cssBackground]="item.icon" *ngIf="item"></ion-icon>        
         <h2 *ngIf="item">{{item.name}}</h2>        
         <ion-icon class="icon-logo" item-left [cssBackground]="emptyIcon" *ngIf="!item"></ion-icon>
         <h2 *ngIf="!item">{{emptyText}}</h2>        
         <ion-icon name="arrow-dropdown" item-right></ion-icon>        
-      </button>
+      </ion-item>
       <div align="right" class="sub-label" *ngIf="item">
         <strong *ngIf="item" [ngClass]="(item.money + (submoney || 0)) < 0 ? 'spending' : 'earning'">{{((item.money + (submoney || 0)) || 0) | currency:appService.currency:true}}</strong>
       </div>`,
@@ -67,7 +81,7 @@ export class WalletSelection implements ControlValueAccessor {
 
   ngOnChanges(changes:SimpleChanges){
     if(changes['wallets']) {
-      this.wallets = _.cloneDeep(changes['wallets'].currentValue);
+      this.wallets = _.cloneDeep(changes['wallets'].currentValue);      
       if(this.default) {
         this.default.icon = `-${5 * 53}px -${0 * 64}px`;
         this.default.className = 'no-select';

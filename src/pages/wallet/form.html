@@ -14,50 +14,50 @@
   </ion-toolbar>
 </ion-header>
 <ion-content text-center *ngIf="wallet">
-  <ion-grid>
-    <ion-row>
-      <ion-col width-20 center>
-        <button ion-button icon-left color="light" clear (click)="changeIcon()">
-          <ion-icon class="icon-logo" item-left [cssBackground]="wallet.icon"></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col center>
+  <form (ngSubmit)="save()">
+    <ion-grid>
+      <ion-row>
+        <ion-col width-20 center>
+          <ion-icon class="icon-logo" item-left [cssBackground]="wallet.icon" (click)="changeIcon()"></ion-icon>
+        </ion-col>
+        <ion-col center>
+          <ion-item>
+            <ion-label stacked>{{'wallet__name' | translate}}</ion-label>
+            <ion-input type="text" [(ngModel)]="wallet.name" [ngModelOptions]="{standalone: true}" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-item>
-          <ion-label stacked>{{'wallet__name' | translate}}</ion-label>
-          <ion-input type="text" [(ngModel)]="wallet.name"></ion-input>
+          <ion-label stacked>{{'wallet__money' | translate}} <span [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'">{{(wallet.money || 0) | currency:appService.currency:true }}</span></ion-label>
+          <ion-input type="number" [(ngModel)]="wallet.money" #moneyInput [ngModelOptions]="{standalone: true}" required></ion-input>
         </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-item>
-        <ion-label stacked>{{'wallet__money' | translate}} <span [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'">{{(wallet.money || 0) | currency:appService.currency:true }}</span></ion-label>
-        <ion-input type="number" [(ngModel)]="wallet.money" #moneyInput></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked>{{'label__pos' | translate}}</ion-label>
-        <ion-input type="number" placeholder="Position" [(ngModel)]="wallet.oder"></ion-input>
-      </ion-item>            
-    </ion-row>   
-    <ion-row>
-      <ion-item>
-        <ion-label>{{'wallet__is_add_in_spending' | translate}}</ion-label>
-        <ion-checkbox [(ngModel)]="wallet.isApplyToSpending"></ion-checkbox>
-      </ion-item>
-    </ion-row>
-    <ion-row>
-      <ion-item>
-        <ion-label stacked>{{'wallet__des' | translate}}</ion-label>
-        <ion-textarea [(ngModel)]="wallet.des"></ion-textarea>
-      </ion-item>
-    </ion-row> 
-    <ion-row>
-      <ion-item>
-        <ion-label>{{'wallet__is_saving' | translate}}</ion-label>
-        <ion-checkbox [(ngModel)]="isSaving" (ionChange)="changeType()"></ion-checkbox>
-      </ion-item>
-    </ion-row>
-  </ion-grid>
-  <div padding>
-    <button ion-button block full (click)="save()">{{'button__save' | translate}}</button>
-  </div>
+        <ion-item>
+          <ion-label stacked>{{'label__pos' | translate}}</ion-label>
+          <ion-input type="number" [(ngModel)]="wallet.oder" [ngModelOptions]="{standalone: true}" required></ion-input>
+        </ion-item>            
+      </ion-row>   
+      <ion-row>
+        <ion-item>
+          <ion-label>{{'wallet__is_add_in_spending' | translate}}</ion-label>
+          <ion-checkbox [(ngModel)]="wallet.isApplyToSpending" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+        </ion-item>
+      </ion-row>
+      <ion-row>
+        <ion-item>
+          <ion-label stacked>{{'wallet__des' | translate}}</ion-label>
+          <ion-textarea [(ngModel)]="wallet.des" [ngModelOptions]="{standalone: true}"></ion-textarea>
+        </ion-item>
+      </ion-row> 
+      <ion-row>
+        <ion-item>
+          <ion-label>{{'wallet__is_saving' | translate}}</ion-label>
+          <ion-checkbox [(ngModel)]="isSaving" (ionChange)="changeType()" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+        </ion-item>
+      </ion-row>
+    </ion-grid>
+    <div padding>
+      <button ion-button block full >{{'button__save' | translate}}</button>
+    </div>
+  </form>
 </ion-content>

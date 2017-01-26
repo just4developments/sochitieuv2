@@ -103,6 +103,14 @@ export class AppService {
         });
     }
 
+    setLocalStorage(key, value): Promise<any>{
+        return this.storage.set(key, value);
+    }
+
+    getLocalStorage(key): Promise<any>{
+        return this.storage.get(key);
+    }
+
     login(item:any, app?:String){
         let headers:any = {
             pj: this.DEFAULT_PJ

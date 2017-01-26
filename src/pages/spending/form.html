@@ -24,44 +24,46 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding-top>  
-  <ion-grid>
-    <ion-row>
-      <ion-item>
-        <ion-label stacked>{{'label__money' | translate}}</ion-label>
-        <ion-input type="number" [(ngModel)]="spending.money" #moneyInput></ion-input>
-      </ion-item>      
-      <ion-item>
-        <ion-label stacked>{{'label__input_date' | translate}}</ion-label>
-        <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="spending.input_date"></ion-datetime>
-      </ion-item>      
-    </ion-row>
-    <ion-row>
-      <ion-item>
-        <ion-label stacked>{{'label__des' | translate}}</ion-label>
-        <ion-input type="text" [(ngModel)]="spending.des" [suggestionData]="suggestion" (pick)="pickSuggestion($event)"></ion-input>
-      </ion-item>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50>
-        <select-wallet *ngIf="wallets" [wallets]="wallets" [(ngModel)]="spending.wallet_id" label="{{'label__money' | translate}}" [submoney]="submoney()"></select-wallet>
-      </ion-col>
-      <ion-col width-50 center>
+  <form (ngSubmit)="save()">
+    <ion-grid>
+      <ion-row>
         <ion-item>
-          <ion-label>{{'label__bookmark' | translate}}</ion-label>
-          <ion-toggle color="primary" [(ngModel)]="spending.is_bookmark"></ion-toggle>
+          <ion-label stacked>{{'label__money' | translate}}</ion-label>
+          <ion-input type="number" [(ngModel)]="spending.money" #moneyInput [ngModelOptions]="{standalone: true}" required min="1"></ion-input>
+        </ion-item>      
+        <ion-item>
+          <ion-label stacked>{{'label__input_date' | translate}}</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="spending.input_date" [ngModelOptions]="{standalone: true}" required></ion-datetime>
+        </ion-item>      
+      </ion-row>
+      <ion-row>
+        <ion-item>
+          <ion-label stacked>{{'label__des' | translate}}</ion-label>
+          <ion-input type="text" [(ngModel)]="spending.des" [suggestionData]="suggestion" (pick)="pickSuggestion($event)" [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
-      </ion-col>
-    </ion-row>    
-    <ion-row [ngSwitch]="type">
-      <ion-col width-100 *ngSwitchCase="'spending'">
-        <select-type-spending *ngIf="typeSpendings" [typeSpendings]="typeSpendings" [(ngModel)]="type_spending_id" label="{{'label__spending' | translate}}"></select-type-spending>        
-      </ion-col>
-      <ion-col width-100 *ngSwitchCase="'earning'">
-        <select-type-spending *ngIf="typeEarnings" [typeSpendings]="typeEarnings" [(ngModel)]="type_earning_id" label="{{'label__earning' | translate}}"></select-type-spending>
-      </ion-col>
-    </ion-row>
-  </ion-grid>    
-  <div padding>
-    <button ion-button block full (click)="save()">{{'button__save' | translate}}</button>
-  </div>
+      </ion-row>
+      <ion-row>
+        <ion-col width-50>
+          <select-wallet *ngIf="wallets" [wallets]="wallets" [(ngModel)]="spending.wallet_id" label="{{'label__money' | translate}}" [ngModelOptions]="{standalone: true}" [submoney]="submoney()"></select-wallet>
+        </ion-col>
+        <ion-col width-50 center>
+          <ion-item>
+            <ion-label>{{'label__bookmark' | translate}}</ion-label>
+            <ion-toggle color="primary" [(ngModel)]="spending.is_bookmark" [ngModelOptions]="{standalone: true}"></ion-toggle>
+          </ion-item>
+        </ion-col>
+      </ion-row>    
+      <ion-row [ngSwitch]="type">
+        <ion-col width-100 *ngSwitchCase="'spending'">
+          <select-type-spending *ngIf="typeSpendings" [typeSpendings]="typeSpendings" [(ngModel)]="type_spending_id" label="{{'label__spending' | translate}}" [ngModelOptions]="{standalone: true}"></select-type-spending>        
+        </ion-col>
+        <ion-col width-100 *ngSwitchCase="'earning'">
+          <select-type-spending *ngIf="typeEarnings" [typeSpendings]="typeEarnings" [(ngModel)]="type_earning_id" label="{{'label__earning' | translate}}" [ngModelOptions]="{standalone: true}"></select-type-spending>
+        </ion-col>
+      </ion-row>
+    </ion-grid>    
+    <div padding>
+      <button ion-button block full >{{'button__save' | translate}}</button>
+    </div>
+  </form>
 </ion-content>

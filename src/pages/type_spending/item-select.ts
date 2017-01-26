@@ -35,13 +35,14 @@ export class TypeSpendingSelectionPopup {
 
 @Component({
   selector: 'select-type-spending',
-  template: `<ion-label stacked *ngIf="label">{{label}}</ion-label><button ion-item (click)="openPick()" class="">  
+  template: `<ion-label stacked *ngIf="label">{{label}}</ion-label>
+      <ion-item (click)="openPick()">  
         <ion-icon class="icon-logo" item-left [cssBackground]="item.icon" *ngIf="item"></ion-icon>        
         <h2 *ngIf="item">{{item.name}}</h2>        
         <ion-icon class="icon-logo" item-left [cssBackground]="emptyIcon" *ngIf="!item"></ion-icon>
         <h2 *ngIf="!item">{{emptyText}}</h2>        
         <ion-icon name="arrow-dropdown" item-right></ion-icon>
-      </button>`,
+      </ion-item>`,
     providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class TypeSpendingSelection implements ControlValueAccessor {

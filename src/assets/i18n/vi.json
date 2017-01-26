@@ -4,8 +4,13 @@
     "menu__dashboard": "Tổng quan",
     "menu__wallet": "Ví tiền",
     "menu__type_spending": "Loại chi tiêu",
-    "menu__bookmark": "Danh sách đánh dấu",
+    "menu__bookmark": "Ghi nhớ chi tiêu",
     "menu__statistic": "Biều đồ",
+    "menu__note": "Ghi chú",
+
+    "note__header": "Các việc cần làm",
+    "note__input": "Nội dung cần làm...",
+    "note__date": "Ngày cần thực hiện",
 
     "account__title": "Tài khoản của tôi",
     "account__change_infor_label": "Thay đổi thông tin",
@@ -59,8 +64,8 @@
     "type_spending__name": "Loại chi tiêu",
     "type_spending__icon_pick_title": "Chọn icon",    
 
-    "bookmark__title": "Ghi nhớ",
-    "bookmark__label": "Danh sách ghi nhớ",
+    "bookmark__title": "Ghi nhớ chi tiêu",
+    "bookmark__label": "Danh sách chi tiêu cần ghi nhớ",
     "bookmark__no_item": "Không có ghi nhớ nào",
 
     "statistic__title": "Biểu đồ thống kê",
@@ -82,6 +87,8 @@
     "filter__end": "Đến ngày",
 
     "confirm__remove_bookmark": "Không ghi nhớ chi tiêu này nữa ?",
+    "confirm__remove_bookmark_des": "Việc này chỉ xóa chi tiêu này trong danh sách ghi nhớ chi tiêu",
+    "confirm__delete_bookmark_des": "Việc này sẽ xóa chi tiêu này trong mục tổng quan. Ví sẽ được hoàn trả lại tiền.",
     "confirm__delete": "Bạn có chắc muốn xóa không ?",
     "confirm__delete_done": "Xóa thành công",
     "confirm__update_done": "Cập nhật thành công",
@@ -94,6 +101,8 @@
     "error__session_expired": "Thời gian login đã quá lâu",
     "error__common": "Có lỗi: {{msg}}",
 
+    "button__unbookmark": "Không ghi nhớ nữa",
+    "button__undo": "Undo",
     "button__backmenu": "Quay lại",
     "button__continue": "Tiếp tục",
     "button__signin": "Đăng nhập",

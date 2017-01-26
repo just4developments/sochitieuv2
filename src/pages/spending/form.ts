@@ -26,13 +26,17 @@ export class FormSpending {
   };
   @ViewChild('moneyInput') moneyInput;
   isChangedData: boolean = false;
-  oldSubmoney: number = 0;
+  oldSub: any;
   suggestion: Array<any>;
   suggestionObject: Array<any> = [];
 
   constructor(private element: ElementRef, public viewCtrl: ViewController, private appService: AppService, params: NavParams) {
       this.spending = params.get('spending');
-      if(this.spending._id) this.oldSubmoney = _.clone(this.spending.money)*this.spending.type;
+      if(this.spending._id) this.oldSub = _.cloneDeep(this.spending);
+      else this.oldSub = {
+        sign_money: 0,
+        wallet_id: undefined
+      };
       this.spending.input_date = this.spending.input_date.toISOString();
       
       this.appService.getSuggestion().then((resp) => {
@@ -109,7 +113,6 @@ export class FormSpending {
       this.appService.addSpending(this.spending).then((item) => {
         this.isChangedData = true;
         this.appService.getI18(['confirm__add_done', 'confirm__add_more', 'button__backmenu', 'button__continue']).subscribe((msg) => {
-          console.log(msg);
 					this.appService.toast(msg['confirm__add_done']);
           this.appService.confirm(msg['confirm__add_done'], msg['confirm__add_more'], [
             {
@@ -141,7 +144,10 @@ export class FormSpending {
   }
 
   submoney(){
-    return (this.spending.money||0)*(this.type === 'spending' ? -1 : 1) - this.oldSubmoney;
+    if(this.oldSub.wallet_id !== this.spending.wallet_id)
+      return (this.spending.money||0)*(this.type === 'spending' ? -1 : 1);
+      console.log(this.spending.money, this.type, this.oldSub);
+    return (this.spending.money||0)*(this.type === 'spending' ? -1 : 1) - this.oldSub.sign_money;
   }
 
   dismiss(data) {

@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar color="danger">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{'menu__note' | translate }}</ion-title>    
+    <ion-buttons end>
+      <button ion-button (click)="add()" *ngIf="!isAdd">
+        <ion-icon name="add-circle"></ion-icon>&nbsp;{{'button__add' | translate}}
+      </button>      
+      <button ion-button (click)="add()" *ngIf="isAdd">
+        <span showWhen="ios">{{'button__cancel' | translate}}</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>      
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-footer *ngIf="isAdd">
+    <form (ngSubmit)="save()">
+      <ion-row>
+        <ion-item>
+          <ion-label stacked>{{'note__input' | translate}}</ion-label>
+          <ion-input type="text" [(ngModel)]="note.title" [ngModelOptions]="{standalone: true}" required></ion-input>
+        </ion-item>
+      </ion-row>
+      <ion-row center>
+        <ion-item>
+          <ion-label stacked>{{'note__date' | translate}}</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="note.updated_date" [ngModelOptions]="{standalone: true}" required></ion-datetime>
+        </ion-item>
+        <ion-col>
+          <button ion-button block >{{'button__save' | translate}}</button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-footer>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      {{'note__header' | translate}}
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let item of list; let i=index;" #slidingItem>
+      <button ion-item (click)="change(item, slidingItem)" [disabled]="item.isDone">
+        <ion-icon item-left [ngClass]="item.isDone ? 'done' : ''">{{i+1}}</ion-icon>
+        <span [ngClass]="[item.isDone ? 'done' : '', item.updated_date | date:'EEEE']">{{item.updated_date | date:'EEEE. dd MMM, yyyy'}}</span>
+        <p>{{item.title}}</p>
+      </button>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="undo(item, slidingItem)" *ngIf="item.isDone">
+          <ion-icon name="bookmarks"></ion-icon>
+          {{'button__undo' | translate}}
+        </button>
+        <button ion-button color="dark" (click)="delete(i, slidingItem)">
+          <ion-icon name="trash"></ion-icon>
+          {{'button__delete' | translate}}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

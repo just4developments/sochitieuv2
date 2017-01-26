@@ -13,6 +13,7 @@ import { MenuController } from 'ionic-angular';
 import { Bookmark } from '../pages/bookmark';
 import { AppService } from '../app/app.service';
 import { Infor } from '../pages/infor';
+import { Note } from '../pages/note';
 
 @Component({
   templateUrl: 'app.html'
@@ -86,6 +87,8 @@ export class MyApp {
       com = Bookmark;
     }else if(page === 'Statistic') {
       com = Statistic;
+    }else if(page === 'Note') {
+      com = Note;
     }
     this.nav.setRoot(com);
   }

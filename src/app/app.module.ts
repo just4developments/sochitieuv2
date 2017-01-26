@@ -26,6 +26,7 @@ import { TypeSpendingSelection, TypeSpendingSelectionPopup } from '../pages/type
 import { Bookmark } from '../pages/bookmark';
 import { Infor } from '../pages/infor';
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate/ng2-translate';
+import { Note } from '../pages/note';
 
 export function provideStorage() {
   return new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__mydb' })// optional config);
@@ -60,7 +61,8 @@ export function createTranslateLoader(http: Http) {
     TypeSpendingSelection, 
     TypeSpendingSelectionPopup,
     Bookmark,
-    Infor
+    Infor,
+    Note
   ],
   imports: [
     HttpModule,
@@ -96,7 +98,8 @@ export function createTranslateLoader(http: Http) {
     TypeSpendingSelection, 
     TypeSpendingSelectionPopup,
     Bookmark,
-    Infor
+    Infor,
+    Note
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, { provide: Storage, useFactory: provideStorage }, AppService]
 })

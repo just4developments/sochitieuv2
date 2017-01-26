@@ -26,7 +26,7 @@
   <div [ngSwitch]="type" class="wallet-list" *ngIf="types">
     <ion-list *ngSwitchCase="'spending'" class="tree">
       <ion-item-sliding *ngFor="let item of types.spending" [ngClass]="{'child-typespending': item.parent_id}" #slidingItem>
-        <ion-item>
+        <ion-item class="bg-tree">
           <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
           <h2>{{item.name}}</h2>        
         </ion-item>
@@ -48,7 +48,7 @@
     </ion-list>
     <ion-list *ngSwitchCase="'earning'" class="tree">
       <ion-item-sliding *ngFor="let item of types.earning" [ngClass]="{'child-typespending': item.parent_id}" #slidingItem>
-        <ion-item>
+        <ion-item class="bg-tree">
           <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
           <h2>{{item.name}}</h2>        
         </ion-item>

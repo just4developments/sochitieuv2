@@ -9,13 +9,17 @@ import { AppService } from '../../app/app.service';
 export class Bookmark {
   spendings: Array<any>;
   typeSpendings: Array<any>;
+  wallets: Array<any>;
   currency: string;
 
   constructor(private appService: AppService) {
+    this.appService.getWallets().then((wallets) => {
+      this.wallets = wallets;
       this.appService.getTypeSpendings().then((typeSpendings) => {
         this.typeSpendings = typeSpendings;  
         this.filter();
       });
+    });      
   }
 
   filter(){
@@ -26,6 +30,9 @@ export class Bookmark {
                 e.type_spending = this.typeSpendings.find((t) => {
                     return e.type_spending_id === t._id;
                 });
+                e.wallet = this.wallets.find((w) => {
+                  return e.wallet_id === w._id;
+                })
                 return e;
             });
             this.appService.hideLoading();
@@ -35,8 +42,8 @@ export class Bookmark {
   }
 
   remove(item){
-    this.appService.getI18(['confirm__remove_bookmark', 'button__disagree', 'button__agree']).subscribe((msg) => {
-      this.appService.confirm(msg['confirm__remove_bookmark'], item.des, [
+    this.appService.getI18(['confirm__remove_bookmark', 'confirm__remove_bookmark_des', 'button__disagree', 'button__agree']).subscribe((msg) => {
+      this.appService.confirm(msg['confirm__remove_bookmark'], msg['confirm__remove_bookmark_des'], [
         {
           text: msg['button__disagree']
         },
@@ -57,8 +64,8 @@ export class Bookmark {
   }
 
   delete(item, slidingItem){
-    this.appService.getI18(["confirm__delete", "button__agree", "button__disagree", "confirm__delete_done"]).subscribe((msg) => {
-      this.appService.confirm(msg["confirm__delete"], item.des, [
+    this.appService.getI18(["confirm__delete", "confirm__delete_bookmark_des", "button__agree", "button__disagree", "confirm__delete_done"]).subscribe((msg) => {
+      this.appService.confirm(msg["confirm__delete"], msg['confirm__delete_bookmark_des'], [
           {
             text: msg['button__disagree']
           },

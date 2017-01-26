@@ -6,6 +6,11 @@
     "menu__type_spending": "Categories",
     "menu__bookmark": "Bookmark",
     "menu__statistic": "Statistic & Chart",
+    "menu__note": "Quick note",
+
+    "note__header": "What you have to remember to do",
+    "note__input": "Content...",
+    "note__date": "Date to done",
 
     "account__title": "Account information",
     "account__change_infor_label": "Change information",
@@ -82,6 +87,8 @@
     "filter__end": "To date",
 
     "confirm__remove_bookmark": "Remove this in bookmark (Not delete) ?",
+    "confirm__remove_bookmark_des": "This just remove this transaction in list bookmark",
+    "confirm__delete_bookmark_des": "This will remove this transaction in dashboard. The wallet will be refund",
     "confirm__delete": "Do you want to delete this ?",
     "confirm__delete_done": "Deleted successfully",
     "confirm__update_done": "Updated successfully",
@@ -94,6 +101,8 @@
     "error__session_expired": "Session is expired",
     "error__common": "Error: {{msg}}",
 
+    "button__unbookmark": "Unbookmark",
+    "button__undo": "Undo",
     "button__backmenu": "Back menu",
     "button__continue": "Yes, continue",
     "button__signin": "Sign-in",
