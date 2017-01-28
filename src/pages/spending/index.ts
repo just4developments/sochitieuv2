@@ -73,12 +73,12 @@ export class Spending {
   }
 
   nextFilter(){
-    let startDate = new Date(this.total.startDate);
+    let startDate = this.appService.date.utcToLocal(this.total.startDate);
     startDate.setDate(1);
     startDate.setMonth(startDate.getMonth()+1);
     this.total.startDate = startDate.toISOString();
     
-    let endDate = new Date(this.total.endDate);    
+    let endDate = this.appService.date.utcToLocal(this.total.endDate);    
     endDate.setMonth(endDate.getMonth()+2);
     endDate.setDate(0);
     this.total.endDate = endDate.toISOString();
@@ -87,12 +87,12 @@ export class Spending {
   }
 
   prevFilter(){
-    let startDate = new Date(this.total.startDate);
+    let startDate = this.appService.date.utcToLocal(this.total.startDate);
     startDate.setDate(1);
     startDate.setMonth(startDate.getMonth()-1);
     this.total.startDate = startDate.toISOString();
     
-    let endDate = new Date(this.total.endDate);    
+    let endDate = this.appService.date.utcToLocal(this.total.endDate);    
     endDate.setMonth(endDate.getMonth());
     endDate.setDate(0);
     this.total.endDate = endDate.toISOString();
@@ -146,7 +146,7 @@ export class Spending {
           this.wallets = wallets.filter((e) => {
             return e.type === 1;
           });              
-          this.appService.getSpendings(this.total.walletId, new Date(this.total.startDate), new Date(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
+          this.appService.getSpendings(this.total.walletId, this.appService.date.utcToLocal(this.total.startDate), this.appService.date.utcToLocal(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
             let today:any = moment(new Date());
             let yesterday:any = moment(new Date());
             yesterday.add(-1, 'days');
@@ -154,7 +154,7 @@ export class Spending {
               e.type_spending = this.typeSpendings.find(t=>t._id === e.type_spending_id);
               e.type_spending_uname = e.type_spending.uname;  
               e.wallet = wallets.find(t=>t._id === e.wallet_id);
-              e.input_date = new Date(e.input_date);
+              e.input_date = this.appService.date.utcToLocal(e.input_date);
               return e;
             }), today, yesterday);      
             this.filterText();
@@ -217,7 +217,7 @@ export class Spending {
   }
 
   toDate(sdate){
-    return new Date(sdate);
+    return this.appService.date.utcToLocal(sdate);
   }
 
   reformatSpending(spendings, today, yesterday){

@@ -29,6 +29,10 @@
           <ion-icon name="bookmarks"></ion-icon>
           {{'button__unbookmark' | translate }}
         </button>
+        <button ion-button color="primary" (click)="edit(item, slidingItem)" *ngIf="item.type_spending.type !== 0">
+          <ion-icon name="create"></ion-icon>
+          {{'button__edit' | translate}}
+        </button>
         <button ion-button color="dark" (click)="delete(item, slidingItem)">
           <ion-icon name="trash"></ion-icon>
           {{'button__delete' | translate }}

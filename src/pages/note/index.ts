@@ -51,7 +51,7 @@ export class Note {
   save(){
     this.list.splice(0, 0, {
       title: this.note.title,
-      updated_date: new Date(this.note.updated_date)
+      updated_date: this.appService.date.utcToLocal(this.note.updated_date)
     });
     this.sort('confirm__add_done');    
     this.storeDb('confirm__add_done');

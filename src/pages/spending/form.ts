@@ -132,7 +132,6 @@ export class FormSpending {
                 });
                 delete this.spending.money;
                 delete this.spending.des;
-                this.spending.is_bookmark = false;
               }
             }
           ]);
@@ -146,7 +145,6 @@ export class FormSpending {
   submoney(){
     if(this.oldSub.wallet_id !== this.spending.wallet_id)
       return (this.spending.money||0)*(this.type === 'spending' ? -1 : 1);
-      console.log(this.spending.money, this.type, this.oldSub);
     return (this.spending.money||0)*(this.type === 'spending' ? -1 : 1) - this.oldSub.sign_money;
   }
 

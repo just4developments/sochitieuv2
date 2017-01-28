@@ -187,8 +187,8 @@ export class Statistic {
 
     gotoSpendingByType(item){
         let data:any = {};
-        data.startDate = new Date(this.filter.startDate);
-        data.endDate = new Date(this.filter.endDate);
+        data.startDate = this.appService.date.utcToLocal(this.filter.startDate);
+        data.endDate = this.appService.date.utcToLocal(this.filter.endDate);
         data.typeSpendingId= item._id;
         this.navCtrl.push(Spending, data);
     }
@@ -211,6 +211,6 @@ export class Statistic {
     }
 
     toDate(sdate){
-        return new Date(sdate);
+        return this.appService.date.utcToLocal(sdate);
     }
 }

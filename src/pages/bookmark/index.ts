@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { ModalController } from 'ionic-angular';
+import _ from 'lodash';
 
 import { AppService } from '../../app/app.service';
+import { FormSpending } from '../spending/form';
 
 @Component({
   selector: 'list-bookmark',
@@ -10,9 +13,8 @@ export class Bookmark {
   spendings: Array<any>;
   typeSpendings: Array<any>;
   wallets: Array<any>;
-  currency: string;
 
-  constructor(private appService: AppService) {
+  constructor(private appService: AppService, private modalController: ModalController) {
     this.appService.getWallets().then((wallets) => {
       this.wallets = wallets;
       this.appService.getTypeSpendings().then((typeSpendings) => {
@@ -33,6 +35,7 @@ export class Bookmark {
                 e.wallet = this.wallets.find((w) => {
                   return e.wallet_id === w._id;
                 })
+                e.input_date = this.appService.date.utcToLocal(e.input_date);
                 return e;
             });
             this.appService.hideLoading();
@@ -61,6 +64,17 @@ export class Bookmark {
         }
       ]);
     });    
+  }
+
+  edit(item, slidingItem) {    
+    let editModal = this.modalController.create(FormSpending, { spending: _.cloneDeep(item), typeSpendings: this.typeSpendings, wallets: this.wallets });
+    editModal.onDidDismiss(data => {
+      if(data) {
+        this.filter();
+      }
+    });
+    editModal.present();
+    // slidingItem.close();
   }
 
   delete(item, slidingItem){

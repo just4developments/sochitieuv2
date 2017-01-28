@@ -5,6 +5,7 @@ import { ToastController, LoadingController, Loading, AlertController } from 'io
 import 'rxjs/add/operator/toPromise';
 import { Observable } from "rxjs/Observable";
 import { TranslateService } from 'ng2-translate/ng2-translate';
+import * as moment from 'moment';
 
 @Injectable()
 export class AppService {
@@ -42,6 +43,18 @@ export class AppService {
     public language: string = 'vi';
     public currency: string = 'VND';
     me: any;
+
+    date:{utcToLocal, toInputDate, toDateString} = {
+        utcToLocal: (sdate: string) => {
+            return moment.utc(sdate).toDate();
+        },
+        toInputDate:()=>{
+
+        },
+        toDateString: (date) => {
+            return date.getFullYear()+'-'+(date.getMonth()+1) + '-'+ date.getDate();
+        }
+    };
 
     constructor(private http: Http, public toastCtrl: ToastController, private storage: Storage, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private translateService: TranslateService){
         
@@ -199,10 +212,10 @@ export class AppService {
             where.push(`type=${type}`);
         }
         if(startDate !== undefined) {
-            where.push(`startDate=${startDate.toISOString()}`);
+            where.push(`startDate=${this.date.toDateString(startDate)}`);
         }
         if(endDate !== undefined) {
-            where.push(`endDate=${endDate.toISOString()}`);
+            where.push(`endDate=${this.date.toDateString(endDate)}`);
         }
         let query = '';
         if(where.length > 0) query = '?'+ where.join('&');
@@ -392,10 +405,10 @@ export class AppService {
         if(walletId) queries.push(`walletId=${walletId}`);
         if(typeSpendingId) queries.push(`typeSpendingId=${typeSpendingId}`);
         if(startDate !== undefined) {
-            queries.push(`startDate=${startDate.toISOString()}`);
+            queries.push(`startDate=${this.date.toDateString(startDate)}`);
         }
         if(endDate !== undefined) {
-            queries.push(`endDate=${endDate.toISOString()}`);
+            queries.push(`endDate=${this.date.toDateString(endDate)}`);
         }
         let query = '';
         if(queries.length > 0){
@@ -441,7 +454,6 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => {
-            console.log('new type spending');
             const vl = this.sortTypeSpending(response.json());
             if(type !== undefined) {                
                 this.setCached('typeSpendings', 'type'+type, vl.filter((e:any) => {
@@ -471,7 +483,6 @@ export class AppService {
             new Headers({token: this.token})
         }).toPromise()
         .then(response => {
-            console.log('new wallet');
             const vl = response.json();
             if(type !== undefined) {                
                 this.setCached('wallets', 'type'+type, vl.filter((e:any) => {
