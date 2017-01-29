@@ -25,7 +25,7 @@ export class MyApp {
   constructor(public platform: Platform, public appService: AppService, private storage: Storage, private menuCtrl: MenuController) {
     this.initializeApp();
     
-    appService.init().then((token) => {
+    appService.init(this).then((token) => {
       this.nav.setRoot(token ? Spending : Login);
       this.menuCtrl.enable(!!token, 'leftMenu');
       if(token){
@@ -39,6 +39,10 @@ export class MyApp {
       if(data.signedIn) this.me = data.signedIn;
       else if(data.logout) this.logout();
     });
+  }
+
+  public backToDashboard(){
+    this.nav.setRoot(Spending);
   }
 
   ngOnDestroy(){

@@ -100,7 +100,11 @@
 
     "error__session_expired": "Session is expired",
     "error__common": "Error: {{msg}}",
+    "error__no_network": "No internet connection",
+    "error__no_network_des": "Please re-check your internet connection.",
 
+    "button__try_again": "Try again",
+    "button__quit": "Quit",
     "button__unbookmark": "Unbookmark",
     "button__undo": "Undo",
     "button__backmenu": "Back menu",

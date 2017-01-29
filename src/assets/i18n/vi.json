@@ -100,7 +100,11 @@
 
     "error__session_expired": "Thời gian login đã quá lâu",
     "error__common": "Có lỗi: {{msg}}",
+    "error__no_network": "Không có kết nối internet",
+    "error__no_network_des": "Vui lòng kiểm tra lại kết nối mạng",
 
+    "button__try_again": "Kết nối lại",
+    "button__quit": "Thoát",
     "button__unbookmark": "Không ghi nhớ nữa",
     "button__undo": "Undo",
     "button__backmenu": "Quay lại",

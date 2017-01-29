@@ -1,20 +1,22 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Http, Headers, Response } from '@angular/http';
-import { ToastController, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { Platform, ToastController, LoadingController, Loading, AlertController, Alert } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
 import { Observable } from "rxjs/Observable";
 import { TranslateService } from 'ng2-translate/ng2-translate';
 import * as moment from 'moment';
 
+import { MyApp } from './app.component';
+
 @Injectable()
 export class AppService {
     mainEvent: EventEmitter<any> = new EventEmitter();    
     // Home
-    // HOST: String = 'http://localhost:9601';
-    // AUTH: String = 'http://localhost:9600'; 
-    // DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
-    // DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
+    HOST: String = 'http://localhost:9601';
+    AUTH: String = 'http://localhost:9600'; 
+    DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
+    DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
     
     // Office
     // HOST: String = 'http://localhost:9601';
@@ -23,10 +25,10 @@ export class AppService {
     // DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
 
     // Server
-    HOST: String = 'http://sct.nanacloset.com';
-    AUTH: String = 'http://authv2.nanacloset.com';     
-    DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
-    DEFAULT_ROLES: Array<String> = ['58799f33d6e7a31c8c6dba83'];    
+    // HOST: String = 'http://sct.nanacloset.com';
+    // AUTH: String = 'http://authv2.nanacloset.com';     
+    // DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
+    // DEFAULT_ROLES: Array<String> = ['58799f33d6e7a31c8c6dba83'];    
 
     ADMOB_ID: String = 'ca-app-pub-7861623744178820~2877845990';
     
@@ -42,7 +44,9 @@ export class AppService {
     loading:Loading;
     public language: string = 'vi';
     public currency: string = 'VND';
+    alert: Alert;
     me: any;
+    myApp: MyApp;
 
     date:{utcToLocal, toInputDate, toDateString} = {
         utcToLocal: (sdate: string) => {
@@ -56,7 +60,7 @@ export class AppService {
         }
     };
 
-    constructor(private http: Http, public toastCtrl: ToastController, private storage: Storage, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private translateService: TranslateService){
+    constructor(private platform: Platform, private http: Http, public toastCtrl: ToastController, private storage: Storage, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private translateService: TranslateService){
         
     }
 
@@ -109,7 +113,8 @@ export class AppService {
         });
     }
 
-    init(){
+    init(myApp: MyApp){
+        this.myApp = myApp;
         return this.storage.get('token').then((token) => {
             this.token = token;
             return Promise.resolve(token);
@@ -518,30 +523,54 @@ export class AppService {
     }
 
     confirm(title: string, mes: string, buttons: Array<any>){
-        this.alertCtrl.create({
+        if(this.alert) return this.alert;
+        this.alert = this.alertCtrl.create({
             title: title,
             message: mes,
             buttons: buttons
-        }).present();
+        });
+        this.alert.present();
+        this.alert.onDidDismiss((params) => {
+           this.alert = null; 
+        });
+        return this.alert;
     }
 
     handleError(_self:AppService, error: any): Promise<any> {
-        return new Promise((resolve, reject) => {      
-            if(this.loading) this.loading.dismissAll();      
-            if([403, 401].indexOf(error.status) !== -1) { 
-                this.getI18("error__session_expired").subscribe((msg) => {
-                   this.toast(msg);
+        return new Promise((resolve, reject) => { 
+            if(_self.loading) _self.loading.dismissAll();      
+            if(error.status === 0){
+                _self.getI18(["error__no_network", "error__no_network_des", "button__try_again", "button__quit"]).subscribe((msg) => {
+                   _self.confirm(msg["error__no_network"], msg["error__no_network_des"], [
+                        {
+                            text: msg['button__quit'],
+                            handler: () => {
+                                _self.platform.exitApp();
+                            }
+                        },
+                        {
+                        text: msg['button__try_again'],
+                            handler: () => {
+                                this.myApp.backToDashboard();
+                            }
+                        }
+                   ]);
+                });    
+                return;
+            }else if([403, 401].indexOf(error.status) !== -1) { 
+                _self.getI18("error__session_expired").subscribe((msg) => {
+                   _self.toast(msg);
                 });                
             }else {
                 let err = error._body ? JSON.parse(error._body) : error._body;
                 if(typeof err === 'object'){
                     if(err.message) err = err.message;
                 }
-                this.getI18("error__common", {msg: err}).subscribe((msg) => {
-                   this.toast(msg);
+                _self.getI18("error__common", {msg: err}).subscribe((msg) => {
+                   _self.toast(msg);
                 });                
             }
-            if(error.status !== 400) this.mainEvent.emit({logout: true});
+            if(error.status !== 400) _self.mainEvent.emit({logout: true});
         });
     }
 }
