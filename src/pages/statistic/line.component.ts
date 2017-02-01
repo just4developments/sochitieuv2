@@ -8,7 +8,7 @@ import _ from "lodash";
   host: { style: 'position: absolute; width: 100vw; height: 100vh;' },
 })
 export class ChartLine {
-    @Input() title: String;
+    @Input() title: string;
     @Input() data: any;
     @Output() onPick: EventEmitter<any> = new EventEmitter<any>();
     chartOpts: any = {};

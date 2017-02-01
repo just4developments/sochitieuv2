@@ -13,26 +13,26 @@ import { MyApp } from './app.component';
 export class AppService {
     mainEvent: EventEmitter<any> = new EventEmitter();    
     // Home
-    HOST: String = 'http://localhost:9601';
-    AUTH: String = 'http://localhost:9600'; 
-    DEFAULT_PJ: String = '586bb85baa5bdf0644e494da';
-    DEFAULT_ROLES: Array<String> = ['586bb85baa5bdf0644e494db'];
+    // HOST: string = 'http://localhost:9601';
+    // AUTH: string = 'http://localhost:9600'; 
+    // DEFAULT_PJ: string = '586bb85baa5bdf0644e494da';
+    // DEFAULT_ROLES: Array<string> = ['586bb85baa5bdf0644e494db'];
     
     // Office
-    // HOST: String = 'http://localhost:9601';
-    // AUTH: String = 'http://localhost:9600'; 
-    // DEFAULT_PJ: String = '586b55c48a1b181fa80d39a5';
-    // DEFAULT_ROLES: Array<String> = ['586b55c48a1b181fa80d39a6'];
+    // HOST: string = 'http://localhost:9601';
+    // AUTH: string = 'http://localhost:9600'; 
+    // DEFAULT_PJ: string = '586b55c48a1b181fa80d39a5';
+    // DEFAULT_ROLES: Array<string> = ['586b55c48a1b181fa80d39a6'];
 
     // Server
-    // HOST: String = 'http://sct.nanacloset.com';
-    // AUTH: String = 'http://authv2.nanacloset.com';     
-    // DEFAULT_PJ: String = '58799ef3d6e7a31c8c6dba82';
-    // DEFAULT_ROLES: Array<String> = ['58799f33d6e7a31c8c6dba83'];    
+    HOST: string = 'http://sct.nanacloset.com';
+    AUTH: string = 'http://authv2.nanacloset.com';     
+    DEFAULT_PJ: string = '58799ef3d6e7a31c8c6dba82';
+    DEFAULT_ROLES: Array<string> = ['58799f33d6e7a31c8c6dba83'];    
 
-    ADMOB_ID: String = 'ca-app-pub-7861623744178820~2877845990';
+    ADMOB_ID: string = 'ca-app-pub-7861623744178820/4354579197';
     
-    token: String;
+    token: string;
     typeSpendings: Array<any>;
     spendings: any = {};
     wallets: Array<any>;
@@ -48,15 +48,15 @@ export class AppService {
     me: any;
     myApp: MyApp;
 
-    date:{utcToLocal, toInputDate, toDateString} = {
+    date:{utcToLocal, toInputDate, toDatestring} = {
         utcToLocal: (sdate: string) => {
             return moment.utc(sdate).toDate();
         },
         toInputDate:()=>{
 
         },
-        toDateString: (date) => {
-            return date.getFullYear()+'-'+(date.getMonth()+1) + '-'+ date.getDate();
+        toDatestring: (date) => {
+            return date.toString();
         }
     };
 
@@ -94,7 +94,7 @@ export class AppService {
         this.cached[type] = {};
     }
 
-    toDataUrl(src: String, outputFormat?: any) {
+    toDataUrl(src: string, outputFormat?: any) {
         return new Promise((resolve, reject) => {
            var img: any = new Image();
             img.crossOrigin = 'Anonymous';
@@ -129,7 +129,7 @@ export class AppService {
         return this.storage.get(key);
     }
 
-    login(item:any, app?:String){
+    login(item:any, app?:string){
         let headers:any = {
             pj: this.DEFAULT_PJ
         };
@@ -155,7 +155,7 @@ export class AppService {
         return Promise.resolve();
     }
 
-    merge(email:String, isnew   : boolean){
+    merge(email:string, isnew   : boolean){
         return this.http.put(`${this.HOST}/Sync/${email}`, {
             isnew
         }, {headers: 
@@ -217,10 +217,10 @@ export class AppService {
             where.push(`type=${type}`);
         }
         if(startDate !== undefined) {
-            where.push(`startDate=${this.date.toDateString(startDate)}`);
+            where.push(`startDate=${this.date.toDatestring(startDate)}`);
         }
         if(endDate !== undefined) {
-            where.push(`endDate=${this.date.toDateString(endDate)}`);
+            where.push(`endDate=${this.date.toDatestring(endDate)}`);
         }
         let query = '';
         if(where.length > 0) query = '?'+ where.join('&');
@@ -405,15 +405,15 @@ export class AppService {
         });
     }
 
-    getSpendings(walletId: String, startDate: Date, endDate: Date, typeSpendingId?: String){ 
+    getSpendings(walletId: string, startDate: Date, endDate: Date, typeSpendingId?: string){ 
         let queries = [];
         if(walletId) queries.push(`walletId=${walletId}`);
         if(typeSpendingId) queries.push(`typeSpendingId=${typeSpendingId}`);
         if(startDate !== undefined) {
-            queries.push(`startDate=${this.date.toDateString(startDate)}`);
+            queries.push(`startDate=${this.date.toDatestring(startDate)}`);
         }
         if(endDate !== undefined) {
-            queries.push(`endDate=${this.date.toDateString(endDate)}`);
+            queries.push(`endDate=${this.date.toDatestring(endDate)}`);
         }
         let query = '';
         if(queries.length > 0){
@@ -551,7 +551,9 @@ export class AppService {
                         {
                         text: msg['button__try_again'],
                             handler: () => {
-                                this.myApp.backToDashboard();
+                                this.alert.dismiss().then((params) => {                                    
+                                    this.myApp.backToDashboard();    
+                                });                                
                             }
                         }
                    ]);

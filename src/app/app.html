@@ -1,7 +1,7 @@
 <ion-menu [content]="content" id="leftMenu">
   <ion-header>
     <ion-toolbar no-padding>
-      <ion-title *ngIf="!me">Notexpv2</ion-title>
+      <ion-title *ngIf="!me">Notexpv2</ion-title>      
       <ion-item *ngIf="me" no-lines color="primary">        
         <ion-avatar item-left>
           <img src="assets/img/no-avatar.png" *ngIf="!me.more.avatar">
@@ -40,7 +40,7 @@
       </button>
     </ion-list>
   </ion-content>
-
+  <span>{{version}}</span>
 </ion-menu>
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->

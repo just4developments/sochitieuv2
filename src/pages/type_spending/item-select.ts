@@ -14,8 +14,8 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class TypeSpendingSelectionPopup {
   typeSpendings: Array < any > ;
-  selectedId: String;
-  label: String;
+  selectedId: string;
+  label: string;
 
   constructor(public viewCtrl: ViewController, params: NavParams) {    
     this.typeSpendings = params.get('typeSpendings');

@@ -8,7 +8,7 @@ import _ from "lodash";
   host: { style: 'float: left; width: 100%' },
 })
 export class ChartPie {
-    @Input() title: String;
+    @Input() title: string;
     @Input() data: any;
     chartOpts: any = {};
     opts:any = {

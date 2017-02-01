@@ -15,7 +15,7 @@ import { WalletSelection } from '../wallet/item-select';
 })
 export class Spending {
   isFilter: Boolean = false;
-  txtSearch: String = '';
+  txtSearch: string = '';
   spendingsRaw: Array<any> = [];
   spendings: Array<any>;
   typeSpendings: Array<any>;
@@ -23,8 +23,8 @@ export class Spending {
   totalWallets: Array<any>;
   defaultWalletItem: any;
   total: any = {
-    startDate: String,
-    endDate: String,
+    startDate: undefined,
+    endDate: undefined,
     typeSpendingId: undefined,
     walletId: undefined,
     spendingTypeId: undefined,
@@ -48,15 +48,15 @@ export class Spending {
     }
     if(!endDate){
       endDate = new Date();
+      endDate.setDate(1);  
       endDate.setMonth(endDate.getMonth()+1);
-      endDate.setDate(0);  
-      startDate.setHours(23);
-      startDate.setMinutes(59);
-      startDate.setSeconds(59);
-      startDate.setMilliseconds(999); 
+      endDate.setHours(0);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+      endDate.setMilliseconds(-1); 
     }
     this.total.startDate = startDate.toISOString();
-    this.total.endDate = endDate.toISOString();    
+    this.total.endDate = endDate.toISOString();   
     this.appService.getI18('dashboard__filter_wallet_all').subscribe((vl) => {
       this.defaultWalletItem = {
         _id: null, 

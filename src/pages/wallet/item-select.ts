@@ -16,7 +16,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class WalletSelectionPopup {
   wallets: Array < any > ;
-  selectedId: String;
+  selectedId: string;
   wallets0: Array<any>;
   wallets1: Array<any>;
   default: any;

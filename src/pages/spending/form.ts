@@ -10,9 +10,9 @@ import * as moment from 'moment';
 })
 export class FormSpending {
   spending: any;
-  type: String = 'spending';
-  type_spending_id: String;
-  type_earning_id: String;
+  type: string = 'spending';
+  type_spending_id: string;
+  type_earning_id: string;
   typeSpendings: Array<any>;
   typeEarnings: Array<any>;
   wallets: Array<any>;

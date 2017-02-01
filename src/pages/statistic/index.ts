@@ -13,8 +13,8 @@ import { SearchByDatePopover } from './index-search.popover';
   templateUrl: 'index.html'
 })
 export class Statistic {
-    type: String = 'spending';
-    chartType: String = 'byMoney';
+    type: string = 'spending';
+    chartType: string = 'byMoney';
     chartDataByMonth: any = {
         table: undefined,
         chart: undefined
@@ -33,7 +33,7 @@ export class Statistic {
       startDate: undefined,
       endDate: undefined
     };
-    setColors: Array<String> = ["#ff402c", "#278ecf", "#4bd762", "#ffca1f", "#ff9416", "#d42ae8", "#535ad7", "#83bfff", "#ffe366", "#FF6384", "#FFCE56", "#E7E9ED", "#36A2EB", "#ffc266", "#D284BD", "#8784DB", "#FF7B65", "#CAEEFC", "#4BC0C0", "#9ADBAD", "#FFF1B2", "#FFE0B2", "#FFBEB2", "#81AFDB", "#6edb8f"];
+    setColors: Array<string> = ["#ff402c", "#278ecf", "#4bd762", "#ffca1f", "#ff9416", "#d42ae8", "#535ad7", "#83bfff", "#ffe366", "#FF6384", "#FFCE56", "#E7E9ED", "#36A2EB", "#ffc266", "#D284BD", "#8784DB", "#FF7B65", "#CAEEFC", "#4BC0C0", "#9ADBAD", "#FFF1B2", "#FFE0B2", "#FFBEB2", "#81AFDB", "#6edb8f"];
     constructor(public navCtrl: NavController, private appService: AppService, public popoverCtrl: PopoverController){
         this.filter.startDate = new Date();
         this.filter.startDate.setDate(1);
@@ -45,12 +45,13 @@ export class Statistic {
         this.filter.startDate = this.filter.startDate.toISOString();
         
         this.filter.endDate = new Date();
-        this.filter.endDate.setMonth(12);
-        this.filter.endDate.setDate(0);
-        this.filter.endDate.setHours(23);
-        this.filter.endDate.setMinutes(59);
-        this.filter.endDate.setSeconds(59);
-        this.filter.endDate.setMilliseconds(999);
+        this.filter.endDate.setDate(1);
+        this.filter.endDate.setMonth(0);        
+        this.filter.endDate.setFullYear(this.filter.endDate.getFullYear()+1);        
+        this.filter.endDate.setHours(0);
+        this.filter.endDate.setMinutes(0);
+        this.filter.endDate.setSeconds(0);
+        this.filter.endDate.setMilliseconds(-1);
         this.filter.endDate = this.filter.endDate.toISOString();
     }
 

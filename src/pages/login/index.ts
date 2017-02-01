@@ -24,7 +24,7 @@ export class Login {
     this.language = this.appService.language;
   }
 
-  login(user:any, app?:String){
+  login(user:any, app?:string){
     this.appService.getI18(['login__logging_msg', 'login__sync_msg']).subscribe((msg) => {          
       this.appService.showLoading(msg['login__logging_msg']).then(() => {
         this.appService.login(user, app).then((isNew) => {

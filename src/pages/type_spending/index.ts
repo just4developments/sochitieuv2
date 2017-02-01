@@ -10,7 +10,7 @@ import { FormTypeSpending } from './form';
   templateUrl: 'index.html'
 })
 export class TypeSpending {
-  type: String = 'spending';
+  type: string = 'spending';
   types: any;
 
   constructor(public navCtrl: NavController, private appService: AppService, public modalController: ModalController) {

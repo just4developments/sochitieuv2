@@ -9,8 +9,8 @@ import { AppService } from '../../app/app.service';
   templateUrl: 'index.html'
 })
 export class Infor {
-  confirmPassword: String;
-	type: String = 'infor';
+  confirmPassword: string;
+	type: string = 'infor';
   user: any = {
     more: {}
   };

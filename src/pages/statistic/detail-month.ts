@@ -10,7 +10,7 @@ import { AppService } from '../../app/app.service';
 })
 export class ChartDetailInMonth {
     item: any;
-    type: String;
+    type: string;
     data: any;
     
     constructor(public navParams: NavParams, private appService: AppService){
