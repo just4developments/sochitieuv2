@@ -116,8 +116,10 @@ export class AppService {
     init(myApp: MyApp){
         this.myApp = myApp;
         return this.storage.get('token').then((token) => {
-            this.token = token;
-            return Promise.resolve(token);
+            if(token) { 
+                this.token = token;
+                return this.ping();
+            }
         });
     }
 
@@ -127,6 +129,18 @@ export class AppService {
 
     getLocalStorage(key): Promise<any>{
         return this.storage.get(key);
+    }
+
+    ping() {
+        return this.http.head(`${this.AUTH}/Ping`, {headers: 
+            new Headers({token: this.token})
+        }).toPromise()
+        .then((resp: Response) => {
+            return Promise.resolve(this.token);
+        })
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
     }
 
     login(item:any, app?:string){

@@ -71,7 +71,6 @@ export class MyApp {
     this.platform.ready().then((readySource) => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      console.log("Loaded", readySource);
       StatusBar.styleDefault();
       Splashscreen.hide();      
       if(readySource === 'cordova') {
