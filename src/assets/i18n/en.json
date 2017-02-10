@@ -98,6 +98,7 @@
 
     "msg__wait": "Please wait...",
 
+    "error__account_locked": "Account is not actived",
     "error__session_expired": "Session is expired",
     "error__common": "Error: {{msg}}",
     "error__no_network": "No internet connection",

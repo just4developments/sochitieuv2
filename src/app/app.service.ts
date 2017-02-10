@@ -21,14 +21,14 @@ export class AppService {
     // Office
     // HOST: string = 'http://localhost:9601';
     // AUTH: string = 'http://localhost:9600'; 
-    // DEFAULT_PJ: string = '586b55c48a1b181fa80d39a5';
-    // DEFAULT_ROLES: Array<string> = ['586b55c48a1b181fa80d39a6'];
+    // DEFAULT_PJ: string = '58997ac77e9a4435508973bf';
+    // DEFAULT_ROLES: Array<string> = ['58997b0a7e9a4435508973c1'];
 
     // Server
     HOST: string = 'http://sct.nanacloset.com';
     AUTH: string = 'http://authv2.nanacloset.com';     
-    DEFAULT_PJ: string = '58799ef3d6e7a31c8c6dba82';
-    DEFAULT_ROLES: Array<string> = ['58799f33d6e7a31c8c6dba83'];    
+    DEFAULT_PJ: string = '589d99e35689fe794ddf1420';
+    DEFAULT_ROLES: Array<string> = ['589d9a3d83fcb37975d1313b'];    
 
     ADMOB_ID: string = 'ca-app-pub-7861623744178820/4354579197';
     
@@ -132,7 +132,7 @@ export class AppService {
     }
 
     ping() {
-        return this.http.head(`${this.AUTH}/Ping`, {headers: 
+        return this.http.head(`${this.AUTH}/ping`, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then((resp: Response) => {
@@ -143,23 +143,42 @@ export class AppService {
         });
     }
 
+    add(user, headers){
+        return this.http.post(`${this.AUTH}/register?auto_login=1`, user, {headers: 
+            new Headers(headers)
+        }).toPromise()
+        .then((resp:Response) => {
+            this.token = resp.headers.get('token');
+            return resp.json();
+        })
+        .catch((error) => {
+            return this.handleError(this, error);
+        });
+    }
+
     login(item:any, app?:string){
         let headers:any = {
             pj: this.DEFAULT_PJ
         };
-        if(app) headers.app = 'facebook';
-        item.status = 1;
-        item.roles = this.DEFAULT_ROLES;
-        return this.http.post(`${this.AUTH}/Login`, item, {headers: 
+        if(app) headers.app = 'facebook';        
+        return this.http.post(`${this.AUTH}/login`, item, {headers: 
             new Headers(headers)
         }).toPromise()
         .then((resp: Response) => {
             this.token = resp.headers.get('token');
             this.storage.set('token', this.token);    
-            return Promise.resolve(resp.headers.get('isnew'));
+            return Promise.resolve();
         })
         .catch((error) => {
-            return this.handleError(this, error);
+            if([404].indexOf(error.status) !== -1) { 
+                item.status = 1;
+                item.role_ids = this.DEFAULT_ROLES;
+                item.recover_by = item.username;
+                item.app = app;
+                return this.add(item, headers);       
+            } else {
+                return this.handleError(this, error);
+            }
         });
     }
 
@@ -183,7 +202,7 @@ export class AppService {
 
     getMe(){
         if(this.me) return Promise.resolve(this.me);
-        return this.http.get(`${this.AUTH}/Me`, {headers: 
+        return this.http.get(`${this.AUTH}/me`, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then(response => response.json())
@@ -193,7 +212,7 @@ export class AppService {
     }
 
     updateInfor(user){
-        return this.http.put(`${this.AUTH}/Me`, user, {headers: 
+        return this.http.put(`${this.AUTH}/me`, user, {headers: 
             new Headers({token: this.token})
         }).toPromise()
         .then(response => {
@@ -577,7 +596,11 @@ export class AppService {
                 _self.getI18("error__session_expired").subscribe((msg) => {
                    _self.toast(msg);
                 });                
-            }else {
+            } else if([423].indexOf(error.status) !== -1) { 
+                _self.getI18("error__account_locked").subscribe((msg) => {
+                   _self.toast(msg);
+                });
+            } else {
                 let err = error._body ? JSON.parse(error._body) : error._body;
                 if(typeof err === 'object'){
                     if(err.message) err = err.message;

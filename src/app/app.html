@@ -4,8 +4,8 @@
       <ion-title *ngIf="!me">Notexpv2</ion-title>      
       <ion-item *ngIf="me" no-lines color="primary">        
         <ion-avatar item-left>
-          <img src="assets/img/no-avatar.png" *ngIf="!me.more.avatar">
-          <img [src]="me.more.avatar" *ngIf="me.more.avatar">
+          <img src="assets/img/no-avatar.png" *ngIf="!me.more || !me.more.avatar">
+          <img [src]="me.more.avatar" *ngIf="me.more && me.more.avatar">
         </ion-avatar>
         <h2 menuClose (click)="editInfor()">
           <span style="text-shadow: 0px 0px 1px #270000;">{{me.username}}</span><br/>

@@ -14,9 +14,13 @@ export class IconPicker {
 		 let i = 0;
 		 let col= 13;
 		 let row= 12;
-		 while(i++ < col * row){
-			 if(i === 117 || i === 130 || i === 143) continue;
-			 this.items.push({icon: `-${(i%col-1)*53}px -${(i%row-1)*64}px`, sicon: ''});
+		 while(i < col * row) {
+			 if(i === 129 || i === 142 || i === 155) {
+         i++;
+         continue;
+       }
+			 this.items.push({icon: `-${(i%(col))*53}px -${Math.floor(i/col)*64}px`, sicon: ''});
+       i++;
 		 }
   }
 

@@ -73,7 +73,7 @@
     "statistic__by_type": "Theo loại chi tiêu",
 
     "label__pos": "Thứ tự hiển thị",
-    "label__money": "Ví tiền",
+    "label__money": "Số tiền",
     "label__des": "Mô tả",
     "label__input_date": "Ngày chi tiêu",
     "label__typespending": "Loại chi tiêu",
@@ -98,6 +98,7 @@
 
     "msg__wait": "Đang tải dữ liệu...",
 
+    "error__account_locked": "Tài khoản đã bị khóa",
     "error__session_expired": "Thời gian login đã quá lâu",
     "error__common": "Có lỗi: {{msg}}",
     "error__no_network": "Không có kết nối internet",
