@@ -22,7 +22,8 @@
         </ion-icon>
         <strong item-right [ngClass]="item.type < 0 ? 'spending' : (item.type > 0 ? 'earning' : '')">{{item.type >= 0 ? '+' : '-'}} {{(item.money || 0) | currency:appService.currency:true}}</strong>
         <h2>{{item.type_spending.name}}</h2>        
-        <p>{{item.des}}</p>
+        <h3>{{item.input_date | date: 'dd MMM, yyyy'}}</h3>
+        <p>{{item.des}}</p>        
       </ion-item>
       <ion-item-options side="right">
         <button ion-button color="danger" (click)="remove(item, slidingItem)">
