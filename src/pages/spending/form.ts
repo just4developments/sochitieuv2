@@ -39,14 +39,7 @@ export class FormSpending {
       };
       this.spending.input_date = this.spending.input_date.toISOString();
       
-      this.appService.getSuggestion().then((resp) => {
-        this.suggestion = resp.map((e) => {
-          return e._id;
-        });
-        for(let i in resp) {
-          this.suggestionObject[resp[i]._id] = resp[i].spendings;
-        }
-      });
+      this.searchSuggestion();
 
       let types = params.get('typeSpendings');
       this.typeEarnings = [];
@@ -68,12 +61,30 @@ export class FormSpending {
       this.wallets = params.get('wallets');
   }
 
-  pickSuggestion(name){
-    const pick = this.suggestionObject[name];
+  searchSuggestion(){
+    this.appService.getSuggestion().then((resp) => {
+      this.suggestion = resp.map((e) => {
+        return e._id;
+      });
+      this.suggestionObject = resp;        
+    });
+  }
+
+  pickSuggestion(name) {
+    if(!name || name.length === 0) return;
+    const pick = this.suggestionObject.find((e) => {
+      return e._id === name;
+    });
     if(pick){
-      if(pick.type < 0) this.type_spending_id = pick.type_spending_id;
-      else if(pick.type > 0) this.type_earning_id = pick.type_spending_id;
-      this.spending.wallet_id = pick.wallet_id;
+      if(pick.spendings.type < 0) {
+        this.type = 'spending';
+        this.type_spending_id = pick.spendings.type_spending_id;
+      }
+      else if(pick.spendings.type > 0) {
+        this.type = 'earning';
+        this.type_earning_id = pick.spendings.type_spending_id;
+      }
+      this.spending.wallet_id = pick.spendings.wallet_id;
     }
   }
 
@@ -105,6 +116,7 @@ export class FormSpending {
         this.appService.getI18('confirm__update_done').subscribe((msg) => {
 					this.appService.toast(msg);
           this.dismiss(this.spending);
+          this.searchSuggestion();
 				});        
       }).catch((err) => {
         this.dismiss(undefined);
@@ -130,6 +142,7 @@ export class FormSpending {
                   }
                   return e;
                 });
+                this.searchSuggestion();
                 delete this.spending.money;
                 delete this.spending.des;
               }
