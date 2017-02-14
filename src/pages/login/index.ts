@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
-import { Facebook, FacebookLoginResponse } from 'ionic-native';
+import { Facebook, FacebookLoginResponse, GooglePlus } from 'ionic-native';
 import _ from 'lodash';
 import * as md5 from 'md5';
 
@@ -93,7 +93,9 @@ export class Login {
   }
 
   loginGoogle(){
-    this.appService.toast('#Error: Not supported google yet');
+    GooglePlus.login()
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
   }
 
 }

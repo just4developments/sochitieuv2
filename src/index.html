@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Ionic App</title>
-  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' *; object-src 'self'; style-src 'self' 'unsafe-inline'; media-src *">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src * data: gap: https://ssl.gstatic.com 'unsafe-eval';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+    connect-src 'self' 'unsafe-inline' 'unsafe-eval' blob: ws: *;
+  ">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
@@ -30,7 +35,28 @@
 <body>
 
   <!-- Ionic's root component and where the app will load -->
-  <ion-app></ion-app>
+  <ion-app>
+    <style>
+      #mainLoading {
+          text-align: center;
+          position: fixed;
+          top: 42%;
+          width: 100%;
+      }
+    </style>
+    <h3 id="mainLoading">Loading...</h3>
+    <script type="text/javascript">
+      let msg = ['Loading assets...', 'Loading plugins...', 'Testing connection...', 'Starting ...'];
+      let loading = function() {
+        document.querySelector('#mainLoading').innerHTML = msg[i++];
+        setTimeout(function(){
+          if(i < msg.length) {
+            if(loading) loading();
+          }
+        }, 2000);
+      };
+    </script>
+  </ion-app>
 
   <!-- The polyfills js is generated during the build process -->
   <script src="build/polyfills.js"></script>
