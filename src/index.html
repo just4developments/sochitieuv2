@@ -42,20 +42,13 @@
           position: fixed;
           top: 42%;
           width: 100%;
+          animation: blinker 1s linear infinite;
+      }
+      @keyframes blinker {  
+        50% { opacity: 0; }
       }
     </style>
-    <h3 id="mainLoading">Loading...</h3>
-    <script type="text/javascript">
-      let msg = ['Loading assets...', 'Loading plugins...', 'Testing connection...', 'Starting ...'];
-      let loading = function() {
-        document.querySelector('#mainLoading').innerHTML = msg[i++];
-        setTimeout(function(){
-          if(i < msg.length) {
-            if(loading) loading();
-          }
-        }, 2000);
-      };
-    </script>
+    <h3 id="mainLoading">Launching app...</h3>    
   </ion-app>
 
   <!-- The polyfills js is generated during the build process -->

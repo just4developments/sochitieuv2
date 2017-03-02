@@ -23,12 +23,7 @@ export class AppService {
     // AUTH: string = 'http://localhost:9600'; 
     // DEFAULT_PJ: string = '58997ac77e9a4435508973bf';
     // DEFAULT_ROLES: Array<string> = ['58997b0a7e9a4435508973c1'];
-
-    // Server
-    HOST: string = 'http://sct.nanacloset.com';
-    AUTH: string = 'http://authv2.nanacloset.com';     
-    DEFAULT_PJ: string = '589d99e35689fe794ddf1420';
-    DEFAULT_ROLES: Array<string> = ['589d9a3d83fcb37975d1313b'];    
+ 
 
     ADMOB_ID: string = 'ca-app-pub-7861623744178820/4354579197';
     
