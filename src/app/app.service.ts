@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Platform, ToastController, LoadingController, Loading, AlertController, Alert } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
 import { Observable } from "rxjs/Observable";
@@ -23,11 +23,10 @@ export class AppService {
     // AUTH: string = 'http://localhost:9600'; 
     // DEFAULT_PJ: string = '58997ac77e9a4435508973bf';
     // DEFAULT_ROLES: Array<string> = ['58997b0a7e9a4435508973c1'];
- 
 
     ADMOB_ID: string = 'ca-app-pub-7861623744178820/4354579197';
     
-    token: string;
+    requestOptions: RequestOptions;
     typeSpendings: Array<any>;
     spendings: any = {};
     wallets: Array<any>;
@@ -108,11 +107,15 @@ export class AppService {
         });
     }
 
+    getRequestOptions(header){
+        return new RequestOptions({headers: new Headers(header)});
+    }
+
     init(myApp: MyApp){
         this.myApp = myApp;
         return this.storage.get('token').then((token) => {
             if(token) { 
-                this.token = token;
+                this.requestOptions = this.getRequestOptions({token});
                 return this.ping();
             }
         });
@@ -127,23 +130,19 @@ export class AppService {
     }
 
     ping() {
-        return this.http.head(`${this.AUTH}/ping`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.head(`${this.AUTH}/ping`, this.requestOptions).toPromise()
         .then((resp: Response) => {
-            return Promise.resolve(this.token);
+            return Promise.resolve(this.requestOptions);
         })
         .catch((error) => {
             return this.handleError(this, error);
         });
     }
 
-    add(user, headers){
-        return this.http.post(`${this.AUTH}/register?auto_login=1`, user, {headers: 
-            new Headers(headers)
-        }).toPromise()
+    add(user, requestOptions){
+        return this.http.post(`${this.AUTH}/register?auto_login=1`, user, requestOptions).toPromise()
         .then((resp:Response) => {
-            this.token = resp.headers.get('token');
+            this.requestOptions = this.getRequestOptions({token: resp.headers.get('token')});
             return resp.json();
         })
         .catch((error) => {
@@ -156,12 +155,10 @@ export class AppService {
             pj: this.DEFAULT_PJ
         };
         if(app) headers.app = 'facebook';        
-        return this.http.post(`${this.AUTH}/login`, item, {headers: 
-            new Headers(headers)
-        }).toPromise()
+        return this.http.post(`${this.AUTH}/login`, item, this.getRequestOptions(headers)).toPromise()
         .then((resp: Response) => {
-            this.token = resp.headers.get('token');
-            this.storage.set('token', this.token);    
+            this.requestOptions = this.getRequestOptions({token: resp.headers.get('token')});
+            this.storage.set('token', resp.headers.get('token'));
             return Promise.resolve();
         })
         .catch((error) => {
@@ -186,9 +183,7 @@ export class AppService {
     merge(email:string, isnew   : boolean){
         return this.http.put(`${this.HOST}/Sync/${email}`, {
             isnew
-        }, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        }, this.requestOptions).toPromise()
         .then(response => response)
         .catch((error) => {
             return this.handleError(this, error);
@@ -197,9 +192,7 @@ export class AppService {
 
     getMe(){
         if(this.me) return Promise.resolve(this.me);
-        return this.http.get(`${this.AUTH}/me`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.get(`${this.AUTH}/me`, this.requestOptions).toPromise()
         .then(response => response.json())
         .catch((error) => {
             return this.handleError(this, error);
@@ -207,9 +200,7 @@ export class AppService {
     }
 
     updateInfor(user){
-        return this.http.put(`${this.AUTH}/me`, user, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.put(`${this.AUTH}/me`, user, this.requestOptions).toPromise()
         .then(response => {
             this.me = response.json(); 
             return this.me;
@@ -230,9 +221,7 @@ export class AppService {
         }
         where = where.join('&');
         if(where.length > 0) where = '?' + where;
-        return this.http.get(`${this.HOST}/StatisticByMonth${where}`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.get(`${this.HOST}/StatisticByMonth${where}`, this.requestOptions).toPromise()
         .then(response => response.json())
         .catch((error) => {
             return this.handleError(this, error);
@@ -252,9 +241,7 @@ export class AppService {
         }
         let query = '';
         if(where.length > 0) query = '?'+ where.join('&');
-        return this.http.get(`${this.HOST}/StatisticByTypeSpending${query}`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.get(`${this.HOST}/StatisticByTypeSpending${query}`, this.requestOptions).toPromise()
         .then(response => response.json())
         .catch((error) => {
             return this.handleError(this, error);
@@ -262,9 +249,7 @@ export class AppService {
     }
 
     addSpending(item){
-        return this.http.post(`${this.HOST}/Spendings`, item, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.post(`${this.HOST}/Spendings`, item, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('wallets');
             return response.json();            
@@ -275,9 +260,7 @@ export class AppService {
     }
 
     updateSpending(item){
-        return this.http.put(`${this.HOST}/Spendings/${item._id}`, item, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.put(`${this.HOST}/Spendings/${item._id}`, item, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('wallets');
             return response.json();            
@@ -288,9 +271,7 @@ export class AppService {
     }
 
     unbookmarkSpending(item){
-        return this.http.delete(`${this.HOST}/Spendings/Bookmark/${item._id}`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.delete(`${this.HOST}/Spendings/Bookmark/${item._id}`, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('wallets');
             return response.json();            
@@ -301,9 +282,7 @@ export class AppService {
     }
 
     deleteSpending(item){
-        return this.http.delete(`${this.HOST}/Spendings/${item._id}`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.delete(`${this.HOST}/Spendings/${item._id}`, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('wallets');
             return response.json();            
@@ -315,9 +294,7 @@ export class AppService {
 
     transferWallet(trans){
         trans.input_date = new Date();
-        return this.http.put(`${this.HOST}/Wallet/Transfer`, trans, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.put(`${this.HOST}/Wallet/Transfer`, trans, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('wallets');
             return response.json();
@@ -329,9 +306,7 @@ export class AppService {
 
     addWallet(item){
         item.input_date = new Date();
-        return this.http.post(`${this.HOST}/Wallet`, item, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.post(`${this.HOST}/Wallet`, item, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('wallets', 'type');
             this.removeCached('wallets', 'type'+item.type);
@@ -344,9 +319,7 @@ export class AppService {
 
     updateWallet(item){        
         item.input_date = new Date();
-        return this.http.put(`${this.HOST}/Wallet/${item._id}`, item, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.put(`${this.HOST}/Wallet/${item._id}`, item, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('wallets', 'type');
             this.removeCached('wallets', 'type'+item.type);
@@ -358,9 +331,7 @@ export class AppService {
     }
 
     deleteWallet(item){        
-        return this.http.delete(`${this.HOST}/Wallet/${item._id}`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.delete(`${this.HOST}/Wallet/${item._id}`, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('wallets', 'type');
             this.removeCached('wallets', 'type'+item.type);
@@ -372,9 +343,7 @@ export class AppService {
     }
 
     addTypeSpending(item){
-        return this.http.post(`${this.HOST}/TypeSpendings`, item, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.post(`${this.HOST}/TypeSpendings`, item, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('typeSpendings', 'type');
             this.removeCached('typeSpendings', 'type'+item.type);
@@ -386,9 +355,7 @@ export class AppService {
     }
 
     updateTypeSpending(item){
-        return this.http.put(`${this.HOST}/TypeSpendings/${item._id}`, item, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.put(`${this.HOST}/TypeSpendings/${item._id}`, item, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('typeSpendings', 'type');
             this.removeCached('typeSpendings', 'type'+item.type);
@@ -400,9 +367,7 @@ export class AppService {
     }
 
     deleteTypeSpending(item){
-        return this.http.delete(`${this.HOST}/TypeSpendings/${item._id}`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.delete(`${this.HOST}/TypeSpendings/${item._id}`, this.requestOptions).toPromise()
         .then(response => {
             this.removeCached('typeSpendings', 'type');
             this.removeCached('typeSpendings', 'type'+item.type);
@@ -414,9 +379,7 @@ export class AppService {
     }
 
     getBookmark(){ 
-        return this.http.get(`${this.HOST}/Spendings/Bookmark`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.get(`${this.HOST}/Spendings/Bookmark`, this.requestOptions).toPromise()
         .then(response => response.json())
         .catch((error) => {
             return this.handleError(this, error);
@@ -424,9 +387,7 @@ export class AppService {
     }
 
     getSuggestion(){
-        return this.http.get(`${this.HOST}/Spendings/Suggestion`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.get(`${this.HOST}/Spendings/Suggestion`, this.requestOptions).toPromise()
         .then(response => response.json())
         .catch((error) => {
             return this.handleError(this, error);
@@ -447,9 +408,7 @@ export class AppService {
         if(queries.length > 0){
             query = '?' + queries.join('&');
         }
-        return this.http.get(`${this.HOST}/Spendings${query}`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.get(`${this.HOST}/Spendings${query}`, this.requestOptions).toPromise()
         .then(response => response.json())
         .catch((error) => {
             return this.handleError(this, error);
@@ -483,9 +442,7 @@ export class AppService {
 
         let where = '';
         if(type !== undefined) where = `?type=${type}`
-        return this.http.get(`${this.HOST}/TypeSpendings${where}`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.get(`${this.HOST}/TypeSpendings${where}`, this.requestOptions).toPromise()
         .then(response => {
             const vl = this.sortTypeSpending(response.json());
             if(type !== undefined) {                
@@ -512,9 +469,7 @@ export class AppService {
         }     
         let where = '';
         if(type !== undefined) where = `?type=${type}`
-        return this.http.get(`${this.HOST}/Wallet${where}`, {headers: 
-            new Headers({token: this.token})
-        }).toPromise()
+        return this.http.get(`${this.HOST}/Wallet${where}`, this.requestOptions).toPromise()
         .then(response => {
             const vl = response.json();
             if(type !== undefined) {                

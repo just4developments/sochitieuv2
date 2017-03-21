@@ -42,9 +42,9 @@ export class MyApp {
   }
 
   public backToDashboard(){
-    this.nav.setRoot(this.appService.token ? Spending : Login);
-    this.menuCtrl.enable(!!this.appService.token, 'leftMenu');
-    if(this.appService.token){
+    this.nav.setRoot(this.appService.requestOptions ? Spending : Login);
+    this.menuCtrl.enable(!!this.appService.requestOptions, 'leftMenu');
+    if(this.appService.requestOptions){
         this.appService.getMe().then((me) => {
           this.me = me;
         });
