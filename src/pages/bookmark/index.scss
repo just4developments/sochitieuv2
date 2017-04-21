@@ -6,4 +6,7 @@ list-bookmark {
         position: absolute;
         left: 70px;
     }
+    ion-item-sliding.bookmark > ion-item {
+        border-left: solid 2px #f53d3d !important;
+    }
 }

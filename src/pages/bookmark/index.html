@@ -15,7 +15,7 @@
     <ion-item *ngIf="spendings && spendings.length === 0">
       {{'bookmark__no_item' | translate}}
     </ion-item>
-    <ion-item-sliding *ngFor="let item of spendings" #slidingItem>
+    <ion-item-sliding *ngFor="let item of spendings" #slidingItem class="bookmark">
       <ion-item>
         <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon">
           <ion-icon class="icon-logo logo-wallet" [cssBackground]="item.wallet.icon"></ion-icon>

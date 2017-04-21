@@ -52,7 +52,7 @@ export class FormSpending {
           if(!this.type_earning_id && s.type > 0){
             if(this.spending.type_spending_id) this.type =  'earning';
             this.type_earning_id = s._id;
-          }else if(!this.type_spending_id){
+          }else if(!this.type_spending_id && s.type < 0){
             if(this.spending.type_spending_id) this.type =  'spending';
             this.type_spending_id = s._id;
           }

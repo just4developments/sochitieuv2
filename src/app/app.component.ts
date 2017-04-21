@@ -74,10 +74,14 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();      
       if(readySource === 'cordova') {
-        AdMob.createBanner({
-          adId: this.appService.ADMOB_ID,
-          isTesting: true
-        }).then(() => { AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER); });
+        this.appService.getAdsense().then(() => {
+          AdMob.createBanner({
+            adId: this.appService.ADMOB_ID,
+            // isTesting: true
+          }).then(() => { AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER); });
+        }).catch((err) => {
+          console.log('No admod');
+        });        
         AppVersion.getVersionCode().then((code) => {
           AppVersion.getVersionNumber().then((version) => {
             this.version = `v${code}-${version}`;

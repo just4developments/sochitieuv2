@@ -30,4 +30,7 @@ list-spending {
             font-size: 12px;
         }
     }
+    ion-item-sliding.bookmark > ion-item {
+        border-left: solid 2px #f53d3d !important;
+    }
 }

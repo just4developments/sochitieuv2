@@ -63,6 +63,7 @@
               <span item-right>
                 <div class="spending">- {{(item.money || 0) | currency:appService.currency:true}}</div>        
               </span>
+              <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon> 
               <h2>{{item.name}}</h2>      
             </button>
           </ion-list>
@@ -87,6 +88,7 @@
               <span item-right>
                 <div class="earning">+ {{(item.money || 0) | currency:appService.currency:true}}</div>
               </span>
+              <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon> 
               <h2>{{item.name}}</h2>      
             </button>
           </ion-list>

@@ -19,10 +19,12 @@ export class AppService {
     // DEFAULT_ROLES: Array<string> = ['586bb85baa5bdf0644e494db'];
     
     // Office
-    // HOST: string = 'http://localhost:9601';
-    // AUTH: string = 'http://localhost:9600'; 
-    // DEFAULT_PJ: string = '58997ac77e9a4435508973bf';
-    // DEFAULT_ROLES: Array<string> = ['58997b0a7e9a4435508973c1'];
+    HOST: string = 'http://localhost:9601';
+    AUTH: string = 'http://localhost:9600'; 
+    DEFAULT_PJ: string = '58f6da4b9c53b12570637c06';
+    DEFAULT_ROLES: Array<string> = ['58f6da4b9c53b12570637c07'];
+    
+    
 
     ADMOB_ID: string = 'ca-app-pub-7861623744178820/4354579197';
     
@@ -43,13 +45,24 @@ export class AppService {
     myApp: MyApp;
 
     date:{utcToLocal, toInputDate, toDatestring} = {
-        utcToLocal: (sdate: string) => {
-            return moment.utc(sdate).toDate();
+        utcToLocal: (sdate: string, type?: string) => {
+            let date = moment.utc(sdate).toDate();
+            if(type === 'start') {
+                date.setHours(0, 0, 0, 0);
+            }else if(type === 'end') {
+                date.setHours(23, 59, 59, 999);
+            }
+            return date;
         },
         toInputDate:()=>{
 
         },
-        toDatestring: (date) => {
+        toDatestring: (date:Date, type:string) => {
+            if(type === 'start') {
+                date.setHours(0, 0, 0, 0);
+            }else if(type === 'end') {
+                date.setHours(23, 59, 59, 999);
+            }
             return date.toString();
         }
     };
@@ -129,6 +142,10 @@ export class AppService {
         return this.storage.get(key);
     }
 
+    getAdsense() {
+        return this.http.head(`${this.HOST}/adsense`, this.requestOptions).toPromise();
+    }
+
     ping() {
         return this.http.head(`${this.AUTH}/ping`, this.requestOptions).toPromise()
         .then((resp: Response) => {
@@ -167,7 +184,7 @@ export class AppService {
                 item.role_ids = this.DEFAULT_ROLES;
                 item.recover_by = item.username;
                 item.app = app;
-                return this.add(item, headers);       
+                return this.add(item, this.getRequestOptions(headers));       
             } else {
                 return this.handleError(this, error);
             }
@@ -234,10 +251,10 @@ export class AppService {
             where.push(`type=${type}`);
         }
         if(startDate !== undefined) {
-            where.push(`startDate=${this.date.toDatestring(startDate)}`);
+            where.push(`startDate=${this.date.toDatestring(startDate, 'start')}`);
         }
         if(endDate !== undefined) {
-            where.push(`endDate=${this.date.toDatestring(endDate)}`);
+            where.push(`endDate=${this.date.toDatestring(endDate, 'end')}`);
         }
         let query = '';
         if(where.length > 0) query = '?'+ where.join('&');
@@ -399,10 +416,10 @@ export class AppService {
         if(walletId) queries.push(`walletId=${walletId}`);
         if(typeSpendingId) queries.push(`typeSpendingId=${typeSpendingId}`);
         if(startDate !== undefined) {
-            queries.push(`startDate=${this.date.toDatestring(startDate)}`);
+            queries.push(`startDate=${this.date.toDatestring(startDate, 'start')}`);
         }
         if(endDate !== undefined) {
-            queries.push(`endDate=${this.date.toDatestring(endDate)}`);
+            queries.push(`endDate=${this.date.toDatestring(endDate, 'end')}`);
         }
         let query = '';
         if(queries.length > 0){
@@ -551,7 +568,7 @@ export class AppService {
                    _self.toast(msg);
                 });
             } else {
-                let err = error._body ? JSON.parse(error._body) : error._body;
+                let err = error._body; // ? JSON.parse(error._body) : error._body;
                 if(typeof err === 'object'){
                     if(err.message) err = err.message;
                 }
@@ -559,7 +576,7 @@ export class AppService {
                    _self.toast(msg);
                 });                
             }
-            if(error.status !== 400) _self.mainEvent.emit({logout: true});
+            if([403, 401, 440].indexOf(error.status)!==-1) _self.mainEvent.emit({logout: true});
         });
     }
 }

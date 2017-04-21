@@ -100,7 +100,7 @@
             <p><b [ngClass]="itemByDate.day">{{itemByDate.day}}</b> {{itemByDate.monthyear}}</p>
           </div>
         </ion-item-divider>
-        <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem [ngClass]="item.type === 0 ? 'type-0' : ''">
+        <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem [ngClass]="[item.type === 0 ? 'type-0' : '', item.is_bookmark ? 'bookmark' : '']">
           <ion-item>
             <ion-icon class="icon-logo" item-left [cssBackground]="item.type_spending.icon" (click)="filterSpendingType(item.type_spending._id)">
                <ion-icon name="close" *ngIf="total.typeSpendingId"></ion-icon>

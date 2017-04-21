@@ -88,13 +88,13 @@ export class Statistic {
                             ]
                         };
                         for(let i in data) {
-                            let e = data[i];
-                            let name = typeSpendings.find((e0) => {
+                            let e = data[i];                            
+                            let typeSpend = typeSpendings.find((e0) => {
                                 return e0._id === e._id;
                             });
-                            name = name ? name.name : e._id;
-                            data[i].name = name;
-                            tmp.labels.push(name);
+                            data[i].name = typeSpend ? typeSpend.name : data[i]._id;
+                            data[i].icon = typeSpend.icon;
+                            tmp.labels.push(data[i].name);
                             tmp.datasets[0].data.push(e.money); 
                         };
                         let tmpData = _.merge({}, this.type === 'spending' ? {
@@ -135,7 +135,7 @@ export class Statistic {
     loadChartByMoney(){
         if(this.chartDataByMonth.chart) return;
         this.appService.getI18("msg__wait").subscribe((msg) => {
-            this.appService.showLoading(msg).then(() => {
+                this.appService.showLoading(msg).then(() => {
                 this.chartDataByMonth.chart = null;
                 this.chartDataByMonth.table = null;
                 this.appService.getStatisticByMonth(this.filter).then((data) => {
@@ -157,9 +157,9 @@ export class Statistic {
                         ]
                     };
                     for(let r of data){
-                        chartData.labels.push(moment(new Date(r._id.year, r._id.month, 1)).format('MM YYYY'));
-                        chartData.datasets[0].data.push(r.smoney); 
-                        chartData.datasets[1].data.push(r.emoney); 
+                        chartData.labels.splice(0, 0, moment(new Date(r._id.year, r._id.month, 1)).format('MM YYYY'));
+                        chartData.datasets[0].data.splice(0, 0, r.smoney); 
+                        chartData.datasets[1].data.splice(0, 0, r.emoney); 
                     }            
                     this.chartDataByMonth.chart = chartData;
                     this.chartDataByMonth.table = data;
