@@ -11,23 +11,21 @@ import { MyApp } from './app.component';
 
 @Injectable()
 export class AppService {
-    mainEvent: EventEmitter<any> = new EventEmitter();    
+    mainEvent: EventEmitter<any> = new EventEmitter();
     // Home
+    DEFAULT_PJ: string = '597d7ded1c07314f60df9dcc';
+    DEFAULT_ROLE: string = '597d7ded1c07314f60df9dce';
+
+    // Office
     // HOST: string = 'http://localhost:9601';
     // AUTH: string = 'http://localhost:9600'; 
-    // DEFAULT_PJ: string = '586bb85baa5bdf0644e494da';
-    // DEFAULT_ROLES: Array<string> = ['586bb85baa5bdf0644e494db'];
-    
-    // Office
-    HOST: string = 'http://localhost:9601';
-    AUTH: string = 'http://localhost:9600'; 
-    DEFAULT_PJ: string = '58f6da4b9c53b12570637c06';
-    DEFAULT_ROLES: Array<string> = ['58f6da4b9c53b12570637c07'];
-    
-    
+    // DEFAULT_PJ: string = '58f6da4b9c53b12570637c06';
+    // DEFAULT_ROLES: Array<string> = ['58f6da4b9c53b12570637c07'];
+
+
 
     ADMOB_ID: string = 'ca-app-pub-7861623744178820/4354579197';
-    
+
     requestOptions: RequestOptions;
     typeSpendings: Array<any>;
     spendings: any = {};
@@ -37,76 +35,76 @@ export class AppService {
         wallets: {},
         typeSpendings: {}
     };
-    loading:Loading;
+    loading: Loading;
     public language: string = 'vi';
     public currency: string = 'VND';
     alert: Alert;
     me: any;
     myApp: MyApp;
 
-    date:{utcToLocal, toInputDate, toDatestring} = {
+    date: { utcToLocal, toInputDate, toDatestring } = {
         utcToLocal: (sdate: string, type?: string) => {
             let date = moment.utc(sdate).toDate();
-            if(type === 'start') {
+            if (type === 'start') {
                 date.setHours(0, 0, 0, 0);
-            }else if(type === 'end') {
+            } else if (type === 'end') {
                 date.setHours(23, 59, 59, 999);
             }
             return date;
         },
-        toInputDate:()=>{
+        toInputDate: () => {
 
         },
-        toDatestring: (date:Date, type:string) => {
-            if(type === 'start') {
+        toDatestring: (date: Date, type: string) => {
+            if (type === 'start') {
                 date.setHours(0, 0, 0, 0);
-            }else if(type === 'end') {
+            } else if (type === 'end') {
                 date.setHours(23, 59, 59, 999);
             }
             return date.toString();
         }
     };
 
-    constructor(private platform: Platform, private http: Http, public toastCtrl: ToastController, private storage: Storage, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private translateService: TranslateService){
-        
+    constructor(private platform: Platform, private http: Http, public toastCtrl: ToastController, private storage: Storage, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private translateService: TranslateService) {
+
     }
 
-    changeLanguage(lang?:string){
-        if(lang) {
+    changeLanguage(lang?: string) {
+        if (lang) {
             this.language = lang;
             this.currency = lang === 'vi' ? 'VND' : 'USD';
         }
         this.translateService.setDefaultLang(this.language);
     }
 
-    getI18(key:any, opts?: any): Observable<any>{
+    getI18(key: any, opts?: any): Observable<any> {
         return this.translateService.get(key, opts);
     }
 
-    setCached(type:string, key:string, value:any){
+    setCached(type: string, key: string, value: any) {
         this.cached[type][key] = value;
     }
 
-    getCached(type:string, key:string){
+    getCached(type: string, key: string) {
         return this.cached[type][key];
     }
 
-    removeCached(type?:string, key?:string){
-        if(!type && !key) {
+    removeCached(type?: string, key?: string) {
+        if (!type && !key) {
             this.cached.spendings = {};
             this.cached.wallets = {};
             this.cached.typeSpendings = {};
         }
-        if(key) return delete this.cached[type][key];
+        if (key) return delete this.cached[type][key];
         this.cached[type] = {};
     }
 
     toDataUrl(src: string, outputFormat?: any) {
         return new Promise((resolve, reject) => {
-           var img: any = new Image();
+            var img: any = new Image();
             img.crossOrigin = 'Anonymous';
             img.onload = () => {
-                var canvas:any = window.document.createElement('CANVAS');
+                var canvas: any = window.document.createElement('CANVAS');
                 var ctx = canvas.getContext('2d');
                 var dataURL;
                 canvas.height = img.height;
@@ -116,29 +114,29 @@ export class AppService {
                 resolve(dataURL);
             };
             img.onerror = reject;
-            img.src = src; 
+            img.src = src;
         });
     }
 
-    getRequestOptions(header){
-        return new RequestOptions({headers: new Headers(header)});
+    getRequestOptions(header) {
+        return new RequestOptions({ headers: new Headers(header) });
     }
 
-    init(myApp: MyApp){
+    init(myApp: MyApp) {
         this.myApp = myApp;
         return this.storage.get('token').then((token) => {
-            if(token) { 
-                this.requestOptions = this.getRequestOptions({token});
+            if (token) {
+                this.requestOptions = this.getRequestOptions({ token });
                 return this.ping();
             }
         });
     }
 
-    setLocalStorage(key, value): Promise<any>{
+    setLocalStorage(key, value): Promise<any> {
         return this.storage.set(key, value);
     }
 
-    getLocalStorage(key): Promise<any>{
+    getLocalStorage(key): Promise<any> {
         return this.storage.get(key);
     }
 
@@ -148,299 +146,298 @@ export class AppService {
 
     ping() {
         return this.http.head(`${this.AUTH}/ping`, this.requestOptions).toPromise()
-        .then((resp: Response) => {
-            return Promise.resolve(this.requestOptions);
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then((resp: Response) => {
+                return Promise.resolve(this.requestOptions);
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    add(user, requestOptions){
-        return this.http.post(`${this.AUTH}/register?auto_login=1`, user, requestOptions).toPromise()
-        .then((resp:Response) => {
-            this.requestOptions = this.getRequestOptions({token: resp.headers.get('token')});
-            return resp.json();
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+    add(user, requestOptions) {
+        return this.http.post(`${this.AUTH}/register`, user, requestOptions).toPromise()
+            .then((resp: Response) => {
+                return this.login(user, user.app).then(token => {
+                    this.requestOptions = this.getRequestOptions({ token });
+                    return resp.json();
+                })
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    login(item:any, app?:string){
-        let headers:any = {
+    login(item: any, app?: string) {
+        let headers: any = {
             pj: this.DEFAULT_PJ
         };
-        if(app) headers.app = 'facebook';        
         return this.http.post(`${this.AUTH}/login`, item, this.getRequestOptions(headers)).toPromise()
-        .then((resp: Response) => {
-            this.requestOptions = this.getRequestOptions({token: resp.headers.get('token')});
-            this.storage.set('token', resp.headers.get('token'));
-            return Promise.resolve();
-        })
-        .catch((error) => {
-            if([404].indexOf(error.status) !== -1) { 
-                item.status = 1;
-                item.role_ids = this.DEFAULT_ROLES;
-                item.recover_by = item.username;
-                item.app = app;
-                return this.add(item, this.getRequestOptions(headers));       
-            } else {
-                return this.handleError(this, error);
-            }
-        });
+            .then((resp: Response) => {
+                this.requestOptions = this.getRequestOptions({ token: resp.headers.get('token') });
+                this.storage.set('token', resp.headers.get('token'));
+                return resp.headers.get('token')
+            })
+            .catch((error) => {
+                if ([404].indexOf(error.status) !== -1) {
+                    headers.role = this.DEFAULT_ROLE
+                    item.recover_by = item.username
+                    return this.add(item, this.getRequestOptions(headers));
+                } else {
+                    return this.handleError(this, error);
+                }
+            });
     }
 
-    logout(){
+    logout() {
         this.storage.clear();
         this.removeCached();
         return Promise.resolve();
     }
 
-    merge(email:string, isnew   : boolean){
+    merge(email: string, isnew: boolean) {
         return this.http.put(`${this.HOST}/Sync/${email}`, {
             isnew
         }, this.requestOptions).toPromise()
-        .then(response => response)
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => response)
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    getMe(){
-        if(this.me) return Promise.resolve(this.me);
+    getMe() {
+        if (this.me) return Promise.resolve(this.me);
         return this.http.get(`${this.AUTH}/me`, this.requestOptions).toPromise()
-        .then(response => response.json())
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => response.json())
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    updateInfor(user){
+    updateInfor(user) {
         return this.http.put(`${this.AUTH}/me`, user, this.requestOptions).toPromise()
-        .then(response => {
-            this.me = response.json(); 
-            return this.me;
-        }).catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.me = response.json();
+                return this.me;
+            }).catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    getStatisticByMonth(filter?: any){
-        let where:any = [];
-        if(filter){
-            if(filter.startDate){
+    getStatisticByMonth(filter?: any) {
+        let where: any = [];
+        if (filter) {
+            if (filter.startDate) {
                 where.push('startDate=' + filter.startDate);
             }
-            if(filter.endDate){
+            if (filter.endDate) {
                 where.push('endDate=' + filter.endDate);
             }
         }
         where = where.join('&');
-        if(where.length > 0) where = '?' + where;
+        if (where.length > 0) where = '?' + where;
         return this.http.get(`${this.HOST}/StatisticByMonth${where}`, this.requestOptions).toPromise()
-        .then(response => response.json())
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => response.json())
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    getStatisticByTypeSpending(type:Number, startDate?: Date, endDate?: Date){
+    getStatisticByTypeSpending(type: Number, startDate?: Date, endDate?: Date) {
         let where = [];
-        if(type !== undefined) {
+        if (type !== undefined) {
             where.push(`type=${type}`);
         }
-        if(startDate !== undefined) {
+        if (startDate !== undefined) {
             where.push(`startDate=${this.date.toDatestring(startDate, 'start')}`);
         }
-        if(endDate !== undefined) {
+        if (endDate !== undefined) {
             where.push(`endDate=${this.date.toDatestring(endDate, 'end')}`);
         }
         let query = '';
-        if(where.length > 0) query = '?'+ where.join('&');
+        if (where.length > 0) query = '?' + where.join('&');
         return this.http.get(`${this.HOST}/StatisticByTypeSpending${query}`, this.requestOptions).toPromise()
-        .then(response => response.json())
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => response.json())
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    addSpending(item){
+    addSpending(item) {
         return this.http.post(`${this.HOST}/Spendings`, item, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('wallets');
-            return response.json();            
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('wallets');
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    updateSpending(item){
+    updateSpending(item) {
         return this.http.put(`${this.HOST}/Spendings/${item._id}`, item, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('wallets');
-            return response.json();            
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('wallets');
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    unbookmarkSpending(item){
+    unbookmarkSpending(item) {
         return this.http.delete(`${this.HOST}/Spendings/Bookmark/${item._id}`, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('wallets');
-            return response.json();            
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('wallets');
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    deleteSpending(item){
+    deleteSpending(item) {
         return this.http.delete(`${this.HOST}/Spendings/${item._id}`, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('wallets');
-            return response.json();            
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('wallets');
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    transferWallet(trans){
+    transferWallet(trans) {
         trans.input_date = new Date();
         return this.http.put(`${this.HOST}/Wallet/Transfer`, trans, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('wallets');
-            return response.json();
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('wallets');
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    addWallet(item){
+    addWallet(item) {
         item.input_date = new Date();
         return this.http.post(`${this.HOST}/Wallet`, item, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('wallets', 'type');
-            this.removeCached('wallets', 'type'+item.type);
-            return response.json();
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('wallets', 'type');
+                this.removeCached('wallets', 'type' + item.type);
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    updateWallet(item){        
+    updateWallet(item) {
         item.input_date = new Date();
         return this.http.put(`${this.HOST}/Wallet/${item._id}`, item, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('wallets', 'type');
-            this.removeCached('wallets', 'type'+item.type);
-            return response.json();
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('wallets', 'type');
+                this.removeCached('wallets', 'type' + item.type);
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    deleteWallet(item){        
+    deleteWallet(item) {
         return this.http.delete(`${this.HOST}/Wallet/${item._id}`, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('wallets', 'type');
-            this.removeCached('wallets', 'type'+item.type);
-            return response.json();
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('wallets', 'type');
+                this.removeCached('wallets', 'type' + item.type);
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    addTypeSpending(item){
+    addTypeSpending(item) {
         return this.http.post(`${this.HOST}/TypeSpendings`, item, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('typeSpendings', 'type');
-            this.removeCached('typeSpendings', 'type'+item.type);
-            return response.json();
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('typeSpendings', 'type');
+                this.removeCached('typeSpendings', 'type' + item.type);
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    updateTypeSpending(item){
+    updateTypeSpending(item) {
         return this.http.put(`${this.HOST}/TypeSpendings/${item._id}`, item, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('typeSpendings', 'type');
-            this.removeCached('typeSpendings', 'type'+item.type);
-            return response.json();
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('typeSpendings', 'type');
+                this.removeCached('typeSpendings', 'type' + item.type);
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    deleteTypeSpending(item){
+    deleteTypeSpending(item) {
         return this.http.delete(`${this.HOST}/TypeSpendings/${item._id}`, this.requestOptions).toPromise()
-        .then(response => {
-            this.removeCached('typeSpendings', 'type');
-            this.removeCached('typeSpendings', 'type'+item.type);
-            return response.json();
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                this.removeCached('typeSpendings', 'type');
+                this.removeCached('typeSpendings', 'type' + item.type);
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    getBookmark(){ 
+    getBookmark() {
         return this.http.get(`${this.HOST}/Spendings/Bookmark`, this.requestOptions).toPromise()
-        .then(response => response.json())
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => response.json())
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    getSuggestion(){
+    getSuggestion() {
         return this.http.get(`${this.HOST}/Spendings/Suggestion`, this.requestOptions).toPromise()
-        .then(response => response.json())
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => response.json())
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    getSpendings(walletId: string, startDate: Date, endDate: Date, typeSpendingId?: string){ 
+    getSpendings(walletId: string, startDate: Date, endDate: Date, typeSpendingId?: string) {
         let queries = [];
-        if(walletId) queries.push(`walletId=${walletId}`);
-        if(typeSpendingId) queries.push(`typeSpendingId=${typeSpendingId}`);
-        if(startDate !== undefined) {
+        if (walletId) queries.push(`walletId=${walletId}`);
+        if (typeSpendingId) queries.push(`typeSpendingId=${typeSpendingId}`);
+        if (startDate !== undefined) {
             queries.push(`startDate=${this.date.toDatestring(startDate, 'start')}`);
         }
-        if(endDate !== undefined) {
+        if (endDate !== undefined) {
             queries.push(`endDate=${this.date.toDatestring(endDate, 'end')}`);
         }
         let query = '';
-        if(queries.length > 0){
+        if (queries.length > 0) {
             query = '?' + queries.join('&');
         }
         return this.http.get(`${this.HOST}/Spendings${query}`, this.requestOptions).toPromise()
-        .then(response => response.json())
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => response.json())
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    private sortTypeSpending(typeSpendings){
+    private sortTypeSpending(typeSpendings) {
         let root = [];
         let childs = [];
         let rs = [];
-        for(let t of typeSpendings){
-            if(!t.parent_id) root.push(t);
+        for (let t of typeSpendings) {
+            if (!t.parent_id) root.push(t);
             else childs.push(t);
         }
-        for(let r of root) {
+        for (let r of root) {
             rs = rs.concat(r, childs.filter((e) => {
                 return e.parent_id === r._id;
             }));
@@ -448,73 +445,73 @@ export class AppService {
         return rs;
     }
 
-    getTypeSpendings(type?: number){
-        if(type !== undefined){
-            const vl = this.getCached('typeSpendings', 'type'+type);
-            if(vl) return Promise.resolve(vl);            
-        }else {
+    getTypeSpendings(type?: number) {
+        if (type !== undefined) {
+            const vl = this.getCached('typeSpendings', 'type' + type);
+            if (vl) return Promise.resolve(vl);
+        } else {
             const vl = this.getCached('typeSpendings', 'type');
-            if(vl) return Promise.resolve(vl);            
-        }        
+            if (vl) return Promise.resolve(vl);
+        }
 
         let where = '';
-        if(type !== undefined) where = `?type=${type}`
+        if (type !== undefined) where = `?type=${type}`
         return this.http.get(`${this.HOST}/TypeSpendings${where}`, this.requestOptions).toPromise()
-        .then(response => {
-            const vl = this.sortTypeSpending(response.json());
-            if(type !== undefined) {                
-                this.setCached('typeSpendings', 'type'+type, vl.filter((e:any) => {
-                    return e.type === type;
-                }));
-            }else {
-                this.setCached('typeSpendings', 'type', vl);
-            }
-            return vl;
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                const vl = this.sortTypeSpending(response.json());
+                if (type !== undefined) {
+                    this.setCached('typeSpendings', 'type' + type, vl.filter((e: any) => {
+                        return e.type === type;
+                    }));
+                } else {
+                    this.setCached('typeSpendings', 'type', vl);
+                }
+                return vl;
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    getWallets(type?:number) {    
-        if(type !== undefined){
-            const vl = this.getCached('wallets', 'type'+type);
-            if(vl) return Promise.resolve(vl);            
-        }else {
+    getWallets(type?: number) {
+        if (type !== undefined) {
+            const vl = this.getCached('wallets', 'type' + type);
+            if (vl) return Promise.resolve(vl);
+        } else {
             const vl = this.getCached('wallets', 'type');
-            if(vl) return Promise.resolve(vl);            
-        }     
+            if (vl) return Promise.resolve(vl);
+        }
         let where = '';
-        if(type !== undefined) where = `?type=${type}`
+        if (type !== undefined) where = `?type=${type}`
         return this.http.get(`${this.HOST}/Wallet${where}`, this.requestOptions).toPromise()
-        .then(response => {
-            const vl = response.json();
-            if(type !== undefined) {                
-                this.setCached('wallets', 'type'+type, vl.filter((e:any) => {
-                    return e.type === type;
-                }));
-            }else {
-                this.setCached('wallets', 'type', vl);
-            }
-            return vl;
-        })
-        .catch((error) => {
-            return this.handleError(this, error);
-        });
+            .then(response => {
+                const vl = response.json();
+                if (type !== undefined) {
+                    this.setCached('wallets', 'type' + type, vl.filter((e: any) => {
+                        return e.type === type;
+                    }));
+                } else {
+                    this.setCached('wallets', 'type', vl);
+                }
+                return vl;
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
     }
 
-    showLoading(text): Promise<any>{
+    showLoading(text): Promise<any> {
         this.loading = this.loadingCtrl.create({
             content: text
         });
         return this.loading.present();
     }
 
-    hideLoading(){
+    hideLoading() {
         this.loading.dismissAll();
     }
 
-    toast(txt, time:number=3000){
+    toast(txt, time: number = 3000) {
         const toast = this.toastCtrl.create({
             message: txt,
             duration: time
@@ -522,8 +519,8 @@ export class AppService {
         toast.present();
     }
 
-    confirm(title: string, mes: string, buttons: Array<any>){
-        if(this.alert) return this.alert;
+    confirm(title: string, mes: string, buttons: Array<any>) {
+        if (this.alert) return this.alert;
         this.alert = this.alertCtrl.create({
             title: title,
             message: mes,
@@ -531,17 +528,17 @@ export class AppService {
         });
         this.alert.present();
         this.alert.onDidDismiss((params) => {
-           this.alert = null; 
+            this.alert = null;
         });
         return this.alert;
     }
 
-    handleError(_self:AppService, error: any): Promise<any> {
-        return new Promise((resolve, reject) => { 
-            if(_self.loading) _self.loading.dismissAll();      
-            if(error.status === 0){
+    handleError(_self: AppService, error: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if (_self.loading) _self.loading.dismissAll();
+            if (error.status === 0) {
                 _self.getI18(["error__no_network", "error__no_network_des", "button__try_again", "button__quit"]).subscribe((msg) => {
-                   _self.confirm(msg["error__no_network"], msg["error__no_network_des"], [
+                    _self.confirm(msg["error__no_network"], msg["error__no_network_des"], [
                         {
                             text: msg['button__quit'],
                             handler: () => {
@@ -549,34 +546,34 @@ export class AppService {
                             }
                         },
                         {
-                        text: msg['button__try_again'],
+                            text: msg['button__try_again'],
                             handler: () => {
-                                this.alert.dismiss().then((params) => {                                    
-                                    this.myApp.backToDashboard();    
-                                });                                
+                                this.alert.dismiss().then((params) => {
+                                    this.myApp.backToDashboard();
+                                });
                             }
                         }
-                   ]);
-                });    
+                    ]);
+                });
                 return;
-            }else if([403, 401].indexOf(error.status) !== -1) { 
+            } else if ([403, 401].indexOf(error.status) !== -1) {
                 _self.getI18("error__session_expired").subscribe((msg) => {
-                   _self.toast(msg);
-                });                
-            } else if([423].indexOf(error.status) !== -1) { 
+                    _self.toast(msg);
+                });
+            } else if ([423].indexOf(error.status) !== -1) {
                 _self.getI18("error__account_locked").subscribe((msg) => {
-                   _self.toast(msg);
+                    _self.toast(msg);
                 });
             } else {
                 let err = error._body; // ? JSON.parse(error._body) : error._body;
-                if(typeof err === 'object'){
-                    if(err.message) err = err.message;
+                if (typeof err === 'object') {
+                    if (err.message) err = err.message;
                 }
-                _self.getI18("error__common", {msg: err}).subscribe((msg) => {
-                   _self.toast(msg);
-                });                
+                _self.getI18("error__common", { msg: err }).subscribe((msg) => {
+                    _self.toast(msg);
+                });
             }
-            if([403, 401, 440].indexOf(error.status)!==-1) _self.mainEvent.emit({logout: true});
+            if ([403, 401, 440].indexOf(error.status) !== -1) _self.mainEvent.emit({ logout: true });
         });
     }
 }
