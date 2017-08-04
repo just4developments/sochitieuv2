@@ -171,6 +171,7 @@ export class AppService {
         let headers: any = {
             pj: this.DEFAULT_PJ
         };
+        if (app) item.app = app
         return this.http.post(`${this.AUTH}/login`, item, this.getRequestOptions(headers)).toPromise()
             .then((resp: Response) => {
                 this.requestOptions = this.getRequestOptions({ token: resp.headers.get('token') });
