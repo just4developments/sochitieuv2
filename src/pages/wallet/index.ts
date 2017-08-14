@@ -13,7 +13,8 @@ import { TransferWallet } from './transfer';
 export class Wallet {
   wallets: any = {
     default: [],
-    saving: []
+    saving: [],
+    prepare: []
   };
 
   constructor(private appService: AppService, public modalController: ModalController) {
@@ -25,10 +26,12 @@ export class Wallet {
       this.appService.showLoading(msg).then(() => {
         this.wallets.default = [];
         this.wallets.saving = [];
+        this.wallets.prepare = [];
         this.appService.getWallets().then((wallets) => {
           for(var w of wallets){
             if(w.type > 0) this.wallets.default.push(w);
             else if(w.type === 0) this.wallets.saving.push(w);
+            else if(w.type === -1) this.wallets.prepare.push(w);
           }
           this.appService.hideLoading();
         });

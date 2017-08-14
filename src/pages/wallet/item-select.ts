@@ -19,6 +19,7 @@ export class WalletSelectionPopup {
   selectedId: string;
   wallets0: Array<any>;
   wallets1: Array<any>;
+  wallets2: Array<any>;
   default: any;
 
   constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public modalController: ModalController) {
@@ -33,6 +34,9 @@ export class WalletSelectionPopup {
     });
     this.wallets1 = this.wallets.filter((e) => {
       return e.type === 1;
+    });
+    this.wallets2 = this.wallets.filter((e) => {
+      return e.type === -1;
     });
   }
 

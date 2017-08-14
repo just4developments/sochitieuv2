@@ -3,9 +3,9 @@ import { NavParams, ViewController, ModalController } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => TypeSpendingSelection),
-    multi: true
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => TypeSpendingSelection),
+  multi: true
 };
 
 @Component({
@@ -13,18 +13,19 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   templateUrl: 'item-select.html'
 })
 export class TypeSpendingSelectionPopup {
-  typeSpendings: Array < any > ;
+  typeSpendings: Array<any>;
   selectedId: string;
   label: string;
 
-  constructor(public viewCtrl: ViewController, params: NavParams) {    
+  constructor(public viewCtrl: ViewController, params: NavParams) {
     this.typeSpendings = params.get('typeSpendings');
     this.selectedId = params.get('selectedId');
     this.label = params.get('label');
   }
 
   pick(item) {
-    this.dismiss(item);
+    if (item.parent_id || !this.typeSpendings.find(e => e.parent_id === item._id))
+      this.dismiss(item);
   }
 
   dismiss(data) {
@@ -43,31 +44,31 @@ export class TypeSpendingSelectionPopup {
         <h2 *ngIf="!item">{{emptyText}}</h2>        
         <ion-icon name="arrow-dropdown" item-right></ion-icon>
       </ion-item>`,
-    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class TypeSpendingSelection implements ControlValueAccessor {
   @Input() label;
-	@Input() typeSpendings: Array < any > ;
+  @Input() typeSpendings: Array<any>;
   @Output() change: EventEmitter<any> = new EventEmitter();
-  item: any;  
-  private onTouchedCallback:any;
-  private onChangeCallback:any;  
+  item: any;
+  private onTouchedCallback: any;
+  private onChangeCallback: any;
   @Input() default;
 
   constructor(public viewCtrl: ViewController, public modalController: ModalController) {
-    
+
   }
-  
-  ngOnChanges(changes:SimpleChanges){
-    if(changes['typeSpendings']) {
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['typeSpendings']) {
       this.typeSpendings = changes['typeSpendings'].currentValue;
-      if(this.default) {
+      if (this.default) {
         this.default.icon = `-${5 * 53}px -${0 * 64}px`;
         this.default.className = 'no-select';
         this.typeSpendings.splice(0, 0, this.default);
 
       }
-      if(this.item) {
+      if (this.item) {
         this.item = this.typeSpendings.find((e) => {
           return e._id === this.item._id;
         });
@@ -83,9 +84,9 @@ export class TypeSpendingSelection implements ControlValueAccessor {
   }
 
   openPick() {
-    let typeSpendingsSelectionModal = this.modalController.create(TypeSpendingSelectionPopup, { typeSpendings: this.typeSpendings, selectedId: this.item._id, label: this.label});
-    typeSpendingsSelectionModal.onDidDismiss(data => { 
-      if(data) {
+    let typeSpendingsSelectionModal = this.modalController.create(TypeSpendingSelectionPopup, { typeSpendings: this.typeSpendings, selectedId: this.item._id, label: this.label });
+    typeSpendingsSelectionModal.onDidDismiss(data => {
+      if (data) {
         this.item = data;
         this.change.emit(data);
         this.onChangeCallback(data._id);
@@ -95,22 +96,22 @@ export class TypeSpendingSelection implements ControlValueAccessor {
   }
 
   writeValue(value: any) {
-      this.item = this.typeSpendings.find((e) => {
-        return e._id === value;
-      });
+    this.item = this.typeSpendings.find((e) => {
+      return e._id === value;
+    });
   }
 
   //From ControlValueAccessor interface
   registerOnChange(fn: any) {
-      this.onChangeCallback = fn;
-      if(this.item){
-        this.onChangeCallback(this.item._id);
-      }
+    this.onChangeCallback = fn;
+    if (this.item) {
+      this.onChangeCallback(this.item._id);
+    }
   }
 
   //From ControlValueAccessor interface
   registerOnTouched(fn: any) {
-      this.onTouchedCallback = fn;
+    this.onTouchedCallback = fn;
   }
 
   dismiss(data) {

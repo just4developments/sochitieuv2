@@ -42,6 +42,7 @@
     "wallet__title": "Ví tiền",
     "wallet__normal": "Ví tiêu dùng",
     "wallet__saving": "Khoản tiết kiệm",
+    "wallet__prepare": "Khoản dự trù chi tiêu",
     "wallet__name": "Tên ví",
     "wallet__des": "Mô tả",
     "wallet__money": "Tiền trong ví",    
@@ -78,6 +79,7 @@
     "label__input_date": "Ngày chi tiêu",
     "label__typespending": "Loại chi tiêu",
     "label__wallet": "Ví tiền",
+    "label__walletGS": "Khoản dự trù",
     "label__bookmark": "Ghi nhớ",
 
     "label__earning": "Thu nhập",

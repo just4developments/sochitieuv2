@@ -42,6 +42,7 @@
     "wallet__title": "Budgets",
     "wallet__normal": "Available budgets",
     "wallet__saving": "Saving",
+    "wallet__prepare": "Goal save",
     "wallet__name": "Name",
     "wallet__des": "Description",
     "wallet__money": "Money", 
@@ -78,6 +79,7 @@
     "label__input_date": "Input date",
     "label__typespending": "Category",
     "label__wallet": "Budget",
+    "label__walletGS": "Goal save",
     "label__bookmark": "Bookmark",
 
     "label__earning": "Inflow",

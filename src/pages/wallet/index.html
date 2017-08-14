@@ -62,5 +62,29 @@
         </button>
       </ion-item-options>
     </ion-item-sliding>
+    <ion-list-header>
+      {{'wallet__prepare' | translate}}
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let item of wallets.prepare" #slidingItem>
+      <ion-item>
+        <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
+        <strong item-right [ngClass]="item.money < 0 ? 'spending' : (item.money > 0 ? 'earning' : '')">{{(item.money || 0) | currency:appService.currency:true}}</strong>
+        <h2>{{item.name}}</h2>        
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="transfer(item, slidingItem)">
+          <ion-icon name="git-compare"></ion-icon>
+          {{'button__transfer' | translate}}
+        </button>
+        <button ion-button color="primary" (click)="edit(item, slidingItem)">
+          <ion-icon name="create"></ion-icon>
+          {{'button__edit' | translate}}
+        </button>
+        <button ion-button color="dark" (click)="delete(item, slidingItem)">
+          <ion-icon name="trash"></ion-icon>
+          {{'button__delete' | translate}}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>
