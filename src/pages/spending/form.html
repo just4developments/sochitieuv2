@@ -39,8 +39,13 @@
       <ion-row>
         <ion-item>
           <ion-label stacked>{{'label__des' | translate}}</ion-label>
-          <ion-input type="text" [(ngModel)]="spending.des" [suggestionData]="suggestion" (pick)="pickSuggestion($event)" [ngModelOptions]="{standalone: true}"></ion-input>
+          <ion-input type="text" [(ngModel)]="spending.des" [suggestionData]="suggestion" (pick)="pickSuggestion()" [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
+      </ion-row>
+      <ion-row>
+        <div class="suggest">
+          <ion-badge color="light" *ngFor="let sug of suggestionObject" (click)="spending.des = sug._id; pickSuggestion()" [hidden]="spending.des === sug._id">{{sug._id}}</ion-badge>
+        </div>
       </ion-row>
       <ion-row>
         <ion-col width-50>
@@ -65,7 +70,7 @@
         </ion-col>
         <ion-col width-50>
           <select-wallet *ngIf="walletsGoldSave" [wallets]="walletsGoldSave" [(ngModel)]="spending.walletGS_id" label="{{'label__walletGS' | translate}}"
-            [ngModelOptions]="{standalone: true}" [submoney]="submoney()" [default]="{name: 'No pick'}"></select-wallet>
+            [ngModelOptions]="{standalone: true}" [submoney]="subGSmoney()" [default]="{name: 'No pick'}"></select-wallet>
         </ion-col>
       </ion-row>
     </ion-grid>

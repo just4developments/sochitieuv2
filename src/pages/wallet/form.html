@@ -37,19 +37,19 @@
           <ion-input type="number" [(ngModel)]="wallet.oder" [ngModelOptions]="{standalone: true}" required></ion-input>
         </ion-item>
       </ion-row>
-      <ion-row>
+      <ion-row [hidden]="wallet._id && wallet.type === -1">
         <ion-item>
           <ion-label>{{'wallet__is_add_in_spending' | translate}}</ion-label>
           <ion-checkbox [(ngModel)]="wallet.isApplyToSpending" [ngModelOptions]="{standalone: true}"></ion-checkbox>
         </ion-item>
       </ion-row>
-      <ion-row>
+      <ion-row [hidden]="wallet._id && wallet.type === -1">
         <ion-item>
           <ion-label stacked>{{'wallet__des' | translate}}</ion-label>
           <ion-textarea [(ngModel)]="wallet.des" [ngModelOptions]="{standalone: true}"></ion-textarea>
         </ion-item>
       </ion-row>
-      <ion-row>
+      <ion-row [hidden]="wallet._id && wallet.type === -1">
         <ion-item>
           <ion-label>{{'wallet__is_saving' | translate}}</ion-label>
           <ion-select [(ngModel)]="wallet.type" [ngModelOptions]="{standalone: true}">

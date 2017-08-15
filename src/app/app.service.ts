@@ -5,7 +5,7 @@ import { Platform, ToastController, LoadingController, Loading, AlertController,
 import 'rxjs/add/operator/toPromise';
 import { Observable } from "rxjs/Observable";
 import { TranslateService } from 'ng2-translate/ng2-translate';
-import * as moment from 'moment';
+//import * as moment from 'moment';
 
 import { MyApp } from './app.component';
 
@@ -13,6 +13,7 @@ import { MyApp } from './app.component';
 export class AppService {
     mainEvent: EventEmitter<any> = new EventEmitter();
     // Home
+    
     DEFAULT_PJ: string = '597d7ded1c07314f60df9dcc';
     DEFAULT_ROLE: string = '597d7ded1c07314f60df9dce';
 
@@ -44,7 +45,8 @@ export class AppService {
 
     date: { utcToLocal, toInputDate, toDatestring } = {
         utcToLocal: (sdate: string, type?: string) => {
-            let date = moment.utc(sdate).toDate();
+            // let date = moment.utc(sdate).toDate();
+            const date = new Date(sdate)
             if (type === 'start') {
                 date.setHours(0, 0, 0, 0);
             } else if (type === 'end') {
@@ -55,11 +57,12 @@ export class AppService {
         toInputDate: () => {
 
         },
-        toDatestring: (date: Date, type: string) => {
+        toDatestring: (date: Date | string, type: string) => {
+            if (date && typeof date === 'string') date = new Date(date)
             if (type === 'start') {
-                date.setHours(0, 0, 0, 0);
+                (<Date>date).setHours(0, 0, 0, 0);
             } else if (type === 'end') {
-                date.setHours(23, 59, 59, 999);
+                (<Date>date).setHours(23, 59, 59, 999);
             }
             return date.toString();
         }

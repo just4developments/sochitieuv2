@@ -39,9 +39,9 @@
       </ion-item-options>
     </ion-item-sliding>
     <ion-list-header>
-      {{'wallet__saving' | translate}}
+      {{'wallet__prepare' | translate}}
     </ion-list-header>
-    <ion-item-sliding *ngFor="let item of wallets.saving" #slidingItem>
+    <ion-item-sliding *ngFor="let item of wallets.prepare" #slidingItem>
       <ion-item>
         <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
         <strong item-right [ngClass]="item.money < 0 ? 'spending' : (item.money > 0 ? 'earning' : '')">{{(item.money || 0) | currency:appService.currency:true}}</strong>
@@ -63,9 +63,9 @@
       </ion-item-options>
     </ion-item-sliding>
     <ion-list-header>
-      {{'wallet__prepare' | translate}}
+      {{'wallet__saving' | translate}}
     </ion-list-header>
-    <ion-item-sliding *ngFor="let item of wallets.prepare" #slidingItem>
+    <ion-item-sliding *ngFor="let item of wallets.saving" #slidingItem>
       <ion-item>
         <ion-icon class="icon-logo" item-left [cssBackground]="item.icon"></ion-icon>
         <strong item-right [ngClass]="item.money < 0 ? 'spending' : (item.money > 0 ? 'earning' : '')">{{(item.money || 0) | currency:appService.currency:true}}</strong>

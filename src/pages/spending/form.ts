@@ -36,7 +36,8 @@ export class FormSpending {
     if (this.spending._id) this.oldSub = _.cloneDeep(this.spending);
     else this.oldSub = {
       sign_money: 0,
-      wallet_id: undefined
+      wallet_id: undefined,
+      walletGS_id: undefined
     };
     this.spending.input_date = this.spending.input_date.toISOString();
 
@@ -59,44 +60,37 @@ export class FormSpending {
         }
       }
     }
-    const wallets = params.get('wallets');
-    for (let w of wallets) {
-      if (w.type === 1) {
-        this.wallets.push(w)
-      } else if (w.type === -1) {
-        this.walletsGoldSave.push(w)
-      }
-    }
+    const wallets = params.get('wallets') as Array<any>;
+    this.wallets = wallets.filter(e => e.type === 1)
+    this.walletsGoldSave = wallets.filter(e => e.type === -1)
   }
 
   searchSuggestion() {
     this.appService.getSuggestion().then((resp) => {
-      this.suggestion = resp.map((e) => {
-        return e._id;
-      });
+      this.suggestion = resp.map(e => e._id);
       this.suggestionObject = resp;
     });
   }
 
-  pickSuggestion(name) {
+  pickSuggestion() {
+    const name = this.spending.des;
     if (!name || name.length === 0) return;
-    const pick = this.suggestionObject.find((e) => {
-      return e._id === name;
-    });
+    const pick = this.suggestionObject.find(e => e._id === name);
+    console.log(pick)
     if (pick) {
       if (pick.spendings.type < 0) {
         this.type = 'spending';
         this.type_spending_id = pick.spendings.type_spending_id;
-      }
-      else if (pick.spendings.type > 0) {
+      } else if (pick.spendings.type > 0) {
         this.type = 'earning';
         this.type_earning_id = pick.spendings.type_spending_id;
       }
       this.spending.wallet_id = pick.spendings.wallet_id;
+      this.spending.walletGS_id = pick.spendings.walletGS_id;
     }
   }
 
-  focusMoney() {
+  focusMoney(isAdd1000) {
     this.moneyInput.setFocus();
   }
 
@@ -108,14 +102,10 @@ export class FormSpending {
     let typeSpending;
     if (this.type === 'spending') {
       this.spending.type_spending_id = this.type_spending_id;
-      typeSpending = this.typeSpendings.find((e) => {
-        return e._id === this.spending.type_spending_id;
-      });
+      typeSpending = this.typeSpendings.find(e => e._id === this.spending.type_spending_id);
     } else {
       this.spending.type_spending_id = this.type_earning_id;
-      typeSpending = this.typeEarnings.find((e) => {
-        return e._id === this.spending.type_spending_id;
-      });
+      typeSpending = this.typeEarnings.find(e => e._id === this.spending.type_spending_id);
     }
     this.spending.typeSpending = typeSpending;
     this.spending.type = this.spending.typeSpending.type;
@@ -150,6 +140,12 @@ export class FormSpending {
                   }
                   return e;
                 });
+                this.walletsGoldSave = this.walletsGoldSave.map((e) => {
+                  if (this.spending.walletGS_id === e._id) {
+                    e.money += this.spending.money * this.spending.type;
+                  }
+                  return e;
+                });
                 this.searchSuggestion();
                 delete this.spending.money;
                 delete this.spending.des;
@@ -165,6 +161,12 @@ export class FormSpending {
 
   submoney() {
     if (this.oldSub.wallet_id !== this.spending.wallet_id)
+      return (this.spending.money || 0) * (this.type === 'spending' ? -1 : 1);
+    return (this.spending.money || 0) * (this.type === 'spending' ? -1 : 1) - this.oldSub.sign_money;
+  }
+
+  subGSmoney() {
+    if (this.oldSub.walletGS_id !== this.spending.walletGS_id)
       return (this.spending.money || 0) * (this.type === 'spending' ? -1 : 1);
     return (this.spending.money || 0) * (this.type === 'spending' ? -1 : 1) - this.oldSub.sign_money;
   }

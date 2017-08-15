@@ -13,41 +13,41 @@ export class FormWallet {
   @ViewChild('moneyInput') moneyInput;
 
   constructor(public viewCtrl: ViewController, private appService: AppService, params: NavParams, public modalController: ModalController) {
-      this.wallet = params.get('wallet');
-      if(!this.wallet.oder) this.wallet.oder = 1;
-      this.wallet.isApplyToSpending = !!this.wallet.name;
+    this.wallet = params.get('wallet');
+    if (!this.wallet.oder) this.wallet.oder = 1;
+    this.wallet.isApplyToSpending = this.wallet.type === -1 ? false : true;
   }
 
-  focusMoney(){
+  focusMoney() {
     this.moneyInput.setFocus();
   }
 
-  save(){
-    if(this.wallet._id){
+  save() {
+    if (this.wallet._id) {
       this.appService.updateWallet(this.wallet).then((item) => {
         this.appService.getI18('confirm__update_done').subscribe((msg) => {
-					this.appService.toast(msg);
+          this.appService.toast(msg);
           this.dismiss(this.wallet);
-				});      
+        });
       }).catch((err) => {
         this.dismiss(undefined);
       });
-    }else{
+    } else {
       this.appService.addWallet(this.wallet).then((item) => {
         this.appService.getI18('confirm__add_done').subscribe((msg) => {
-					this.appService.toast(msg);
+          this.appService.toast(msg);
           this.dismiss(this.wallet);
-        });        
+        });
       }).catch((err) => {
         this.dismiss(undefined);
       });
-    }    
+    }
   }
 
-  changeIcon(){
+  changeIcon() {
     let pickModal = this.modalController.create(IconPicker);
     pickModal.onDidDismiss(data => {
-      if(data) {
+      if (data) {
         this.wallet.icon = data.icon;
         this.wallet.sicon = data.sicon;
       }
@@ -56,8 +56,8 @@ export class FormWallet {
   }
 
   dismiss(data) {
-    if(data){
-      data.money = +data.money || 0;    
+    if (data) {
+      data.money = +data.money || 0;
     }
     this.viewCtrl.dismiss(data);
   }

@@ -19,7 +19,9 @@ export class Spending {
   spendingsRaw: Array<any> = [];
   spendings: Array<any>;
   typeSpendings: Array<any>;
-  wallets: Array<any>;
+  wallets: Array<any> = [];
+  walletsNormal: Array<any> = [];
+  walletsGS: Array<any> = [];
   totalWallets: Array<any>;
   defaultWalletItem: any;
   total: any = {
@@ -63,6 +65,16 @@ export class Spending {
         name: vl
       };
     });
+    Object.defineProperty(this, 'walletsNormal', {
+      get() {
+        return this.wallets.filter(e => e.type === 1)
+      }
+    })
+    Object.defineProperty(this, 'walletsGS', {
+      get() {
+        return this.wallets.filter(e => e.type === -1)
+      }
+    })
   }
 
   ngOnInit() {
@@ -143,9 +155,7 @@ export class Spending {
         this.spendings = null;
         this.appService.getWallets().then((wallets) => {
           this.totalWallets = wallets;
-          this.wallets = wallets.filter((e) => {
-            return e.type === 1 || e.type === -1;
-          });
+          this.wallets = wallets.filter(e => e.type === -1 || e.type === 1)
           this.appService.getSpendings(this.total.walletId, this.appService.date.utcToLocal(this.total.startDate), this.appService.date.utcToLocal(this.total.endDate), this.total.typeSpendingId).then((spendings) => {
             let today: any = moment(new Date());
             let yesterday: any = moment(new Date());
