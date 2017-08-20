@@ -3,16 +3,18 @@
     <ion-toolbar no-padding>
       <ion-title *ngIf="!me">Notexpv2</ion-title>
       <ion-item *ngIf="me" no-lines color="primary">
-        <ion-avatar item-left>
+        <ion-avatar item-left menuClose (click)="editInfor()" style="position: relative; z-index: 1000; margin-right: 0px;">
           <img src="assets/img/no-avatar.png" *ngIf="!me.more || !me.more.avatar">
           <img [src]="me.more.avatar" *ngIf="me.more && me.more.avatar">
         </ion-avatar>
-        <h2 menuClose (click)="editInfor()">
+        <ion-select [ngModel]="acc" (ngModelChange)="changeAccount($event)" style="max-width: 100%">
+          <ion-option *ngFor="let acc of accs" [value]="acc.token">{{acc.username}}</ion-option>
+        </ion-select>
+        <!-- <h2 menuClose (click)="editInfor()">
           <span style="text-shadow: 0px 0px 1px #270000;">{{me.username}}</span><br/>
           <small><ion-icon name="create" color="light"></ion-icon></small>
-        </h2>
-        <button menuClose ion-button item-right clear (click)="logout()" color="light">
-          {{'button__logout' | translate}}&nbsp;<ion-icon name="exit"></ion-icon>
+        </h2> -->
+        <button menuClose ion-button item-right clear (click)="logout()" color="light" title="{{'button__logout' | translate}}"><ion-icon name="exit"></ion-icon>
         </button>
       </ion-item>
     </ion-toolbar>

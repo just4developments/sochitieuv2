@@ -17,14 +17,14 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [ngSwitch]="type">
-  <ion-list padding-top> 
+  <ion-list padding-top>
     <ion-item>
       <ion-avatar item-left>
         <img src="assets/img/no-avatar.png" *ngIf="!user.more.avatar">
         <img [src]="user.more.avatar" *ngIf="user.more.avatar">
       </ion-avatar>
       <h2>{{user.username}}</h2>
-    </ion-item> 
+    </ion-item>
 
     <form *ngSwitchCase="'infor'" (ngSubmit)="save()">
       <ion-item>
@@ -37,7 +37,7 @@
       </ion-item>
       <div padding>
         <button block ion-button>{{'button__save' | translate}}</button>
-      </div>  
+      </div>
     </form>
 
     <form *ngSwitchCase="'pass'" (ngSubmit)="save()">
@@ -55,7 +55,7 @@
       </ion-item>
       <div padding>
         <button block ion-button>{{'button__save' | translate}}</button>
-      </div>  
+      </div>
     </form>
-  </ion-list>  
+  </ion-list>
 </ion-content>

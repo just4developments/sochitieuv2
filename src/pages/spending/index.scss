@@ -1,4 +1,13 @@
 list-spending {
+    p.full-content {
+        overflow: visible;
+        white-space: normal;
+    }
+    .logo-wallet-xs.no-float {
+        float: none;
+        top: 5px;
+        position: relative;
+    }
     .dashboard-buttons {
         position: absolute;
         top: 8px;
@@ -7,14 +16,14 @@ list-spending {
     .money {
         color: #989898;
     }
-    ion-card-footer .logo-wallet {
+    .logo-wallet-xs {
         zoom: 0.48;
         min-height: auto;
         float: left;
         margin-right: 4px;
         margin-top: 4px;
     }
-    ion-icon .logo-wallet {
+    .logo-wallet-sm {
         zoom: 0.6;
         min-height : auto;
         float: left;

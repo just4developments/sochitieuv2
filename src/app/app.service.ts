@@ -13,7 +13,6 @@ import { MyApp } from './app.component';
 export class AppService {
     mainEvent: EventEmitter<any> = new EventEmitter();
     // Home
-    
     DEFAULT_PJ: string = '597d7ded1c07314f60df9dcc';
     DEFAULT_ROLE: string = '597d7ded1c07314f60df9dce';
 
@@ -130,6 +129,11 @@ export class AppService {
         return this.storage.get('token').then((token) => {
             if (token) {
                 this.requestOptions = this.getRequestOptions({ token });
+                this.storage.get('tokens').then(tokens => {
+                    tokens.forEach(e => {
+                        if (e.token !== token) this.ping(this.getRequestOptions({ token: e.token }));
+                    })
+                })
                 return this.ping();
             }
         });
@@ -147,10 +151,10 @@ export class AppService {
         return this.http.head(`${this.HOST}/adsense`, this.requestOptions).toPromise();
     }
 
-    ping() {
-        return this.http.head(`${this.AUTH}/ping`, this.requestOptions).toPromise()
+    ping(requestOptions?) {
+        return this.http.head(`${this.AUTH}/ping`, requestOptions || this.requestOptions).toPromise()
             .then((resp: Response) => {
-                return Promise.resolve(this.requestOptions);
+                return Promise.resolve(requestOptions || this.requestOptions);
             })
             .catch((error) => {
                 return this.handleError(this, error);
@@ -178,6 +182,14 @@ export class AppService {
         return this.http.post(`${this.AUTH}/login`, item, this.getRequestOptions(headers)).toPromise()
             .then((resp: Response) => {
                 this.requestOptions = this.getRequestOptions({ token: resp.headers.get('token') });
+                this.storage.get('tokens').then(vl => {
+                    if (!vl) vl = []
+                    const existed = vl.findIndex(e => e.username === item.username)
+                    if (existed === -1) {
+                        vl.splice(0, 0, { username: item.username, token: resp.headers.get('token') })
+                        this.storage.set('tokens', vl);
+                    }
+                })
                 this.storage.set('token', resp.headers.get('token'));
                 return resp.headers.get('token')
             })
@@ -193,7 +205,8 @@ export class AppService {
     }
 
     logout() {
-        this.storage.clear();
+        // this.storage.clear();
+        this.storage.remove('token');
         this.removeCached();
         return Promise.resolve();
     }

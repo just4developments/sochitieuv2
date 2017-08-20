@@ -22,48 +22,59 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   me: any;
   version: string = "v1-0.0.1";
+  acc: any;
+  accs = []
 
   constructor(public platform: Platform, public appService: AppService, private storage: Storage, private menuCtrl: MenuController) {
-    this.initializeApp();    
+    this.initializeApp();
     appService.init(this).then((token) => {
       this.nav.setRoot(token ? Spending : Login);
       this.menuCtrl.enable(!!token, 'leftMenu');
-      if(token){
+      if (token) {
         this.appService.getMe().then((me) => {
           this.me = me;
+          this.storage.get('tokens').then(vl => {
+            this.accs = vl
+            this.acc = vl.find(e => e.username === me.username).token
+          });
         });
       }
     });
-    
+
     appService.mainEvent.subscribe((data) => {
-      if(data.signedIn) this.me = data.signedIn;
-      else if(data.logout) this.logout();
+      if (data.signedIn) this.me = data.signedIn;
+      else if (data.logout) this.logout();
     });
   }
 
-  public backToDashboard(){
+  public backToDashboard() {
     this.nav.setRoot(this.appService.requestOptions ? Spending : Login);
     this.menuCtrl.enable(!!this.appService.requestOptions, 'leftMenu');
-    if(this.appService.requestOptions){
-        this.appService.getMe().then((me) => {
-          this.me = me;
-        });
+    if (this.appService.requestOptions) {
+      this.appService.getMe().then((me) => {
+        this.me = me;
+      });
     }
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.appService.mainEvent.unsubscribe();
   }
 
-  editInfor(){
+  editInfor() {
     this.nav.setRoot(Infor);
   }
 
-  logout(){
+  changeAccount(vl) {
+    this.storage.set('token', vl)
+    location.reload()
+  }
+
+  logout() {
     this.appService.logout().then(() => {
       this.nav.setRoot(Login);
       this.menuCtrl.enable(false, 'leftMenu');
-    });    
+    });
   }
 
   initializeApp() {
@@ -72,8 +83,8 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
-      Splashscreen.hide();      
-      if(readySource === 'cordova') {
+      Splashscreen.hide();
+      if (readySource === 'cordova') {
         this.appService.getAdsense().then(() => {
           AdMob.createBanner({
             adId: this.appService.ADMOB_ID,
@@ -81,7 +92,7 @@ export class MyApp {
           }).then(() => { AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER); });
         }).catch((err) => {
           console.log('No admod');
-        });        
+        });
         AppVersion.getVersionCode().then((code) => {
           AppVersion.getVersionNumber().then((version) => {
             this.version = `v${code}-${version}`;
@@ -99,17 +110,17 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     let com;
-    if(page === 'Spending') {
+    if (page === 'Spending') {
       com = Spending;
-    }else if(page === 'Wallet') {
+    } else if (page === 'Wallet') {
       com = Wallet;
-    }else if(page === 'Type Spending') {
+    } else if (page === 'Type Spending') {
       com = TypeSpending;
-    }else if(page === 'Bookmark') {
+    } else if (page === 'Bookmark') {
       com = Bookmark;
-    }else if(page === 'Statistic') {
+    } else if (page === 'Statistic') {
       com = Statistic;
-    }else if(page === 'Note') {
+    } else if (page === 'Note') {
       com = Note;
     }
     this.nav.setRoot(com);

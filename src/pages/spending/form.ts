@@ -76,7 +76,6 @@ export class FormSpending {
     const name = this.spending.des;
     if (!name || name.length === 0) return;
     const pick = this.suggestionObject.find(e => e._id === name);
-    console.log(pick)
     if (pick) {
       if (pick.spendings.type < 0) {
         this.type = 'spending';

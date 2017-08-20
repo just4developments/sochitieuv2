@@ -25,12 +25,17 @@
   <div [ngSwitch]="chartType">
     <div *ngSwitchCase="'byMoney'">
       <div style="position: relative; height: 200px;">
-        <chart-line [data]="chartDataByMonth.chart" *ngIf="chartDataByMonth.chart" title="All month" (onPick)="pickMonthChart($event)"></chart-line>  
+        <chart-line [data]="chartDataByMonth.chart" *ngIf="chartDataByMonth.chart" title="All month" (onPick)="pickMonthChart($event)"></chart-line>
       </div>
       <ion-list *ngIf="chartDataByMonth.table">
         <ion-list-header>
           {{'statistic__by_month' | translate}}<br/>
           <small>{{toDate(filter.startDate) | date: 'dd MMM,yyyy'}} - {{toDate(filter.endDate) | date: 'dd MM,yyyy'}}</small>
+          <strong item-right>
+            <span class="earning">+ {{chartDataByMonth.totalEarning | currency:appService.currency:true}}</span>
+            <br/>
+            <span class="spending">- {{chartDataByMonth.totalSpending | currency:appService.currency:true}}</span>
+          </strong>
         </ion-list-header>
         <button ion-item *ngFor="let item of chartDataByMonth.table" (click)="gotoMonthChart(item)">
           <span item-right>
@@ -40,7 +45,7 @@
           <h2>{{item._id.month+1}}-{{item._id.year}}</h2>      
         </button>
       </ion-list>
-    </div> 
+    </div>
     <div *ngSwitchCase="'byTypeSpending'">
       <div [ngSwitch]="type">
         <div *ngSwitchCase="'spending'" style="position: relative">
@@ -57,7 +62,7 @@
             <ion-list-header>
               {{'statistic__by_type' | translate}}<br/>
               <small>{{toDate(filter.startDate) | date: 'dd MMM, yyyy'}} -  {{toDate(filter.endDate) | date: 'dd MMM, yyyy'}}</small>
-              <strong item-right>{{chartDataByType.table.totalSpending | currency:appService.currency:true}}</strong>
+              <strong item-right class="spending">- {{chartDataByType.table.totalSpending | currency:appService.currency:true}}</strong>
             </ion-list-header>
             <button ion-item *ngFor="let item of chartDataByType.table.spending" (click)="gotoSpendingByType(item)">
               <span item-right>
@@ -82,7 +87,7 @@
             <ion-list-header>
               {{'statistic__by_type' | translate}}<br/>
               <small>{{toDate(filter.startDate) | date: 'dd MMM,yyyy'}} -  {{toDate(filter.endDate) | date: 'dd MM,yyyy'}}</small>
-              <strong item-right>{{chartDataByType.table.totalEarning | currency:appService.currency:true}}</strong>
+              <strong item-right class="earning">+ {{chartDataByType.table.totalEarning | currency:appService.currency:true}}</strong>
             </ion-list-header>
             <button ion-item *ngFor="let item of chartDataByType.table.earning" (click)="gotoSpendingByType(item)">
               <span item-right>
@@ -93,7 +98,7 @@
             </button>
           </ion-list>
         </div>
-      </div>  
+      </div>
     </div>
-  </div>  
+  </div>
 </ion-content>

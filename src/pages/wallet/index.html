@@ -15,7 +15,8 @@
 <ion-content>
   <ion-list class="wallet-list">
     <ion-list-header>
-      {{'wallet__normal' | translate}}
+      {{'wallet__normal' | translate}} 
+      <span item-right [ngClass]="wallets.defaultTotal < 0 ? 'spending' : 'earning'">{{(wallets.defaultTotal || 0) | currency:appService.currency:true}}</span>
     </ion-list-header>
     <ion-item-sliding *ngFor="let item of wallets.default" #slidingItem>
       <ion-item>
@@ -38,8 +39,11 @@
         </button>
       </ion-item-options>
     </ion-item-sliding>
+  </ion-list>
+  <ion-list class="wallet-list">
     <ion-list-header>
-      {{'wallet__prepare' | translate}}
+      {{'wallet__prepare' | translate}} 
+      <span item-right [ngClass]="wallets.prepareTotal < 0 ? 'spending' : 'earning'">{{(wallets.prepareTotal || 0) | currency:appService.currency:true}}</span>
     </ion-list-header>
     <ion-item-sliding *ngFor="let item of wallets.prepare" #slidingItem>
       <ion-item>
@@ -62,8 +66,11 @@
         </button>
       </ion-item-options>
     </ion-item-sliding>
+  </ion-list>
+  <ion-list class="wallet-list">
     <ion-list-header>
-      {{'wallet__saving' | translate}}
+      {{'wallet__saving' | translate}} 
+      <span item-right [ngClass]="wallets.savingTotal < 0 ? 'spending' : 'earning'">{{(wallets.savingTotal || 0) | currency:appService.currency:true}}</span>
     </ion-list-header>
     <ion-item-sliding *ngFor="let item of wallets.saving" #slidingItem>
       <ion-item>
