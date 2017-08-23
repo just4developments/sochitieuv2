@@ -121,13 +121,13 @@ export class Spending {
     this.spendings = items.filter((item) => {
       item.items = item.items.filter((item0) => {
         if (!this.txtSearch || (item0.udes && item0.udes.includes(this.txtSearch))) {
-          if (!this.total.walletId && item0.sign_money === 0) return true;
+          if (item0.sign_money === 0) return true;
           if (item0.type > 0) this.total.earning += item0.money;
           else if (item0.type < 0) this.total.spending += item0.money;
           return true;
         }
         if (!this.txtSearch || (item0.type_spending_uname && item0.type_spending_uname.includes(this.txtSearch))) {
-          if (!this.total.walletId && item0.sign_money === 0) return true;
+          if (item0.sign_money === 0) return true;
           if (item0.type > 0) this.total.earning += item0.money;
           else if (item0.type < 0) this.total.spending += item0.money;
           return true;
@@ -255,7 +255,8 @@ export class Spending {
         tmp = date;
       }
       arr.items.push(s);
-      if (!this.total.walletId && s.sign_money === 0) continue;
+      if (s.sign_money === 0) continue;
+      // if (!this.total.walletId && s.sign_money === 0) continue;
       if (s.type < 0) arr.smoney += s.money;
       else if (s.type > 0) arr.emoney += s.money;
     }

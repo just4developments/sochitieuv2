@@ -127,8 +127,10 @@
               <ion-icon class="icon-logo logo-wallet-sm" [cssBackground]="item.wallet.icon"></ion-icon>
             </ion-icon>
 
-            <span *ngIf="total.walletId || (!this.total.walletId && item.sign_money !== 0)" item-right class="money" [ngClass]="{'earning': item.type > 0, 'spending': item.type < 0}">{{item.type > 0 ? '+' : (item.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:appService.currency:true}}</span>
-            <span *ngIf="!this.total.walletId && item.sign_money === 0" item-right class="money">{{item.type >= 0 ? '+' : '-'}} {{(item.money || 0) | currency:appService.currency:true}}</span>
+            <!-- <span *ngIf="total.walletId || (!this.total.walletId && item.sign_money !== 0)" item-right class="money" [ngClass]="{'earning': item.type > 0, 'spending': item.type < 0}">{{item.type > 0 ? '+' : (item.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:appService.currency:true}}</span>
+            <span *ngIf="!this.total.walletId && item.sign_money === 0" item-right class="money">{{item.type >= 0 ? '+' : '-'}} {{(item.money || 0) | currency:appService.currency:true}}</span> -->
+            <span *ngIf="item.sign_money !== 0" item-right class="money" [ngClass]="{'earning': item.type > 0, 'spending': item.type < 0}">{{item.type > 0 ? '+' : (item.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:appService.currency:true}}</span>
+            <span *ngIf="item.sign_money === 0" item-right class="money">{{item.type >= 0 ? '+' : '-'}} {{(item.money || 0) | currency:appService.currency:true}}</span>
 
             <h2 *ngIf="item.type_spending && item.type_spending.type !== 0">{{item.type_spending.name}}</h2>
             <h2 *ngIf="item.type_spending && item.type_spending.type === 0">
