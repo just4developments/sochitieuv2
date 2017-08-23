@@ -120,7 +120,7 @@
             <p><b [ngClass]="itemByDate.day">{{itemByDate.day}}</b> {{itemByDate.monthyear}}</p>
           </div>
         </ion-item-divider>
-        <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem [ngClass]="[item.type === 0 ? 'type-0' : '', item.is_bookmark ? 'bookmark' : '']">
+        <ion-item-sliding *ngFor="let item of itemByDate.items" #slidingItem [ngClass]="['Transfer to wallet' === item.type_spending.name ? 'from' : '', 'Received from wallet' === item.type_spending.name ? 'to' : '', item.type_spending.type === 0 ? 'type-0' : '', item.is_bookmark ? 'bookmark' : '']">
           <ion-item>
             <ion-icon *ngIf="item.type_spending.type !== 0" class="icon-logo" item-left [cssBackground]="item.type_spending.icon" (click)="filterSpendingType(item.type_spending._id)">
               <ion-icon name="close" *ngIf="total.typeSpendingId"></ion-icon>
@@ -131,33 +131,61 @@
             <span *ngIf="!this.total.walletId && item.sign_money === 0" item-right class="money">{{item.type >= 0 ? '+' : '-'}} {{(item.money || 0) | currency:appService.currency:true}}</span>
 
             <h2 *ngIf="item.type_spending && item.type_spending.type !== 0">{{item.type_spending.name}}</h2>
-            <h2 *ngIf="item.type_spending && item.type_spending.type === 0">              
-              <span *ngIf="'Transfer to wallet' === item.type_spending.name">From <ion-icon class="icon-logo logo-wallet-xs no-float" [cssBackground]="item.wallet.icon"></ion-icon> {{item.wallet.name}}</span>
-              <span *ngIf="'Received from wallet' === item.type_spending.name">To <ion-icon class="icon-logo logo-wallet-xs no-float" [cssBackground]="item.wallet.icon"></ion-icon> {{item.wallet.name}}</span>
-              <span *ngIf="'Add new wallet' === item.type_spending.name">Just added <ion-icon class="icon-logo logo-wallet-xs no-float" [cssBackground]="item.wallet.icon"></ion-icon> {{item.wallet.name}}</span>
-              <span *ngIf="'Update wallet' === item.type_spending.name">Just updated <ion-icon class="icon-logo logo-wallet-xs no-float" [cssBackground]="item.wallet.icon"></ion-icon> {{item.wallet.name}}</span>
+            <h2 *ngIf="item.type_spending && item.type_spending.type === 0">
+              <div *ngIf="'Transfer to wallet' === item.type_spending.name">
+                <div>
+                    <strong>From</strong>
+                  <ion-icon class="icon-logo logo-wallet-xs no-float" [cssBackground]="item.wallet.icon"></ion-icon> {{item.wallet.name}}
+                </div>
+                <div>
+                  <small>
+                    <span>{{(item.wallet_money0 || 0) | currency:appService.currency:true}}</span>
+                    <ion-icon name="return-right"></ion-icon> <b class="spending">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b>
+                  </small>
+                </div>
+              </div>
+              <div *ngIf="'Received from wallet' === item.type_spending.name">
+                <div>
+                  <strong>To</strong>
+                  <ion-icon class="icon-logo logo-wallet-xs no-float" [cssBackground]="item.wallet.icon"></ion-icon> {{item.wallet.name}}
+                </div>
+                <div>
+                  <small>
+                    <b class="earning">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b>
+                    <ion-icon name="return-left"></ion-icon> <span>{{(item.wallet_money0 || 0) | currency:appService.currency:true}}</span>
+                  </small>
+                </div>
+              </div>
+              <div *ngIf="'Add new wallet' === item.type_spending.name">
+                <div>
+                    <strong>Added</strong>
+                  <ion-icon class="icon-logo logo-wallet-xs no-float" [cssBackground]="item.wallet.icon"></ion-icon> {{item.wallet.name}}
+                </div>
+                <div>
+                  <small>
+                    <b class="earning">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b>
+                    <ion-icon name="return-left"></ion-icon>
+                  </small>
+                </div>
+              </div>
+              <div *ngIf="'Update wallet' === item.type_spending.name">
+                <div>
+                    <strong>Updated</strong>
+                  <ion-icon class="icon-logo logo-wallet-xs no-float" [cssBackground]="item.wallet.icon"></ion-icon> {{item.wallet.name}}
+                </div>
+                <div>
+                  <small>
+                    <span *ngIf="item.wallet_money0 < item.wallet_money1">
+                          <b class="earning">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b> <ion-icon name="return-left"></ion-icon> <span>{{(item.wallet_money0 || 0) | currency:appService.currency:true}}</span>
+                    </span>
+                    <span *ngIf="item.wallet_money0 > item.wallet_money1">
+                          <span>{{(item.wallet_money0 || 0) | currency:appService.currency:true}}</span>
+                    <ion-icon name="return-right"></ion-icon> <b class="spending">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b>
+                    </span>
+                  </small>
+                </div>
+              </div>
             </h2>
-            <p *ngIf="item.type_spending.type === 0">
-              <small *ngIf="'Transfer to wallet' === item.type_spending.name">                
-                <span>{{(item.wallet_money0 || 0) | currency:appService.currency:true}}</span>
-                <ion-icon name="return-right"></ion-icon> <b class="spending">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b>
-              </small>
-              <small *ngIf="'Received from wallet' === item.type_spending.name">
-                <b class="earning">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b> <ion-icon name="return-left"></ion-icon> <span>{{(item.wallet_money0 || 0) | currency:appService.currency:true}}</span>
-              </small>
-              <small *ngIf="'Update wallet' === item.type_spending.name">
-                <span *ngIf="item.wallet_money0 < item.wallet_money1">
-                  <b class="earning">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b> <ion-icon name="return-left"></ion-icon> <span>{{(item.wallet_money0 || 0) | currency:appService.currency:true}}</span>
-                </span>
-                <span *ngIf="item.wallet_money0 > item.wallet_money1">
-                  <span>{{(item.wallet_money0 || 0) | currency:appService.currency:true}}</span>
-                  <ion-icon name="return-right"></ion-icon> <b class="spending">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b>
-                </span>
-              </small>
-              <small *ngIf="'Add new wallet' === item.type_spending.name">
-                <b class="earning">{{(item.wallet_money1 || 0) | currency:appService.currency:true}}</b> <ion-icon name="return-left"></ion-icon>
-              </small>
-            </p>
             <p class="full-content">{{item.des}}</p>
           </ion-item>
           <ion-item-options side="right">

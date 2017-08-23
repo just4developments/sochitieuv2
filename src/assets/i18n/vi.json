@@ -99,6 +99,7 @@
     "confirm__transfer_done": "Đã chuyển tiền thành công",
 
     "msg__wait": "Đang tải dữ liệu...",
+    "msg__clear": "Đã đăng xuất thành công",
 
     "error__account_locked": "Tài khoản đã bị khóa",
     "error__session_expired": "Thời gian login đã quá lâu",

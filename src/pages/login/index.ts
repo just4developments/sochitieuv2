@@ -59,6 +59,7 @@ export class Login {
     let usr: any = {
       more: {}
     };
+    if (this.user.username) this.user.username = this.user.username.toLowerCase()
     if (EMAIL_REGEX.test(this.user.username)) {
       usr.more.name = this.user.username.substr(0, this.user.username.indexOf('@'));
       usr.recover_by = this.user.username;

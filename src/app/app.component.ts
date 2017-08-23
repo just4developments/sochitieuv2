@@ -23,27 +23,37 @@ export class MyApp {
   me: any;
   version: string = "v1-0.0.1";
   acc: any;
-  accs = []
+  accs: any[];
 
   constructor(public platform: Platform, public appService: AppService, private storage: Storage, private menuCtrl: MenuController) {
     this.initializeApp();
-    appService.init(this).then((token) => {
-      this.nav.setRoot(token ? Spending : Login);
-      this.menuCtrl.enable(!!token, 'leftMenu');
-      if (token) {
-        this.appService.getMe().then((me) => {
-          this.me = me;
-          this.storage.get('tokens').then(vl => {
-            this.accs = vl
-            this.acc = vl.find(e => e.username === me.username).token
-          });
+
+    appService.mainEvent.subscribe((data) => {
+      let self = this
+      if (data.signedIn) {
+        self.storage.get('tokens').then(vl => {
+          if (!vl) return this.logout(true)
+          self.acc = vl.find(e => e.username === data.signedIn.username).token
+          self.accs = vl
+          self.me = data.signedIn;
+        });
+      } else if (data.logout) {
+        self.appService.logout().then(() => {
+          self.menuCtrl.close('leftMenu');
+          self.menuCtrl.enable(false, 'leftMenu');
+          self.nav.setRoot(Login);
         });
       }
     });
 
-    appService.mainEvent.subscribe((data) => {
-      if (data.signedIn) this.me = data.signedIn;
-      else if (data.logout) this.logout();
+    appService.init(this).then((token) => {
+      this.nav.setRoot(token ? Spending : Login);
+      this.menuCtrl.enable(!!token, 'leftMenu');
+      if (token) {
+        this.appService.getMe().then(me => {
+          appService.mainEvent.emit({ signedIn: me })
+        });
+      }
     });
   }
 
@@ -66,15 +76,27 @@ export class MyApp {
   }
 
   changeAccount(vl) {
-    this.storage.set('token', vl)
-    location.reload()
+    if (vl === 'addmore') {
+      return this.logout()
+    }
+    this.storage.set('token', vl).then(() => {
+      this.appService.removeCached()
+      location.reload()
+    })
   }
 
-  logout() {
-    this.appService.logout().then(() => {
-      this.nav.setRoot(Login);
-      this.menuCtrl.enable(false, 'leftMenu');
-    });
+  logout(isClear?) {
+    const _self = this
+    if (isClear) {
+      _self.storage.clear();
+      _self.appService.getI18("msg__clear").subscribe((msg) => {
+        _self.appService.toast(msg).then(() => {
+          _self.appService.mainEvent.emit({ logout: true })
+        })
+      });
+    } else {
+      _self.appService.mainEvent.emit({ logout: true })
+    }
   }
 
   initializeApp() {

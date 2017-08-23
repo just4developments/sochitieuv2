@@ -35,8 +35,22 @@ list-spending {
         font-weight: bold;
     }
     ion-item-sliding.type-0 {
-        h2 {
-            font-size: 12px;
+        zoom: 0.9;
+        opacity: 0.9;
+        ion-item {
+            min-height: 0px;
+        }
+    }
+    ion-item-sliding.from {
+        ion-label {
+            margin: 8px 4px 0px 0;
+            padding: 0px;
+        }
+    }
+    ion-item-sliding.to {
+        ion-label {
+            margin: 0px 4px 8px 0;
+            padding: 0px;
         }
     }
     ion-item-sliding.bookmark > ion-item {

@@ -1,5 +1,5 @@
-import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
-import { HttpModule, Http }    from '@angular/http';
+import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { HttpModule, Http } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
@@ -33,7 +33,7 @@ export function provideStorage() {
 };
 
 export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+  return new TranslateStaticLoader(http, 'assets/i18n', '.json');
 }
 
 @NgModule({
@@ -58,7 +58,7 @@ export function createTranslateLoader(http: Http) {
     WalletSelection,
     WalletSelectionPopup,
     TransferWallet,
-    TypeSpendingSelection, 
+    TypeSpendingSelection,
     TypeSpendingSelectionPopup,
     Bookmark,
     Infor,
@@ -73,7 +73,7 @@ export function createTranslateLoader(http: Http) {
       deps: [Http]
     })
   ],
-  schemas:[
+  schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
   bootstrap: [IonicApp],
@@ -95,12 +95,12 @@ export function createTranslateLoader(http: Http) {
     WalletSelection,
     WalletSelectionPopup,
     TransferWallet,
-    TypeSpendingSelection, 
+    TypeSpendingSelection,
     TypeSpendingSelectionPopup,
     Bookmark,
     Infor,
     Note
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, { provide: Storage, useFactory: provideStorage }, AppService]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, { provide: Storage, useFactory: provideStorage }, AppService]
 })
-export class AppModule {}
+export class AppModule { }

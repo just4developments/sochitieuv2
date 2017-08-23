@@ -4,30 +4,30 @@ import * as Uuid from 'node-uuid';
 @Directive({ selector: '[suggestionData]' })
 export class SuggestionDataDirective {
     @Input() suggestionData;
-    @Output() pick:EventEmitter<any> = new EventEmitter();
+    @Output() pick: EventEmitter<any> = new EventEmitter();
     id: any;
     input: any;
     dataList: any;
 
-    constructor(public el: ElementRef, public renderer:Renderer) {
-        
+    constructor(public el: ElementRef, public renderer: Renderer) {
+
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if(changes['suggestionData'] && changes['suggestionData'].currentValue) {
-            if(!this.id) {
+        if (changes['suggestionData'] && changes['suggestionData'].currentValue) {
+            if (!this.id) {
                 this.id = Uuid.v4();
                 this.input = this.el.nativeElement.querySelector('input');
-                this.renderer.setElementAttribute(this.input, 'list', this.id); 
+                this.renderer.setElementAttribute(this.input, 'list', this.id);
                 this.dataList = this.renderer.createElement(this.el.nativeElement, 'datalist');
                 this.renderer.setElementAttribute(this.dataList, 'id', this.id);
                 this.renderer.listen(this.input, 'blur', () => {
                     this.pick.emit(this.input.value);
                 });
-            }else {
+            } else {
                 this.dataList.innerHTML = '';
             }
-            for(var i in this.suggestionData) {
+            for (var i in this.suggestionData) {
                 let option = this.renderer.createElement(this.dataList, 'option');
                 this.renderer.setElementAttribute(option, 'value', this.suggestionData[i]);
             }
@@ -40,11 +40,11 @@ export class CssBackgroundDirective {
     @Input() cssBackground;
     elem: any;
 
-    constructor(public el: ElementRef, public renderer:Renderer) {
+    constructor(public el: ElementRef, public renderer: Renderer) {
         this.elem = this.el.nativeElement;
     }
 
-    ngOnChanges(changes: any){
-        this.renderer.setElementStyle(this.elem, 'background-position', this.cssBackground);      
+    ngOnChanges(changes: any) {
+        this.renderer.setElementStyle(this.elem, 'background-position', this.cssBackground);
     }
 }

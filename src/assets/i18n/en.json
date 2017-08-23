@@ -99,6 +99,7 @@
     "confirm__transfer_done": "Transfer successfully",
 
     "msg__wait": "Please wait...",
+    "msg__clear": "Logout successfully",
 
     "error__account_locked": "Account is not actived",
     "error__session_expired": "Session is expired",

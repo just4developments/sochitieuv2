@@ -13,6 +13,9 @@ import { MyApp } from './app.component';
 export class AppService {
     mainEvent: EventEmitter<any> = new EventEmitter();
     // Home
+    HOST: string = '';
+    AUTH: string = '';
+    FILE: string = '';
     DEFAULT_PJ: string = '597d7ded1c07314f60df9dcc';
     DEFAULT_ROLE: string = '597d7ded1c07314f60df9dce';
 
@@ -205,7 +208,6 @@ export class AppService {
     }
 
     logout() {
-        // this.storage.clear();
         this.storage.remove('token');
         this.removeCached();
         return Promise.resolve();
@@ -214,6 +216,27 @@ export class AppService {
     merge(email: string, isnew: boolean) {
         return this.http.put(`${this.HOST}/Sync/${email}`, {
             isnew
+        }, this.requestOptions).toPromise()
+            .then(response => response)
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
+    }
+
+    uploadAvatar(inputValue) {
+        var formData = new FormData();
+        formData.append("files", inputValue.files[0]);
+        return this.http.post(`${this.FILE}/upload/599ba93bec111f12bd56cd13`, formData, this.requestOptions).toPromise()
+            .then(response => response.text())
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
+    }
+
+    storeFile(newFiles, oldFiles) {
+        return this.http.put(`${this.FILE}/store`, {
+            oldFiles,
+            files: newFiles
         }, this.requestOptions).toPromise()
             .then(response => response)
             .catch((error) => {
@@ -533,7 +556,7 @@ export class AppService {
             message: txt,
             duration: time
         });
-        toast.present();
+        return toast.present();
     }
 
     confirm(title: string, mes: string, buttons: Array<any>) {
