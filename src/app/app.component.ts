@@ -33,9 +33,9 @@ export class MyApp {
       if (data.signedIn) {
         self.storage.get('tokens').then(vl => {
           if (!vl) return this.logout(true)
+          self.me = data.signedIn;
           self.acc = vl.find(e => e.username === data.signedIn.username).token
           self.accs = vl
-          self.me = data.signedIn;
         });
       } else if (data.logout) {
         self.appService.logout().then(() => {
