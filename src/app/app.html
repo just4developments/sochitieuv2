@@ -7,8 +7,8 @@
           <img src="assets/img/no-avatar.png" *ngIf="!me.more || !me.more.avatar">
           <img [src]="appService.FILE + '/' + me.more.avatar" *ngIf="me.more && me.more.avatar">
         </ion-avatar>
-        <ion-select [ngModel]="acc" (ngModelChange)="changeAccount($event)" style="max-width: 100%">
-          <ion-option *ngFor="let acc of accs" [value]="acc.token">{{acc.username}}</ion-option>
+        <ion-select *ngIf="accs" [ngModel]="acc" (ngModelChange)="changeAccount($event)" style="max-width: 100%">
+          <ion-option *ngFor="let a of accs" [value]="a.token">{{a.username}}</ion-option>
           <ion-option [value]="'addmore'">Add others</ion-option>
         </ion-select>
         <!-- <h2 menuClose (click)="editInfor()">

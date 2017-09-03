@@ -125,8 +125,8 @@
             <ion-icon *ngIf="item.type_spending.type !== 0" class="icon-logo" item-left [cssBackground]="item.type_spending.icon" (click)="filterSpendingType(item.type_spending._id)">
               <ion-icon name="close" *ngIf="total.typeSpendingId"></ion-icon>
               <ion-icon class="icon-logo logo-wallet-sm" [cssBackground]="item.wallet.icon"></ion-icon>
-            </ion-icon>
-
+              <ion-icon *ngIf="item.walletGS" class="icon-logo logo-walletgs-sm" [cssBackground]="item.walletGS.icon"></ion-icon>
+            </ion-icon>            
             <!-- <span *ngIf="total.walletId || (!this.total.walletId && item.sign_money !== 0)" item-right class="money" [ngClass]="{'earning': item.type > 0, 'spending': item.type < 0}">{{item.type > 0 ? '+' : (item.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:appService.currency:true}}</span>
             <span *ngIf="!this.total.walletId && item.sign_money === 0" item-right class="money">{{item.type >= 0 ? '+' : '-'}} {{(item.money || 0) | currency:appService.currency:true}}</span> -->
             <span *ngIf="item.sign_money !== 0" item-right class="money" [ngClass]="{'earning': item.type > 0, 'spending': item.type < 0}">{{item.type > 0 ? '+' : (item.type < 0 ? '-' : '')}} {{(item.money || 0) | currency:appService.currency:true}}</span>

@@ -27,8 +27,16 @@ list-spending {
         zoom: 0.6;
         min-height : auto;
         float: left;
-        position: absolute;
+        position: absolute;        
         left: 70px;
+    }
+    .logo-walletgs-sm {
+        zoom: 0.4;
+        min-height : auto;
+        float: left;
+        position: absolute;
+        left: 40px;
+        bottom:10px;
     }
     .close-wallet {
         zoom: 1.6;
