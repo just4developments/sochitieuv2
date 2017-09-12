@@ -22,6 +22,7 @@ import { SearchByDatePopover } from '../pages/statistic/index-search.popover';
 import { TextFilterPipe } from './app.pipe';
 import { IconPicker } from '../pages/type_spending/icon-picker';
 import { WalletSelection, WalletSelectionPopup } from '../pages/wallet/item-select';
+import { Log } from '../pages/log';
 import { TypeSpendingSelection, TypeSpendingSelectionPopup } from '../pages/type_spending/item-select';
 import { Bookmark } from '../pages/bookmark';
 import { Infor } from '../pages/infor';
@@ -62,7 +63,8 @@ export function createTranslateLoader(http: Http) {
     TypeSpendingSelectionPopup,
     Bookmark,
     Infor,
-    Note
+    Note,
+    Log
   ],
   imports: [
     HttpModule,
@@ -99,7 +101,8 @@ export function createTranslateLoader(http: Http) {
     TypeSpendingSelectionPopup,
     Bookmark,
     Infor,
-    Note
+    Note,
+    Log
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, { provide: Storage, useFactory: provideStorage }, AppService]
 })

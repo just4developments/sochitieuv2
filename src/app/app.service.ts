@@ -16,6 +16,7 @@ export class AppService {
     HOST: string = '';
     AUTH: string = '';
     FILE: string = '';
+    LOG: string = '';
     DEFAULT_PJ: string = '597d7ded1c07314f60df9dcc';
     DEFAULT_ROLE: string = '597d7ded1c07314f60df9dce';
 
@@ -208,9 +209,10 @@ export class AppService {
     }
 
     logout() {
-        this.storage.remove('token');
         this.removeCached();
-        return Promise.resolve();
+        return this.storage.remove('token').then(() => {
+            return this.storage.remove('tokens')
+        })
     }
 
     merge(email: string, isnew: boolean) {
@@ -434,6 +436,14 @@ export class AppService {
 
     getBookmark() {
         return this.http.get(`${this.HOST}/Spendings/Bookmark`, this.requestOptions).toPromise()
+            .then(response => response.json())
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
+    }
+
+    getLog() {
+        return this.http.get(`${this.LOG}?mine=true`, this.requestOptions).toPromise()
             .then(response => response.json())
             .catch((error) => {
                 return this.handleError(this, error);

@@ -7,6 +7,7 @@ import { AdMob } from 'ionic-native';
 import { Login } from '../pages/login';
 import { Wallet } from '../pages/wallet';
 import { TypeSpending } from '../pages/type_spending';
+import { Log } from '../pages/log';
 import { Spending } from '../pages/spending';
 import { Statistic } from '../pages/statistic';
 import { MenuController } from 'ionic-angular';
@@ -144,6 +145,8 @@ export class MyApp {
       com = Statistic;
     } else if (page === 'Note') {
       com = Note;
+    } else if (page === 'Log') {
+      com = Log
     }
     this.nav.setRoot(com);
   }
