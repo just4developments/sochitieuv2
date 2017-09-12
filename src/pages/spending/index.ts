@@ -166,6 +166,7 @@ export class Spending {
               e.type_spending = this.typeSpendings.find(t => t._id === e.type_spending_id);
               e.type_spending_uname = e.type_spending.uname;
               e.wallet = wallets.find(t => t._id === e.wallet_id);
+              e.walletGS = wallets.find(t => t._id === e.walletGS_id);
               e.input_date = this.appService.date.utcToLocal(e.input_date);
               return e;
             }), today, yesterday);
