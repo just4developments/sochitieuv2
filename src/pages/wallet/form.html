@@ -59,6 +59,12 @@
           </ion-select>
         </ion-item>
       </ion-row>
+      <ion-row [hidden]="wallet.type !== -1">
+        <ion-item>
+            <ion-label stacked>{{'label__initmoney' | translate}} <span [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'">{{(wallet.initmoney || 0) | currency:appService.currency:true }}</span></ion-label>
+          <ion-input type="number" [(ngModel)]="wallet.initmoney" [ngModelOptions]="{standalone: true}" required></ion-input>
+        </ion-item>
+      </ion-row>
     </ion-grid>
     <div padding>
       <button ion-button block full>{{'button__save' | translate}}</button>

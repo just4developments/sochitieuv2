@@ -19,9 +19,16 @@ export class Wallet {
     prepare: [],
     prepareTotal: 0
   };
+  now = new Date()
 
   constructor(private appService: AppService, public modalController: ModalController) {
     this.loadData();
+  }
+
+  getNowClass(_date) {
+    const date = new Date(_date)
+    if (date.getFullYear() === this.now.getFullYear() && date.getMonth() === this.now.getMonth()) return 'earning'
+    return ''
   }
 
   loadData() {
@@ -48,6 +55,12 @@ export class Wallet {
         });
       });
     });
+  }
+
+  reset(item, type) {
+    this.appService.resetWallet(item, type).then(() => {
+      this.appService.removeCached
+    })
   }
 
   add() {

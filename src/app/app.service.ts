@@ -386,6 +386,18 @@ export class AppService {
             });
     }
 
+    resetWallet(item, type) {
+        return this.http.put(`${this.HOST}/Wallet/reset/${item._id}?type=${type}`, item, this.requestOptions).toPromise()
+            .then(response => {
+                this.removeCached('wallets', 'type');
+                this.removeCached('wallets', 'type' + item.type);
+                return response.json();
+            })
+            .catch((error) => {
+                return this.handleError(this, error);
+            });
+    }
+
     deleteWallet(item) {
         return this.http.delete(`${this.HOST}/Wallet/${item._id}`, this.requestOptions).toPromise()
             .then(response => {

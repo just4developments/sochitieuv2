@@ -82,6 +82,7 @@
     "label__wallet": "Budget",
     "label__walletGS": "Goal save",
     "label__bookmark": "Bookmark",
+    "label__initmoney": "Init money",
 
     "label__earning": "Inflow",
     "label__spending": "Outflow",
@@ -123,6 +124,9 @@
     "button__edit": "Edit",
     "button__delete": "Delete",
     "button__transfer": "Transfer",
+    "button__resetUp": "Plus",
+    "button__resetDown": "Undo",
+    "button__reset": "Reset",
     "button__save": "Save",
     "button__logout": "Logout!"
 }

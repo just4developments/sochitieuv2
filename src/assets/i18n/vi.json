@@ -82,6 +82,7 @@
     "label__wallet": "Ví tiền",
     "label__walletGS": "Khoản dự trù",
     "label__bookmark": "Ghi nhớ",
+    "label__initmoney": "Tiền hàng tháng",
 
     "label__earning": "Thu nhập",
     "label__spending": "Chi tiêu",
@@ -123,6 +124,9 @@
     "button__edit": "Sửa",
     "button__delete": "Xóa",
     "button__transfer": "Chuyển tiền",
+    "button__resetUp": "Cộng thêm",
+    "button__resetDown": "Trừ đi",
+    "button__reset": "Cập nhật",
     "button__save": "Lưu",
     "button__logout": "Đăng xuất"
 }
