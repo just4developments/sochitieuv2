@@ -59,7 +59,8 @@ export class Wallet {
 
   reset(item, type) {
     this.appService.resetWallet(item, type).then(() => {
-      this.appService.removeCached
+      this.appService.removeCached("wallets", type)
+      this.loadData()
     })
   }
 

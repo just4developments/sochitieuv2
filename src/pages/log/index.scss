@@ -3,3 +3,8 @@
   font-size: 0.7em;
   color: #f53d3d;
 }
+.text-wrap ion-label {
+  white-space: normal;
+  overflow: initial;
+  text-overflow: unset;
+}

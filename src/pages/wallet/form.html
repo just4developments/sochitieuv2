@@ -37,19 +37,19 @@
           <ion-input type="number" [(ngModel)]="wallet.oder" [ngModelOptions]="{standalone: true}" required></ion-input>
         </ion-item>
       </ion-row>
-      <ion-row [hidden]="wallet._id && wallet.type === -1">
+      <ion-row *ngIf="!wallet._id || wallet.type !== -1">
         <ion-item>
           <ion-label>{{'wallet__is_add_in_spending' | translate}}</ion-label>
           <ion-checkbox [(ngModel)]="wallet.isApplyToSpending" [ngModelOptions]="{standalone: true}"></ion-checkbox>
         </ion-item>
       </ion-row>
-      <ion-row [hidden]="wallet._id && wallet.type === -1">
+      <ion-row *ngIf="!wallet._id || wallet.type !== -1">
         <ion-item>
           <ion-label stacked>{{'wallet__des' | translate}}</ion-label>
           <ion-textarea [(ngModel)]="wallet.des" [ngModelOptions]="{standalone: true}"></ion-textarea>
         </ion-item>
       </ion-row>
-      <ion-row [hidden]="wallet._id && wallet.type === -1">
+      <ion-row *ngIf="!wallet._id || wallet.type !== -1">
         <ion-item>
           <ion-label>{{'wallet__is_saving' | translate}}</ion-label>
           <ion-select [(ngModel)]="wallet.type" [ngModelOptions]="{standalone: true}">
@@ -59,7 +59,7 @@
           </ion-select>
         </ion-item>
       </ion-row>
-      <ion-row [hidden]="wallet.type !== -1">
+      <ion-row *ngIf="wallet.type === -1">
         <ion-item>
             <ion-label stacked>{{'label__initmoney' | translate}} <span [ngClass]="wallet.money >= 0 ? 'earning' : 'spending'">{{(wallet.initmoney || 0) | currency:appService.currency:true }}</span></ion-label>
           <ion-input type="number" [(ngModel)]="wallet.initmoney" [ngModelOptions]="{standalone: true}" required></ion-input>
