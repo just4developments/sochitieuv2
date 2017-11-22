@@ -29,9 +29,9 @@ export class Infor {
 		})
 	}
 
-	save() {
+	save(type) {
 		const user = _.clone(this.user);
-		if ((user.password)) {
+		if (type === 'password') {
 			if (this.confirmPassword !== user.password) {
 				return this.appService.getI18('account.pass_not_match').subscribe((msg) => {
 					this.appService.toast(msg);

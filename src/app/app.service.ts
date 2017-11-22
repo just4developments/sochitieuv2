@@ -228,7 +228,7 @@ export class AppService {
     uploadAvatar(inputValue) {
         var formData = new FormData();
         formData.append("files", inputValue.files[0]);
-        return this.http.post(`${this.FILE}/upload/599ba93bec111f12bd56cd13`, formData, this.requestOptions).toPromise()
+        return this.http.post(`${this.FILE}/Upload/599ba93bec111f12bd56cd13`, formData, this.requestOptions).toPromise()
             .then(response => response.text())
             .catch((error) => {
                 return this.handleError(this, error);

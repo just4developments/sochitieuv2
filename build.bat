@@ -1,7 +1,7 @@
 ionic build android --prod --release
 cd ./platforms/android/build/outputs/apk
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ../../../../../just4developments.keystore android-release-unsigned.apk application
-zipalign -v 4 android-release-unsigned.apk android-release-signed.apk
+../../../../../zipalign -v 4 android-release-unsigned.apk android-release-signed.apk
 move ./android-release-signed.apk ../../../../../output/sochitieuv3.apk
 cd ../../../../../
 

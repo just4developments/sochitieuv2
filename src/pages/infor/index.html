@@ -28,7 +28,7 @@
       <h2>{{user.username}}</h2>
     </ion-item>
 
-    <form *ngSwitchCase="'infor'" (ngSubmit)="save()">
+    <form *ngSwitchCase="'infor'" (ngSubmit)="save('info')">
       <ion-item>
         <ion-label floating>{{'account__fullname' | translate}}</ion-label>
         <ion-input type="text" [(ngModel)]="user.more.name" [ngModelOptions]="{standalone: true}" required></ion-input>
@@ -42,7 +42,7 @@
       </div>
     </form>
 
-    <form *ngSwitchCase="'pass'" (ngSubmit)="save()">
+    <form *ngSwitchCase="'pass'" (ngSubmit)="save('pass')">
       <ion-item>
         <ion-label floating>{{'account__oldpass' | translate}}</ion-label>
         <ion-input type="password" [(ngModel)]="user.old_password" [ngModelOptions]="{standalone: true}" required></ion-input>
