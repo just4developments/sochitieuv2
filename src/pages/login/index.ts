@@ -24,6 +24,10 @@ export class Login {
     this.language = this.appService.language;
   }
 
+  openWeb(url) {
+    window.open(url, '_system');
+  }
+
   login(user: any, app?: string) {
     this.appService.getI18(['login__logging_msg', 'login__sync_msg']).subscribe((msg) => {
       this.appService.showLoading(msg['login__logging_msg']).then(() => {

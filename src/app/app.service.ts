@@ -13,10 +13,10 @@ import { MyApp } from './app.component';
 export class AppService {
     mainEvent: EventEmitter<any> = new EventEmitter();
     // Home
-    HOST: string = '';
-    AUTH: string = '';
-    FILE: string = '';
-    LOG: string = '';
+    HOST: string = '/sct';
+    AUTH: string = '/oauth';
+    FILE: string = '/files';
+    LOG: string = '/log';
     DEFAULT_PJ: string = '597d7ded1c07314f60df9dcc';
     DEFAULT_ROLE: string = '597d7ded1c07314f60df9dce';
 
@@ -156,7 +156,7 @@ export class AppService {
     }
 
     ping(requestOptions?) {
-        return this.http.head(`${this.AUTH}/ping`, requestOptions || this.requestOptions).toPromise()
+        return this.http.head(`${this.AUTH}/Ping`, requestOptions || this.requestOptions).toPromise()
             .then((resp: Response) => {
                 return Promise.resolve(requestOptions || this.requestOptions);
             })
@@ -166,7 +166,7 @@ export class AppService {
     }
 
     add(user, requestOptions) {
-        return this.http.post(`${this.AUTH}/register`, user, requestOptions).toPromise()
+        return this.http.post(`${this.AUTH}/Register`, user, requestOptions).toPromise()
             .then((resp: Response) => {
                 return this.login(user, user.app).then(token => {
                     this.requestOptions = this.getRequestOptions({ token });
@@ -183,7 +183,7 @@ export class AppService {
             pj: this.DEFAULT_PJ
         };
         if (app) item.app = app
-        return this.http.post(`${this.AUTH}/login`, item, this.getRequestOptions(headers)).toPromise()
+        return this.http.post(`${this.AUTH}/Login`, item, this.getRequestOptions(headers)).toPromise()
             .then((resp: Response) => {
                 this.requestOptions = this.getRequestOptions({ token: resp.headers.get('token') });
                 this.storage.get('tokens').then(vl => {
@@ -248,7 +248,7 @@ export class AppService {
 
     getMe() {
         if (this.me) return Promise.resolve(this.me);
-        return this.http.get(`${this.AUTH}/me`, this.requestOptions).toPromise()
+        return this.http.get(`${this.AUTH}/Me`, this.requestOptions).toPromise()
             .then(response => response.json())
             .catch((error) => {
                 return this.handleError(this, error);
@@ -256,7 +256,7 @@ export class AppService {
     }
 
     updateInfor(user) {
-        return this.http.put(`${this.AUTH}/me`, user, this.requestOptions).toPromise()
+        return this.http.put(`${this.AUTH}/Me`, user, this.requestOptions).toPromise()
             .then(response => {
                 this.me = response.json();
                 return this.me;

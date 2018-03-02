@@ -24,6 +24,9 @@
     </ion-list>
     <div padding><br/>
       <button block ion-button >{{'button__signin' | translate}}</button>
+      <button block ion-button (click)="openWeb('http://sct.onapis.com')" color="secondary" >
+        <ion-icon name="md-browsers"></ion-icon>&nbsp;{{'menu__web' | translate}}
+      </button>
     </div>  
   </form>
   <br/>

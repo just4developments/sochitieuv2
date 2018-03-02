@@ -129,6 +129,10 @@ export class MyApp {
   //   AdMob.onAdDismiss().subscribe(() => { console.log('User dismissed ad'); });
   // }
 
+  openWeb(url) {
+    window.open(url, '_system');
+  }
+
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
